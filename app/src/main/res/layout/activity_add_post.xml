@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Activity.AddPostActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_bar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/add_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+        <LinearLayout
+            android:id="@+id/select_date_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/add_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="2020년 7월 11일"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:srcCompat="@drawable/ic_baseline_event_24" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/save_post_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="저장"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                </androidx.viewpager.widget.ViewPager>
+
+                <lej.happy.fooddiary.Helper.CircleAnimIndicator
+                    android:id="@+id/circleAnimIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/viewpager"
+                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <ImageButton
+                    android:id="@+id/add_photo_more_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toStartOf="@+id/remove_photo_btn"
+                    app:layout_constraintTop_toTopOf="@+id/remove_photo_btn"
+                    app:srcCompat="@drawable/plus" />
+
+                <ImageButton
+                    android:id="@+id/remove_photo_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:scaleType="fitCenter"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
+                    app:layout_constraintTop_toTopOf="@+id/viewpager"
+                    app:srcCompat="@drawable/minus" />
+
+                <ImageView
+                    android:id="@+id/add_photo_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/viewpager"
+                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
+                    app:layout_constraintStart_toStartOf="@+id/viewpager"
+                    app:layout_constraintTop_toTopOf="@+id/viewpager"
+                    app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24">
+
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="시간대"
+                    app:layout_constraintStart_toStartOf="@+id/location_title_text"
+                    app:layout_constraintTop_toBottomOf="@+id/add_address_text" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                    <RadioButton
+                        android:id="@+id/radioButton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:background="@drawable/radio_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="아침"
+                        android:textColor="@drawable/radio_text"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/radio_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="점심"
+                        android:textColor="@drawable/radio_text"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/radio_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="저녁"
+                        android:textColor="@drawable/radio_text"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/radio_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="야식"
+                        android:textColor="@drawable/radio_text"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/radioButton5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/radio_background"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="20dp"
+                        android:text="간식"
+                        android:textColor="@drawable/radio_text"
+                        android:textStyle="bold" />
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="평가*"
+                    app:layout_constraintStart_toStartOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/best_emotion_layout"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/emotion_background"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <ImageView
+                        android:id="@+id/best_emotion"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:tint="@color/brightGray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.26999998"
+                        app:srcCompat="@drawable/laughing" />
+
+                    <TextView
+                        android:id="@+id/best_emotion_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text="최고"
+                        android:textColor="@color/brightGray"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/good_emotion_layout"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/emotion_background"
+                    app:layout_constraintStart_toEndOf="@+id/best_emotion_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <ImageView
+                        android:id="@+id/good_emotion"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:tint="@color/brightGray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.26999998"
+                        app:srcCompat="@drawable/happy" />
+
+                    <TextView
+                        android:id="@+id/good_emotion_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text="만족"
+                        android:textColor="@color/brightGray"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bad_emotion_layout"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/emotion_background"
+                    app:layout_constraintStart_toEndOf="@+id/good_emotion_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                    <ImageView
+                        android:id="@+id/bad_emotion"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:textColor="@color/brightGray"
+                        android:tint="@color/brightGray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.26999998"
+                        app:srcCompat="@drawable/nervous" />
+
+                    <TextView
+                        android:id="@+id/bad_emotion_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:text="별로"
+                        android:textColor="@color/brightGray"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/main_add_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="내용"
+                    app:layout_constraintStart_toStartOf="@+id/viewpager"
+                    app:layout_constraintTop_toBottomOf="@+id/warning_photo_text" />
+
+                <EditText
+                    android:id="@+id/add_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="top"
+                    android:hint="내용을 입력해주세요"
+                    android:inputType="textMultiLine"
+                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/main_add_text"
+                    app:layout_constraintTop_toBottomOf="@+id/main_add_text" />
+
+                <TextView
+                    android:id="@+id/rv_review_rank2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="위치*"
+                    app:layout_constraintStart_toStartOf="@+id/main_add_text"
+                    app:layout_constraintTop_toBottomOf="@+id/add_text" />
+
+                <EditText
+                    android:id="@+id/location_title_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="top"
+                    android:hint="위치 직접 입력하기"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:scrollbars="vertical"
+                    app:layout_constraintEnd_toStartOf="@+id/map_search_btn"
+                    app:layout_constraintStart_toStartOf="@+id/rv_review_rank2"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_review_rank2" />
+
+                <Button
+                    android:id="@+id/map_search_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_rect_primary"
+                    android:text="위치찾기"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/add_address_text"
+                    app:layout_constraintEnd_toEndOf="@+id/add_text"
+                    app:layout_constraintTop_toTopOf="@+id/rv_review_rank2" />
+
+                <TextView
+                    android:id="@+id/warning_photo_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="사진 한 장은 필수입니다."
+                    android:textColor="@color/warning"
+                    android:textSize="12dp"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="@+id/viewpager"
+                    app:layout_constraintTop_toBottomOf="@+id/viewpager" />
+
+                <TextView
+                    android:id="@+id/warning_location_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="필수 항목을 입력해주세요."
+                    android:textColor="@color/warning"
+                    android:textSize="12dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_review_rank2"
+                    app:layout_constraintStart_toEndOf="@+id/rv_review_rank2"
+                    app:layout_constraintTop_toTopOf="@+id/rv_review_rank2" />
+
+                <TextView
+                    android:id="@+id/warning_taste_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="필수 항목을 입력해주세요."
+                    android:textColor="@color/warning"
+                    android:textSize="12dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                    app:layout_constraintStart_toEndOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                <TextView
+                    android:id="@+id/add_address_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:textSize="14dp"
+                    app:layout_constraintEnd_toEndOf="@+id/location_title_text"
+                    app:layout_constraintStart_toStartOf="@+id/location_title_text"
+                    app:layout_constraintTop_toBottomOf="@+id/location_title_text" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loadingLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <View
+            android:id="@+id/view"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#A4323030"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.44">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="#ffffffff"
+                app:cardCornerRadius="20dp"
+                app:cardUseCompatPadding="true"
+                app:elevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ProgressBar
+                        android:id="@+id/commentProgressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.32000003" />
+
+                    <TextView
+                        android:id="@+id/save_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이미지 저장중"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/commentProgressBar"
+                        app:layout_constraintVertical_bias="0.41000003" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
