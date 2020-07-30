@@ -208,6 +208,14 @@ public class DatePickerDialog  extends Dialog {
             }
         });
 
+        Button mAllBtn = dialog.findViewById(R.id.picker_all_btn);
+        mAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customDialogListener.onPositiveClicked(false,0,0);
+                dialog.cancel();
+            }
+        });
 
         dialog.show();
     }

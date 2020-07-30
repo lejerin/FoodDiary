@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 //        tvHeaderEmail.setText(userEmail)
 
         initDateToNow()
+        bar_month_text.text = "All"
 
         try {
             val info = packageManager.getPackageInfo(
@@ -241,8 +242,6 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
-        initDateToNow()
-
         when(item.itemId){
             R.id.nav_home -> {
                 getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
@@ -294,9 +293,15 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                     barMonth = month
 
                     if(fab_new_post.visibility == View.VISIBLE){
-                        homeFragment.setHomeDate(year.toString(), month.toString())
+                        homeFragment.setHomeDate(false, year.toString(), month.toString())
                     }
                     bar_month_text.text = "" + year + "년 " + month + "월"
+                }else{
+                    //전체 선택
+                    if(fab_new_post.visibility == View.VISIBLE){
+                        homeFragment.setHomeDate(true, year.toString(), month.toString())
+                    }
+                    bar_month_text.text = "All"
                 }
             }
         })

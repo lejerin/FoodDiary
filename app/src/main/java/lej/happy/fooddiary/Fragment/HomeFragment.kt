@@ -31,6 +31,9 @@ class HomeFragment : Fragment() {
     lateinit var startDate : Date
     lateinit var endDate : Date
     private var isDESC = true
+    private var isAll = true
+
+    private lateinit var homePhotoAdapter: HomePhotoAdapter
 
     private val REQUEST_CODE_ADD_POST = 11
 
@@ -45,7 +48,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
-        rv_home.adapter = HomePhotoAdapter(timeList,photoList)
+        homePhotoAdapter = HomePhotoAdapter(timeList,photoList,isAll)
+        rv_home.adapter = homePhotoAdapter
         rv_home.layoutManager = LinearLayoutManager(context)
 
         //이번달 첫째날, 마지막날
@@ -68,8 +72,10 @@ class HomeFragment : Fragment() {
         getHomeData()
     }
 
-    fun setHomeDate(year: String, mon : String){
-        stringToDate("" + year + "-" + mon )
+    fun setHomeDate(isOk: Boolean, year: String, mon : String){
+        isAll = isOk
+        homePhotoAdapter.isAll = isAll
+        stringToDate("$year-$mon")
         getHomeData()
     }
 
@@ -99,33 +105,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun getDataInDb() : Boolean{
-        val postDb = AppDatabase.getInstance(context!!)
-        var data : List<Post>
-        if(!isDESC) {
-            data =  postDb?.postDao()?.selectByDateASC(startDate, endDate)
-        }else{
-            data =  postDb?.postDao()?.selectByDate(startDate, endDate)
-        }
 
-        if(data.size > 0){
+        val data = getQuery()
+        if(data.isNotEmpty()){
 
 
-        var beforeDate = ""
-        for(i in 0..data.size-1) {
-            var output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data.get(i).date)
+            var beforeDate = ""
+            for(i in 0..data.size-1) {
+                var output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data.get(i).date)
 
-            if(!output.equals(beforeDate)){
-                //중복 되지 않으면 time list에 넣기
-                beforeDate = output
-                timeList.add(output)
+                if(!output.equals(beforeDate)){
+                    //중복 되지 않으면 time list에 넣기
+                    beforeDate = output
+                    timeList.add(output)
+                }
+                if(photoList.containsKey(output)){
+                    //이미 존재하면
+                    photoList.get(output)!!.add(data.get(i))
+                }else{
+                    photoList.put(output, mutableListOf(data.get(i)))
+                }
             }
-            if(photoList.containsKey(output)){
-                //이미 존재하면
-                photoList.get(output)!!.add(data.get(i))
-            }else{
-                photoList.put(output, mutableListOf(data.get(i)))
-            }
-        }
             return true
         }
         return false
@@ -143,6 +143,22 @@ class HomeFragment : Fragment() {
             no_data_in_recyclerview.visibility = View.VISIBLE
         }
     }
+
+    fun getQuery() : List<Post>{
+        val postDb = AppDatabase.getInstance(context!!)
+
+        if(isAll){
+            if(isDESC) return postDb?.postDao()?.selectByPageDesc(0, 10)
+            else return postDb?.postDao()?.selectByPageAsc(0, 10)
+
+        }else{
+            if(isDESC) return postDb?.postDao()?.selectByDateASC(startDate, endDate)
+            else return postDb?.postDao()?.selectByDateASC(startDate, endDate)
+        }
+
+    }
+
+
 
     fun stringToDate(str: String) {
         val dateFormat: String = "yyyy-MM-dd"
@@ -186,11 +202,11 @@ class HomeFragment : Fragment() {
         //수정되었을 때
         if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
 
-                    System.out.println("초기화")
-                    timeList.clear()
-                    photoList.clear()
-                    //이전에 저장했던 데이터대로 수정필요
-                    getHomeData()
+            System.out.println("초기화")
+            timeList.clear()
+            photoList.clear()
+            //이전에 저장했던 데이터대로 수정필요
+            getHomeData()
 
 
         }

@@ -12,10 +12,16 @@ interface PostDao : BaseDao<Post> {
     @Query("SELECT COUNT(date) FROM post WHERE date = :date")
     fun getCount(date: Date): Int
 
-    @Query("SELECT * FROM post WHERE date BETWEEN :dayst AND :dayet ORDER BY date DESC ")
+    @Query("SELECT * FROM post ORDER BY date DESC Limit :sp, :ep")
+    fun selectByPageDesc(sp: Int, ep: Int): List<Post>
+
+    @Query("SELECT * FROM post ORDER BY date ASC Limit :sp, :ep")
+    fun selectByPageAsc(sp: Int, ep: Int): List<Post>
+
+    @Query("SELECT * FROM post WHERE date BETWEEN :dayst AND :dayet ORDER BY date DESC")
     fun selectByDate(dayst: Date , dayet: Date): List<Post>
 
-    @Query("SELECT * FROM post WHERE date BETWEEN :dayst AND :dayet ORDER BY date ASC ")
+    @Query("SELECT * FROM post WHERE date BETWEEN :dayst AND :dayet ORDER BY date ASC")
     fun selectByDateASC(dayst: Date , dayet: Date): List<Post>
 
     @Query("SELECT * FROM post WHERE address Not Null ORDER BY location DESC, date DESC")

@@ -269,4 +269,13 @@
         app:layout_constraintEnd_toStartOf="@+id/picker_save_btn"
         app:layout_constraintTop_toTopOf="@+id/picker_save_btn" />
 
+    <Button
+        android:id="@+id/picker_all_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/picker_cancle_btn"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

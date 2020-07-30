@@ -5,17 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.R
+import org.w3c.dom.Text
 
 
 class HomePhotoAdapter(
     timeList: MutableList<String>,
-    photoList: HashMap<String, MutableList<Post>>
+    photoList: HashMap<String, MutableList<Post>>,
+    isAll: Boolean
 ) : RecyclerView.Adapter<HomePhotoAdapter.TimePhotoViewHolder>() {
 
+    public var isAll: Boolean = isAll
     private var timeList : MutableList<String> = timeList
     private var photoList : HashMap<String,MutableList<Post>> = photoList
     private lateinit var context: Context
@@ -31,9 +35,29 @@ class HomePhotoAdapter(
 
         var timeData = timeList!![position]
 
-        val result = timeData.substring(timeData.lastIndexOf("-") + 1)
-        val result2 = result.substring(result.lastIndexOf("/") + 1)
-        holder!!.textTitle.text =  result2
+        val array: List<String> = timeData.split("-")
+        System.out.println("isall" + isAll)
+        if(isAll){
+            val nowMonth = array[0] + "-" + array[1]
+            if(position == 0){
+                holder!!.dateText.text = nowMonth
+                holder!!.dateText.visibility = View.VISIBLE
+            }else{
+                val bearray: List<String> = timeList!![position-1].split("-")
+                val before = bearray[0] + "-" + bearray[1]
+                if(nowMonth.equals(before)){
+                    holder!!.dateText.visibility = View.GONE
+                }else{
+                    holder!!.dateText.text = nowMonth
+                    holder!!.dateText.visibility = View.VISIBLE
+                }
+            }
+        }else{
+            holder!!.dateText.visibility = View.GONE
+        }
+
+
+        holder!!.textTitle.text =  array[2]
 
         if(photoList.get(timeData) != null){
             var photoAdapter = PhotoGridAdapter(0, photoList.get(timeData)!!)
@@ -55,7 +79,7 @@ class HomePhotoAdapter(
     class TimePhotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var textTitle = view.findViewById(R.id.time_title) as Button
         var rv_photo = view.findViewById(R.id.rv_time_photo) as RecyclerView
-
+        var dateText = view.findViewById(R.id.date_text) as TextView
 
     }
 }
