@@ -5,13 +5,19 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -25,6 +31,7 @@ import kotlinx.android.synthetic.main.activity_detail_post.*
 import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -244,6 +251,12 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             if(photoList.size > 2) post.photo3 = photoList[2].toString()
             if(photoList.size > 3) post.photo4 = photoList[3].toString()
 
+            var getBitmap = decodeSampledBitmapFromResource(photoList[0], 100, 100)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                getBitmap = imgRotate(photoList[0], getBitmap)
+            }
+            post.photo = ImageUtil.convert(getBitmap)
+
             if(isModify){
                 //수정
                 val addRunnable = Runnable {
@@ -456,5 +469,67 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
         val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
         parser.timeZone = timeZone
         return parser.parse(str)
+    }
+
+    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        System.out.println("사진계산")
+
+
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
+    }
+
+    fun decodeSampledBitmapFromResource(
+        uri: Uri,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Bitmap {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        return BitmapFactory.Options().run {
+
+            inJustDecodeBounds = true
+            BitmapFactory.decodeStream(contentResolver.openInputStream(uri),null, this)
+
+            // Calculate inSampleSize
+            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+
+            // Decode bitmap with inSampleSize set
+            inJustDecodeBounds = false
+
+            BitmapFactory.decodeStream(contentResolver.openInputStream(uri),null, this)!!
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun imgRotate(uri: Uri, bitmap: Bitmap) : Bitmap {
+        val ins = contentResolver.openInputStream(uri)
+        val exif = ExifInterface(ins)
+        ins?.close()
+
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+        val matrix = Matrix()
+        when(orientation){
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        }
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 }

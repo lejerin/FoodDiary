@@ -1,5 +1,6 @@
 package lej.happy.fooddiary.DB.Entity
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,6 +11,7 @@ import java.util.*
 data class Post(@PrimaryKey(autoGenerate = true) var id: Long?,
           @ColumnInfo(name = "date") var date: Date?,
           @ColumnInfo(name = "count") var count: Int,
+                @ColumnInfo(name = "photo") var photo: String,
           @ColumnInfo(name = "photo1") var photo1: String,
           @ColumnInfo(name = "photo2") var photo2: String?,
           @ColumnInfo(name = "photo3") var photo3: String?,
@@ -22,6 +24,6 @@ data class Post(@PrimaryKey(autoGenerate = true) var id: Long?,
           @ColumnInfo(name = "x") var x: Double?,
           @ColumnInfo(name = "y") var y: Double?
 ) : Serializable {
-    constructor(): this(null,null, 0,"", null, null, null,
+    constructor(): this(null,null, 0, "", "", null, null, null,
         null, null, 0, "", null, null, null)
 }

@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.Model.ReviewRank
 import lej.happy.fooddiary.R
 
@@ -46,13 +47,9 @@ class ReviewLocationAdapter(rankCount: List<ReviewRank>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
 
-        holder!!.imageView.setClipToOutline(true);
-        val getBitmap = decodeSampledBitmapFromResource(Uri.parse(countList!![position].post.photo1), 100, 100)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            holder!!.imageView.setImageBitmap(imgRotate(Uri.parse(countList!![position].post.photo1), getBitmap))
-        }else{
-            holder!!.imageView.setImageBitmap(getBitmap)
-        }
+        var photoUri = countList!![position].post.photo
+        holder!!.imageView.setClipToOutline(true)
+        holder!!.imageView.setImageBitmap( ImageUtil.convert(photoUri))
 
         holder!!.title.text = countList!![position].post.location
         holder!!.address.text = countList!![position].post.address
@@ -93,48 +90,6 @@ class ReviewLocationAdapter(rankCount: List<ReviewRank>) : RecyclerView.Adapter<
 
     }
 
-    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
-        // Raw height and width of image
-        val (height: Int, width: Int) = options.run { outHeight to outWidth }
-        var inSampleSize = 1
-
-        if (height > reqHeight || width > reqWidth) {
-
-            val halfHeight: Int = height / 2
-            val halfWidth: Int = width / 2
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
-                inSampleSize *= 2
-            }
-        }
-
-        return inSampleSize
-    }
-
-    fun decodeSampledBitmapFromResource(
-        uri: Uri,
-        reqWidth: Int,
-        reqHeight: Int
-    ): Bitmap {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        return BitmapFactory.Options().run {
-
-            System.out.println(uri.toString())
-            inJustDecodeBounds = true
-            BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri),null, this)
-
-            // Calculate inSampleSize
-            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
-
-            // Decode bitmap with inSampleSize set
-            inJustDecodeBounds = false
-
-            BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri),null, this)!!
-        }
-    }
 
     override fun getItemCount(): Int {
         return countList!!.size
@@ -154,21 +109,5 @@ class ReviewLocationAdapter(rankCount: List<ReviewRank>) : RecyclerView.Adapter<
         var num = view.findViewById(R.id.review_rv_num_text) as Button
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun imgRotate(uri: Uri, bitmap: Bitmap) : Bitmap{
-        val ins = context.contentResolver.openInputStream(uri)
-        val exif = ExifInterface(ins)
-        ins?.close()
-
-        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
-        val matrix = Matrix()
-        when(orientation){
-            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
-            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
-            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
-        }
-
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
 }
 
