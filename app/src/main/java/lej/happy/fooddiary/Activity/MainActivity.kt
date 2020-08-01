@@ -96,20 +96,6 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
         initDateToNow()
         bar_month_text.text = "All"
 
-        try {
-            val info = packageManager.getPackageInfo(
-                "lej.happy.fooddiary",
-                PackageManager.GET_SIGNATURES)
-            for (signature in info.signatures) {
-                val md = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
-            }
-        } catch (e: PackageManager.NameNotFoundException) {
-
-        } catch (e: NoSuchAlgorithmException) {
-
-        }
 
         //리스너
         //플로팅 버튼

@@ -10,12 +10,15 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Activity.AddPostActivity
 import lej.happy.fooddiary.Adapter.HomePhotoAdapter
+import lej.happy.fooddiary.Adapter.PhotoGridAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.Model.HomeString
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,9 +27,10 @@ import java.util.*
 class HomeFragment : Fragment() {
 
     //중복없는 날짜만
-    val timeList = mutableListOf<String>()
+    val timeList = mutableListOf<HomeString>()
     //고유번호, 대표사진, count 순서대로
     val photoList : HashMap<String,MutableList<Post>> = hashMapOf()
+    val gridadpters : HashMap<String, PhotoGridAdapter> = hashMapOf()
 
     lateinit var startDate : Date
     lateinit var endDate : Date
@@ -34,8 +38,8 @@ class HomeFragment : Fragment() {
     private var isAll = true
 
     private lateinit var homePhotoAdapter: HomePhotoAdapter
-
     private val REQUEST_CODE_ADD_POST = 11
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,10 +51,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        rv_home.layoutManager =  LinearLayoutManager(context)
+        rv_home.setHasFixedSize(true)
+        rv_home.setItemViewCacheSize(20);
 
-        homePhotoAdapter = HomePhotoAdapter(timeList,photoList,isAll)
-        rv_home.adapter = homePhotoAdapter
-        rv_home.layoutManager = LinearLayoutManager(context)
 
         //이번달 첫째날, 마지막날
         val nowYM = SimpleDateFormat("yyyy-M", Locale.KOREA).format(Date())
@@ -59,6 +63,7 @@ class HomeFragment : Fragment() {
         getHomeData()
 
     }
+
 
     fun addNewPost(){
 
@@ -109,15 +114,21 @@ class HomeFragment : Fragment() {
         val data = getQuery()
         if(data.isNotEmpty()){
 
-
             var beforeDate = ""
+            var beforeMonth = ""
             for(i in 0..data.size-1) {
-                var output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data.get(i).date)
+                val output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data.get(i).date)
+                val nowMonth: String = SimpleDateFormat("yyyy년 M월", Locale.KOREA).format(data.get(i).date)
 
                 if(!output.equals(beforeDate)){
                     //중복 되지 않으면 time list에 넣기
+                    if(beforeMonth.equals(nowMonth)){
+                        timeList.add(HomeString(output, false, ""))
+                    }else{
+                        timeList.add(HomeString(output, true, nowMonth))
+                    }
                     beforeDate = output
-                    timeList.add(output)
+                    beforeMonth = nowMonth
                 }
                 if(photoList.containsKey(output)){
                     //이미 존재하면
@@ -126,6 +137,14 @@ class HomeFragment : Fragment() {
                     photoList.put(output, mutableListOf(data.get(i)))
                 }
             }
+
+            for (i in 0..timeList.size-1){
+                var photoAdapter = PhotoGridAdapter(photoList.get(timeList[i].date)!!)
+                gridadpters.put(timeList[i].date, photoAdapter)
+            }
+
+            System.out.println("계산 끝")
+
             return true
         }
         return false
@@ -133,26 +152,31 @@ class HomeFragment : Fragment() {
 
     private fun resetAdapter(isOk : Boolean){
 
-        if(isOk){
+        System.out.println("적용")
 
-            no_data_in_recyclerview.visibility = View.GONE
-            rv_home.adapter?.notifyDataSetChanged()
-
+        if(::homePhotoAdapter.isInitialized){
+            homePhotoAdapter.gridadpters.clear()
+            homePhotoAdapter.notifyDataSetChanged()
         }else{
-            rv_home.adapter?.notifyDataSetChanged()
-            no_data_in_recyclerview.visibility = View.VISIBLE
+            homePhotoAdapter = HomePhotoAdapter(timeList,photoList,gridadpters,isAll)
+            rv_home.adapter = homePhotoAdapter
         }
+
+        if(isOk)
+            no_data_in_recyclerview.visibility = View.GONE
+        else
+            no_data_in_recyclerview.visibility = View.VISIBLE
     }
 
     fun getQuery() : List<Post>{
         val postDb = AppDatabase.getInstance(context!!)
 
         if(isAll){
-            if(isDESC) return postDb?.postDao()?.selectByPageDesc(0, 10)
-            else return postDb?.postDao()?.selectByPageAsc(0, 10)
+            if(isDESC) return postDb?.postDao()?.selectByPageDesc()
+            else return postDb?.postDao()?.selectByPageAsc()
 
         }else{
-            if(isDESC) return postDb?.postDao()?.selectByDateASC(startDate, endDate)
+            if(isDESC) return postDb?.postDao()?.selectByDateDESC(startDate, endDate)
             else return postDb?.postDao()?.selectByDateASC(startDate, endDate)
         }
 

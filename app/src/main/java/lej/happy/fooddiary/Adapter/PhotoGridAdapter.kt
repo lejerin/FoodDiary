@@ -24,11 +24,11 @@ import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.R
 
 
-class PhotoGridAdapter(adapter: Int, photoList: MutableList<Post>) : RecyclerView.Adapter<PhotoGridAdapter.PhotoViewHolder>() {
+class PhotoGridAdapter(photoList: MutableList<Post>) : RecyclerView.Adapter<PhotoGridAdapter.PhotoViewHolder>() {
 
     private var photoList :  MutableList<Post> = photoList
     private lateinit var context: Context
-    private val adapterNum = adapter
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
 
@@ -88,7 +88,6 @@ class PhotoGridAdapter(adapter: Int, photoList: MutableList<Post>) : RecyclerVie
         // First decode with inJustDecodeBounds=true to check dimensions
         return BitmapFactory.Options().run {
 
-            System.out.println(uri.toString())
             inJustDecodeBounds = true
             BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri),null, this)
 

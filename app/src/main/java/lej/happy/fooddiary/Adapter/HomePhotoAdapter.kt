@@ -9,25 +9,33 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.Model.HomeString
 import lej.happy.fooddiary.R
 import org.w3c.dom.Text
 
 
 class HomePhotoAdapter(
-    timeList: MutableList<String>,
+    timeList: MutableList<HomeString>,
     photoList: HashMap<String, MutableList<Post>>,
+    gridAdapters: HashMap<String, PhotoGridAdapter>,
     isAll: Boolean
 ) : RecyclerView.Adapter<HomePhotoAdapter.TimePhotoViewHolder>() {
 
-    public var isAll: Boolean = isAll
-    private var timeList : MutableList<String> = timeList
+     var isAll: Boolean = isAll
+    private var timeList : MutableList<HomeString> = timeList
     private var photoList : HashMap<String,MutableList<Post>> = photoList
+
+    val gridadpters : HashMap<String, PhotoGridAdapter> = gridAdapters
+
+
+
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimePhotoViewHolder {
         var view = LayoutInflater.from(parent!!.context).inflate(R.layout.row_item_home_time,parent,false)
 
         context = parent!!.context
+
         return TimePhotoViewHolder(view)
     }
 
@@ -35,39 +43,37 @@ class HomePhotoAdapter(
 
         var timeData = timeList!![position]
 
-        val array: List<String> = timeData.split("-")
-        System.out.println("isall" + isAll)
+        val array: List<String> = timeData.date.split("-")
+
         if(isAll){
-            val nowMonth = array[0] + "-" + array[1]
-            if(position == 0){
-                holder!!.dateText.text = nowMonth
+            if(timeData.isNew){
+                holder!!.dateText.text = timeData.ym
                 holder!!.dateText.visibility = View.VISIBLE
             }else{
-                val bearray: List<String> = timeList!![position-1].split("-")
-                val before = bearray[0] + "-" + bearray[1]
-                if(nowMonth.equals(before)){
-                    holder!!.dateText.visibility = View.GONE
-                }else{
-                    holder!!.dateText.text = nowMonth
-                    holder!!.dateText.visibility = View.VISIBLE
-                }
+                holder!!.dateText.visibility = View.GONE
             }
         }else{
             holder!!.dateText.visibility = View.GONE
         }
 
-
         holder!!.textTitle.text =  array[2]
 
-        if(photoList.get(timeData) != null){
-            var photoAdapter = PhotoGridAdapter(0, photoList.get(timeData)!!)
-            val gridLayoutManager = GridLayoutManager(context, 3)
+//        if(gridadpters.containsKey(timeData.date)){
+//            holder!!.rv_photo.adapter = gridadpters.get(timeData.date)
+//        }else{
+//            System.out.println("생성")
+//
+//            val gridadpters : HashMap<String, PhotoGridAdapter> = hashMapOf()
+//            var photoAdapter = PhotoGridAdapter(photoList.get(timeData.date)!!)
+//            val gridLayoutManager = GridLayoutManager(context, 3)
+//
+//            holder!!.rv_photo.adapter = photoAdapter
+//            holder!!.rv_photo.layoutManager = gridLayoutManager
+//            gridadpters.put(timeData.date, photoAdapter)
+//        }
 
-            holder!!.rv_photo.adapter = photoAdapter
-            holder!!.rv_photo.layoutManager = gridLayoutManager
-        }
-
-
+        holder!!.rv_photo.adapter = gridadpters.get(timeData.date)
+        holder!!.rv_photo.layoutManager = GridLayoutManager(context, 3)
 
     }
 

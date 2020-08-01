@@ -34,7 +34,7 @@ class ReviewPhotoAdapter(
         if(position % 2 == 0){
             holder!!.textTitle.text =  timeData
             if(photoList.get(timeData) != null){
-                var photoAdapter = PhotoGridAdapter(1, photoList.get(timeData)!!)
+                var photoAdapter = PhotoGridAdapter( photoList.get(timeData)!!)
                 val gridLayoutManager = GridLayoutManager(context, 3)
 
                 holder!!.rv_photo.adapter = photoAdapter
@@ -45,7 +45,7 @@ class ReviewPhotoAdapter(
         }else{
             holder!!.textTitle2.text =  timeData
             if(photoList.get(timeData) != null){
-                var photoAdapter = PhotoGridAdapter(1, photoList.get(timeData)!!)
+                var photoAdapter = PhotoGridAdapter( photoList.get(timeData)!!)
                 val gridLayoutManager = object : GridLayoutManager(context, 3) {
                     override fun isLayoutRTL(): Boolean {
                         return true
