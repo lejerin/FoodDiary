@@ -14,6 +14,7 @@ import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ReviewLocationAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.ReviewRank
 import lej.happy.fooddiary.R
 import java.util.*
@@ -26,6 +27,8 @@ class ReviewFragment : Fragment() {
     // val duplePostList : HashMap<String, Post> = hashMapOf()
 
     private var isDESC = true
+
+    lateinit var loadingDialog : LoadingDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_review, container, false)
@@ -48,6 +51,7 @@ class ReviewFragment : Fragment() {
                 reviewDetailFragment.arguments = bundle
 
                 val transaction = getFragmentManager()!!.beginTransaction()
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left,R.anim.exit_to_right)
                 transaction.add(R.id.frame_layout, reviewDetailFragment)
                 transaction.addToBackStack("review_detail")
                 transaction.commit();
@@ -68,6 +72,10 @@ class ReviewFragment : Fragment() {
     }
 
     fun getReviewData(){
+
+        loadingDialog = LoadingDialog(context!!)
+        loadingDialog.show()
+
         rankList.clear()
 
         //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
@@ -138,6 +146,8 @@ class ReviewFragment : Fragment() {
             rv_review.adapter?.notifyDataSetChanged()
             review_no_data_in_recyclerview.visibility = View.VISIBLE
         }
+
+        loadingDialog.dismiss()
     }
 
 }

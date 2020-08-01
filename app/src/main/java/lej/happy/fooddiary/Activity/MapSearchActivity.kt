@@ -28,7 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MapSearchActivity : AppCompatActivity() {
+class MapSearchActivity : AppCompatActivity() , View.OnClickListener{
 
     val mapList = mutableListOf<Document>()
     lateinit var mapView: MapView
@@ -43,8 +43,8 @@ class MapSearchActivity : AppCompatActivity() {
         mapView.setZoomLevel(0,false)
         mapViewContainer.addView(mapView)
 
-
-
+        map_search_back_btn.setOnClickListener(this)
+        remove_btn_map_search.setOnClickListener(this)
 
         sliding_bar.panelState = SlidingUpPanelLayout.PanelState.HIDDEN
         map_search_btn.setOnClickListener {
@@ -95,6 +95,17 @@ class MapSearchActivity : AppCompatActivity() {
                 Toast.makeText(this,"장소를 검색하여 입력해주세요", Toast.LENGTH_SHORT).show()
             }
 
+        }
+    }
+
+    override fun onClick(v: View) {
+        when(v.id){
+            R.id.map_search_back_btn -> {
+                finish()
+            }
+            R.id.remove_btn_map_search -> {
+                keword_search_text.setText("")
+            }
         }
     }
 

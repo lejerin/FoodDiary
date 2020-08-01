@@ -243,7 +243,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
         when (item.itemId){
             R.id.nav_home -> {
-
+                bar_month_text.text = "All"
                 homeFragment = HomeFragment()
                 supportFragmentManager
                         .beginTransaction()

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Activity.AddPostActivity
@@ -26,6 +27,7 @@ import lej.happy.fooddiary.Adapter.PhotoGridAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.Helper.ImageUtil
+import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.HomeData
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
@@ -45,9 +47,15 @@ class HomeFragment : Fragment() {
     private var isAll = true
 
     private lateinit var homePhotoAdapter: HomePhotoAdapter
+    private lateinit var homeLayoutManager: LinearLayoutManager
     private val REQUEST_CODE_ADD_POST = 11
 
+    var page = 1
+    var isLoading = false
+    val limit = 15
+    var isEnd = false
 
+    lateinit var loadingDialog : LoadingDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
@@ -58,14 +66,37 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        rv_home.layoutManager =  LinearLayoutManager(context)
+        homeLayoutManager = LinearLayoutManager(context)
+        rv_home.layoutManager =  homeLayoutManager
         rv_home.setHasFixedSize(true)
         rv_home.setItemViewCacheSize(20);
-
 
         //이번달 첫째날, 마지막날
         val nowYM = SimpleDateFormat("yyyy-M", Locale.KOREA).format(Date())
         stringToDate(nowYM)
+
+
+        rv_home.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+                if(dy > 0 && !isEnd){
+                    val visibleItemCount = homeLayoutManager.childCount
+                    val pastVisibleItem = homeLayoutManager.findFirstCompletelyVisibleItemPosition()
+                    val total = homePhotoAdapter.itemCount
+
+                    if(!isLoading){
+                        if((visibleItemCount + pastVisibleItem) >= total){
+                            page++
+                            getHomeData()
+                        }
+                    }
+                }
+
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
+
+
 
         getHomeData()
 
@@ -81,11 +112,15 @@ class HomeFragment : Fragment() {
 
     fun setOrder(order: Boolean){
         isDESC = order
+        initPage()
         getHomeData()
     }
 
     fun setHomeDate(isOk: Boolean, year: String, mon : String){
         isAll = isOk
+        if(isOk){
+            initPage()
+        }
         homePhotoAdapter.isAll = isAll
         stringToDate("$year-$mon")
         getHomeData()
@@ -94,9 +129,17 @@ class HomeFragment : Fragment() {
 
 
     fun getHomeData(){
+        loadingDialog = LoadingDialog(context!!)
+        loadingDialog.show()
+        System.out.println("불러오기 요청")
 
-        timeList.clear()
-        photoList.clear()
+        if(isAll){
+            isLoading = true
+
+        }else{
+            timeList.clear()
+            photoList.clear()
+        }
 
         //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
         CoroutineScope(Job() + Dispatchers.Main).launch(Dispatchers.Default) {
@@ -154,8 +197,12 @@ class HomeFragment : Fragment() {
 
             System.out.println("계산 끝")
 
+            if(data.size < limit){
+                isEnd = true
+            }
             return true
         }
+        isEnd = true
         return false
     }
 
@@ -171,18 +218,22 @@ class HomeFragment : Fragment() {
             rv_home.adapter = homePhotoAdapter
         }
 
-        if(isOk)
+        isLoading = false
+        loadingDialog.dismiss()
+
+        if(timeList.size > 0){
             no_data_in_recyclerview.visibility = View.GONE
-        else
+        }else{
             no_data_in_recyclerview.visibility = View.VISIBLE
+        }
     }
 
     fun getQuery() : List<Post>{
         val postDb = AppDatabase.getInstance(context!!)
 
         if(isAll){
-            if(isDESC) return postDb?.postDao()?.selectByPageDesc()
-            else return postDb?.postDao()?.selectByPageAsc()
+            if(isDESC) return postDb?.postDao()?.selectByPageDesc((page-1)*limit, (page)*limit)
+            else return postDb?.postDao()?.selectByPageAsc((page-1)*limit, (page)*limit)
 
         }else{
             if(isDESC) return postDb?.postDao()?.selectByDateDESC(startDate, endDate)
@@ -214,6 +265,13 @@ class HomeFragment : Fragment() {
 
     }
 
+    fun initPage(){
+        page = 1
+        isEnd = false
+        timeList.clear()
+        photoList.clear()
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -223,8 +281,7 @@ class HomeFragment : Fragment() {
             Handler().postDelayed(
                 {
                     System.out.println("초기화")
-                    timeList.clear()
-                    photoList.clear()
+                    initPage()
                     //이전에 저장했던 데이터대로 수정필요
                     getHomeData()
                 },
@@ -236,8 +293,7 @@ class HomeFragment : Fragment() {
         if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
 
             System.out.println("초기화")
-            timeList.clear()
-            photoList.clear()
+            initPage()
             //이전에 저장했던 데이터대로 수정필요
             getHomeData()
 
@@ -246,8 +302,7 @@ class HomeFragment : Fragment() {
 
         if(requestCode == REQUEST_CODE_ADD_POST && resultCode == AppCompatActivity.RESULT_OK){
             System.out.println("초기화")
-            timeList.clear()
-            photoList.clear()
+            initPage()
             //이전에 저장했던 데이터대로 수정필요
             getHomeData()
         }

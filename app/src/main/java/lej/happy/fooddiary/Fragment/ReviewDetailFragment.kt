@@ -14,6 +14,7 @@ import lej.happy.fooddiary.Activity.MainActivity
 import lej.happy.fooddiary.Adapter.ReviewPhotoAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.ReviewRank
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
@@ -27,6 +28,8 @@ class ReviewDetailFragment : Fragment(){
     val photoList : HashMap<String,MutableList<Post>> = hashMapOf()
     lateinit var address : String
     private var isDESC = true
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_review_detail, container, false)
@@ -122,6 +125,8 @@ class ReviewDetailFragment : Fragment(){
             rv_review_detail.adapter?.notifyDataSetChanged()
             no_data_in_recyclerview.visibility = View.VISIBLE
         }
+
+
     }
 
 

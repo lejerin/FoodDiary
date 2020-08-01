@@ -51,7 +51,7 @@ class HomePhotoAdapter(
 
 
         holder!!.rv_photo.adapter = timeData.adapters
-        holder!!.rv_photo.layoutManager = timeData.layout
+        holder!!.rv_photo.layoutManager = GridLayoutManager(context, 3)
 
     }
 

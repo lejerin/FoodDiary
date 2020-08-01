@@ -32,6 +32,7 @@ import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.Helper.ImageUtil
+import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -57,6 +58,8 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
     private var selectEmotionText: TextView? = null
 
     private var isModify = false
+
+    lateinit var loadingDialog : LoadingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -189,6 +192,7 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
 
         add_text.setText(post.texts)
         location_title_text.setText(post.location)
+        add_address_text.visibility = View.VISIBLE
         add_address_text.text = post.address
 
         //뷰페이저 init
@@ -238,7 +242,8 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
         //사진 저장
         if(checkAllInput()){
             //로딩화면 시작
-            setLoadingView(true)
+            loadingDialog = LoadingDialog(this)
+            loadingDialog.show()
 
             //db에 저장
             val postDb = AppDatabase.getInstance(this)
@@ -262,7 +267,7 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
                 val addRunnable = Runnable {
                     try {
                         postDb?.postDao()?.update(post)
-                        setLoadingView(false)
+                        loadingDialog.dismiss()
                         val resultIntent = Intent()
                         resultIntent.putExtra("modifyPost", post);
                         setResult(Activity.RESULT_OK, resultIntent)
@@ -283,7 +288,7 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
                         val addRunnable = Runnable {
                             try {
                                 postDb?.postDao()?.insert(post)
-                                setLoadingView(false)
+                                loadingDialog.dismiss()
                                 setResult(Activity.RESULT_OK)
                                 finish()
                             } catch (e: Exception){
@@ -455,15 +460,6 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
 
     }
 
-    private fun setLoadingView(isShow : Boolean){
-        if(isShow){
-            save_text.text = "이미지 저장중"
-            loadingLayout.visibility = View.VISIBLE
-        }else{
-            loadingLayout.visibility = View.INVISIBLE
-        }
-
-    }
 
     fun StringtoDate(str: String, dateFormat: String = "yyyy년 M월 d일", timeZone: TimeZone = TimeZone.getDefault()): Date {
         val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
