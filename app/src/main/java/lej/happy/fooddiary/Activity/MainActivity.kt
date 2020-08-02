@@ -5,12 +5,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Base64
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -41,6 +44,8 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     private var drawerToggle: ActionBarDrawerToggle? = null
     private var mToolBarNavigationListenerIsRegistered = false
+
+    private var doubleBackToExitPressedOnce = false
 
     companion object {
 
@@ -142,8 +147,6 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_ADD_POST){
             refreshHome(requestCode, resultCode, data)
         }
-
-
 
     }
 
@@ -305,16 +308,32 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     override fun onBackPressed() {
         val manager: FragmentManager = supportFragmentManager
+
         if(manager.backStackEntryCount > 0){
             manager.popBackStack()
         }else{
+            //0인경우
             if(drawer_layout.isDrawerOpen(GravityCompat.START)){
                 drawer_layout.closeDrawer(GravityCompat.START)
+
+                return
             }
-            super.onBackPressed()
+
+
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+            this.doubleBackToExitPressedOnce = true
+            var toast = Toast.makeText(this, "한번 더 누르시면 종료됩니다", Toast.LENGTH_SHORT)
+
+
+            toast.setGravity(Gravity.CENTER,0,0)
+            toast.show()
+
+            Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+
         }
-
-
     }
 
     fun setActionBarTitle(title: String?) {
