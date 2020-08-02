@@ -327,8 +327,6 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
             this.doubleBackToExitPressedOnce = true
             var toast = Toast.makeText(this, "한번 더 누르시면 종료됩니다", Toast.LENGTH_SHORT)
 
-
-            toast.setGravity(Gravity.CENTER,0,0)
             toast.show()
 
             Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)

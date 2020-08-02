@@ -1,19 +1,11 @@
 package lej.happy.fooddiary.Fragment
 
-import android.R.attr.bitmap
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.media.ExifInterface
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,7 +18,6 @@ import lej.happy.fooddiary.Adapter.HomePhotoAdapter
 import lej.happy.fooddiary.Adapter.PhotoGridAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
-import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.HomeData
 import lej.happy.fooddiary.R

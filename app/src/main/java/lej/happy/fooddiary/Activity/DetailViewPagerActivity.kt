@@ -45,7 +45,8 @@ class DetailViewPagerActivity : AppCompatActivity() {
         }
 
 
-        val photoViewPagerAdapter = ViewPagerDetailAdapter(photoList as ArrayList<Uri>)
+        val id = intent.getLongExtra("id", 0)
+        val photoViewPagerAdapter = ViewPagerDetailAdapter(photoList as ArrayList<Uri>, id)
         viewpager.adapter = photoViewPagerAdapter
 
 

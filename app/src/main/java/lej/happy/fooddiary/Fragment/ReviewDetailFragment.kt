@@ -14,8 +14,6 @@ import lej.happy.fooddiary.Activity.MainActivity
 import lej.happy.fooddiary.Adapter.ReviewPhotoAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
-import lej.happy.fooddiary.Helper.LoadingDialog
-import lej.happy.fooddiary.Model.ReviewRank
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*

@@ -4,13 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.example.fooddiary.Network.RetrofitClient
-import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.activity_detail_post.*
 import kotlinx.android.synthetic.main.activity_detail_post.add_date_text
 import kotlinx.android.synthetic.main.activity_detail_post.circleAnimIndicator
@@ -20,9 +17,6 @@ import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.R
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -120,12 +114,13 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
 
     private fun initView(){
         //뷰페이저 init
+
         val photoList = mutableListOf<Uri>()
         photoList.add(Uri.parse(thisPost.photo1))
         if(thisPost.photo2 != null)  photoList.add(Uri.parse(thisPost.photo2))
         if(thisPost.photo3 != null)  photoList.add(Uri.parse(thisPost.photo3))
         if(thisPost.photo4 != null)  photoList.add(Uri.parse(thisPost.photo4))
-        viewpager.adapter = ViewPagerAdapter(photoList as ArrayList<Uri>)
+        viewpager.adapter = ViewPagerAdapter(photoList as ArrayList<Uri>, thisPost.id!!)
 
         circleAnimIndicator.removeDotPanel()
         //원사이의 간격

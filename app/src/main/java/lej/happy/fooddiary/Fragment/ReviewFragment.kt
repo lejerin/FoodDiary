@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_review.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ReviewLocationAdapter
 import lej.happy.fooddiary.DB.AppDatabase
-import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.ReviewRank
 import lej.happy.fooddiary.R

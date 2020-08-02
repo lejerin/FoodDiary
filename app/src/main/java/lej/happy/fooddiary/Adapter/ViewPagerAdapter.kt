@@ -12,19 +12,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityOptionsCompat
 import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.item_photo_viewpager.view.*
+import kotlinx.coroutines.*
 import lej.happy.fooddiary.Activity.DetailViewPagerActivity
+import lej.happy.fooddiary.DB.AppDatabase
+import lej.happy.fooddiary.DB.Entity.Thumb
+import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.R
-import java.net.URI
-import java.text.SimpleDateFormat
-import java.util.*
+import java.io.FileNotFoundException
 import kotlin.collections.ArrayList
 
-class ViewPagerAdapter(private val list: ArrayList<Uri>): PagerAdapter() {
+class ViewPagerAdapter(private val list: ArrayList<Uri>, private var id: Long): PagerAdapter() {
 
     private lateinit var context: Context
+    private val bitmapList  = mutableListOf<String>()
+
+
+    fun setId(newId: Long){
+        id = newId
+    }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         context = container!!.context
@@ -33,17 +40,37 @@ class ViewPagerAdapter(private val list: ArrayList<Uri>): PagerAdapter() {
         val view = inflater.inflate(R.layout.item_photo_viewpager, container, false)
 
         view.ivItem.setClipToOutline(true)
-        val getBitmap = decodeSampledBitmapFromResource(list[position], 300, 300)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            view.ivItem.setImageBitmap(imgRotate(list[position], getBitmap))
-        }else{
-            view.ivItem.setImageBitmap(getBitmap)
+
+        try {
+            val getBitmap = decodeSampledBitmapFromResource(list[position], 300, 300)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                view.ivItem.setImageBitmap(imgRotate(list[position], getBitmap))
+            }else{
+                view.ivItem.setImageBitmap(getBitmap)
+            }
+        }catch (err: FileNotFoundException){
+
+             if(bitmapList.size > 0){
+                 view.ivItem.setImageBitmap(ImageUtil.convert(bitmapList[position]))
+             }else{
+                 CoroutineScope(Job() + Dispatchers.Main).launch(Dispatchers.Default) {
+                     val result = async {
+                         getDataInDb() // some background work
+                     }.await()
+                     withContext(Dispatchers.Main) {
+                         // some UI thread work for when the background work is done
+                         setBitmapList(result)
+                     }
+                 }
+             }
+
         }
 
 
         view.ivItem.setOnClickListener {
             val viewPagerIntent = Intent(context, DetailViewPagerActivity::class.java)
             viewPagerIntent.putExtra("pos",position)
+            viewPagerIntent.putExtra("id",id)
             viewPagerIntent.putExtra("uri1",list[0].toString())
             if(list.size > 1)
                 viewPagerIntent.putExtra("uri2",list[1].toString())
@@ -54,11 +81,31 @@ class ViewPagerAdapter(private val list: ArrayList<Uri>): PagerAdapter() {
 
             context.startActivity(viewPagerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
 
-
         }
 
         container.addView(view)
         return view
+    }
+
+    private fun getDataInDb() : Thumb{
+
+        val getDb = AppDatabase.getInstance(context!!)
+
+        return getDb.thumbDao().selectById(id)
+    }
+
+    private fun setBitmapList(thumb: Thumb){
+
+        if(thumb != null){
+            bitmapList.add(thumb.photo1_bitmap!!)
+            if(thumb.photo2_bitmap != null) bitmapList.add(thumb.photo2_bitmap!!)
+            if(thumb.photo3_bitmap != null) bitmapList.add(thumb.photo3_bitmap!!)
+            if(thumb.photo4_bitmap != null) bitmapList.add(thumb.photo4_bitmap!!)
+            System.out.println("뷰페이저 갱신함")
+            notifyDataSetChanged()
+        }
+
+
     }
 
     fun removeItem(position: Int) {
@@ -73,6 +120,10 @@ class ViewPagerAdapter(private val list: ArrayList<Uri>): PagerAdapter() {
 
     override fun isViewFromObject(view: View, obj: Any): Boolean {
         return view == obj
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE;
     }
 
     override fun getCount(): Int {

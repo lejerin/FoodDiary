@@ -27,13 +27,16 @@ import kotlinx.android.synthetic.main.activity_add_post.add_date_text
 import kotlinx.android.synthetic.main.activity_add_post.circleAnimIndicator
 import kotlinx.android.synthetic.main.activity_add_post.select_date_btn
 import kotlinx.android.synthetic.main.activity_add_post.viewpager
-import kotlinx.android.synthetic.main.activity_detail_post.*
+import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.DB.Entity.Thumb
 import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.R
+import java.io.InputStream
+import java.lang.Runnable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -45,12 +48,13 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
     private val REQUEST_CODE_OPEN_MAP_SEARCH = 44
 
     private val photoList = mutableListOf<Uri>()
-    private val photoViewPagerAdapter = ViewPagerAdapter(photoList as ArrayList<Uri>)
+    private val photoViewPagerAdapter = ViewPagerAdapter(photoList as ArrayList<Uri>, 0)
 
     //선택한 현재 사진 뷰페이저 index num
     private var selectIndicatorPhotoIndex = 0
 
     private var post = Post()
+    private var thumb = Thumb()
 
     //선택한 맛
     private var selectEmotionLayout : ConstraintLayout? = null
@@ -196,6 +200,8 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
         add_address_text.text = post.address
 
         //뷰페이저 init
+        photoViewPagerAdapter.setId(post.id!!)
+
         photoList.add(Uri.parse(post.photo1))
         if(post.photo2 != null)  photoList.add(Uri.parse(post.photo2))
         if(post.photo3 != null)  photoList.add(Uri.parse(post.photo3))
@@ -212,7 +218,29 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
         remove_photo_btn.visibility = View.VISIBLE
 
 
+        //사진 정보 db 갖고오기
+        CoroutineScope(Job() + Dispatchers.Main).launch(Dispatchers.Default) {
+            val result = async {
+                getDataInDb()
+            }.await()
+            withContext(Dispatchers.Main) {
+                // some UI thread work for when the background work is done
+                thumb = result
+            }
+        }
+
+
+
     }
+
+    private fun getDataInDb() : Thumb{
+
+        val getDb = AppDatabase.getInstance(this)
+
+        return getDb.thumbDao().selectById(post.id!!)
+    }
+
+
 
     private fun initTime(num: Int){
         when(num){
@@ -246,27 +274,41 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             loadingDialog.show()
 
             //db에 저장
-            val postDb = AppDatabase.getInstance(this)
+            val getDb = AppDatabase.getInstance(this)
 
             //내용, count, locationname, photo uri
             post.texts = add_text.text.toString()
             post.location = location_title_text.text.toString()
-            post.photo1 = photoList[0].toString()
-            if(photoList.size > 1) post.photo2 = photoList[1].toString()
-            if(photoList.size > 2) post.photo3 = photoList[2].toString()
-            if(photoList.size > 3) post.photo4 = photoList[3].toString()
 
-            var getBitmap = decodeSampledBitmapFromResource(photoList[0], 100, 100)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                getBitmap = imgRotate(photoList[0], getBitmap)
+
+            if(checkUriValid(photoList[0])){
+                post.photo = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[0], 100, 100))
+
+                post.photo1 = photoList[0].toString()
+                thumb.photo1_bitmap = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[0], 300, 300))
             }
-            post.photo = ImageUtil.convert(getBitmap)
+            if(photoList.size > 1 && checkUriValid(photoList[1])) {
+                post.photo2 = photoList[1].toString()
+                thumb.photo2_bitmap = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[1], 300, 300))
+            }
+            if(photoList.size > 2 && checkUriValid(photoList[2])) {
+                post.photo3 = photoList[2].toString()
+                thumb.photo3_bitmap  = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[2], 300, 300))
+            }
+            if(photoList.size > 3 && checkUriValid(photoList[3])) {
+                post.photo4 = photoList[3].toString()
+                thumb.photo4_bitmap  = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[3], 300, 300))
+            }
+
 
             if(isModify){
                 //수정
                 val addRunnable = Runnable {
                     try {
-                        postDb?.postDao()?.update(post)
+                        getDb.postDao().update(post)
+
+                        thumb.id = post.id
+                        getDb.thumbDao().update(thumb)
                         loadingDialog.dismiss()
                         val resultIntent = Intent()
                         resultIntent.putExtra("modifyPost", post);
@@ -284,10 +326,11 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
                 //count 센 뒤 저장
                 val r = Runnable {
                     try {
-                        post.count  = postDb?.postDao()?.getCount(post.date!!)!! + 1
+                        post.count  = getDb.postDao().getCount(post.date!!) + 1
                         val addRunnable = Runnable {
                             try {
-                                postDb?.postDao()?.insert(post)
+                                thumb.id = getDb.postDao().insert(post)
+                                getDb.thumbDao().insert(thumb)
                                 loadingDialog.dismiss()
                                 setResult(Activity.RESULT_OK)
                                 finish()
@@ -307,6 +350,20 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             }
 
         }
+    }
+
+    fun checkUriValid(uri: Uri) : Boolean{
+        var ls : InputStream? = null
+        try {
+            ls = contentResolver.openInputStream(uri)
+        }catch (e: Exception){
+
+        }
+
+        if(ls == null)
+            return false
+
+        return true
     }
 
     //갤러리 사용자 권한 확인
@@ -496,8 +553,8 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
         reqHeight: Int
     ): Bitmap {
 
-        // First decode with inJustDecodeBounds=true to check dimensions
-        return BitmapFactory.Options().run {
+        val getBitmap = BitmapFactory.Options().run {
+
 
             inJustDecodeBounds = true
             BitmapFactory.decodeStream(contentResolver.openInputStream(uri),null, this)
@@ -509,6 +566,13 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             inJustDecodeBounds = false
 
             BitmapFactory.decodeStream(contentResolver.openInputStream(uri),null, this)!!
+
+        }
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            imgRotate(uri, getBitmap)
+        } else {
+            return getBitmap
         }
     }
 
