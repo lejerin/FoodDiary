@@ -2,11 +2,13 @@ package lej.happy.fooddiary.Activity
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_detail_post.*
 import kotlinx.android.synthetic.main.activity_detail_post.add_date_text
@@ -56,7 +58,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         view_detail_back_btn.setOnClickListener(this)
 
         //지도 상세보기
-        detail_post_address_text.setOnClickListener(this)
+        detail_post_location_text.setOnClickListener(this)
 
         //삭제하기 버튼
         detail_post_delete_btn.setOnClickListener(this)
@@ -73,7 +75,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
                 }
                 supportFinishAfterTransition()
             }
-            R.id.detail_post_address_text -> {
+            R.id.detail_post_location_text -> {
                 val mapDetailIntent = Intent(this, MapDetailActivity::class.java)
                 mapDetailIntent.putExtra("x", thisPost.x)
                 mapDetailIntent.putExtra("y", thisPost.y)
@@ -134,11 +136,14 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         //상단 날짜 변경
         add_date_text.text = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA).format(thisPost.date)
         detail_post_location_text.text = thisPost.location
-        detail_post_location_btn.visibility = View.VISIBLE
         detail_post_location_text.visibility = View.VISIBLE
         if(thisPost.address != null){
-            detail_post_address_text.text = thisPost.address
-            detail_post_address_text.visibility = View.VISIBLE
+            detail_post_location_text.setTextColor(
+                ContextCompat.getColor(this,
+                R.color.blue))
+            location_tag.setTextColor(
+                ContextCompat.getColor(this,
+                    R.color.blue))
         }
 
         initTime(thisPost.time)
@@ -187,7 +192,6 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
                 5 -> detail_post_time_text.text = "간식"
 
             }
-            detail_post_time_img.visibility = View.VISIBLE
             detail_post_time_text.visibility = View.VISIBLE
         }
 

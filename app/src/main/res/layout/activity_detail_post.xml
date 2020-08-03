@@ -8,184 +8,212 @@
     tools:context=".Activity.ViewPostActivity">
 
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/view_detail_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+        <TextView
+            android:id="@+id/add_date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2020-7-11"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/detail_post_modify_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/detail_post_delete_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_create_24" />
+
+        <ImageButton
+            android:id="@+id/detail_post_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_delete_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="16dp"
+        android:transitionName="profile"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <lej.happy.fooddiary.Helper.CircleAnimIndicator
+        android:id="@+id/circleAnimIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewpager"
+        app:layout_constraintEnd_toEndOf="@+id/viewpager"
+        app:layout_constraintStart_toStartOf="@+id/viewpager" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewpager">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-                <LinearLayout
-                    android:id="@+id/select_date_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:textSize="18dp"
-                        android:id="@+id/add_date_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2020-7-11" />
-
-                </LinearLayout>
-
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewpager"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp"
-                    android:transitionName="profile"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/select_loaction_layout">
-
-                </androidx.viewpager.widget.ViewPager>
-
-                <lej.happy.fooddiary.Helper.CircleAnimIndicator
-                    android:id="@+id/circleAnimIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/viewpager"
-                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <ImageButton
-                    android:id="@+id/view_detail_back_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="@+id/select_date_btn"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/select_date_btn"
-                    app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
-
                 <TextView
+                    android:textSize="18dp"
                     android:id="@+id/detail_post_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintStart_toStartOf="@+id/viewpager"
-                    app:layout_constraintTop_toBottomOf="@+id/viewpager" />
-
-                <ImageButton
-                    android:id="@+id/detail_post_location_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="@+id/detail_post_text"
-                    app:layout_constraintTop_toBottomOf="@+id/detail_post_taste_img"
-                    app:srcCompat="@drawable/ic_baseline_location_on_24" />
-
-                <ImageView
-                    android:id="@+id/detail_post_time_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@+id/detail_post_taste_img"
-                    app:layout_constraintStart_toEndOf="@+id/detail_post_taste_text"
-                    app:layout_constraintTop_toTopOf="@+id/detail_post_taste_text"
-                    app:srcCompat="@drawable/ic_baseline_access_time_24" />
+                    android:fontFamily="@font/text_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                 <TextView
                     android:id="@+id/detail_post_time_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/text_font"
+                    android:text="점심"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
                     android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@+id/detail_post_time_img"
-                    app:layout_constraintStart_toEndOf="@+id/detail_post_time_img"
-                    app:layout_constraintTop_toTopOf="@+id/detail_post_time_img" />
+                    app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintTop_toTopOf="@+id/textView5" />
 
                 <ImageView
                     android:id="@+id/detail_post_taste_img"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="2dp"
                     android:padding="2dp"
+                    android:tint="@color/colorPrimary"
                     android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="@+id/detail_post_location_btn"
-                    app:layout_constraintTop_toBottomOf="@+id/view_detail_back_btn"
+                    app:layout_constraintStart_toEndOf="@+id/detail_post_taste_text"
+                    app:layout_constraintTop_toTopOf="@+id/detail_post_taste_text"
                     app:srcCompat="@drawable/laughing" />
 
                 <TextView
                     android:id="@+id/detail_post_taste_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/tag_font"
+                    android:text="최고"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                    app:layout_constraintStart_toEndOf="@+id/textView3"
+                    app:layout_constraintTop_toTopOf="@+id/textView3"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/detail_post_taste_img"
+                    android:layout_marginTop="8dp"
+                    android:text="#"
+                    android:fontFamily="@font/tag_font"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="#"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/tag_font"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_post_taste_text"
                     app:layout_constraintStart_toEndOf="@+id/detail_post_taste_img"
-                    app:layout_constraintTop_toTopOf="@+id/detail_post_taste_img" />
+                    app:layout_constraintTop_toTopOf="@+id/detail_post_taste_text" />
 
-                <LinearLayout
-                    android:id="@+id/select_loaction_layout"
+                <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:id="@+id/detail_post_location_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/tag_font"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/location_tag"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/location_tag"
+                    app:layout_constraintTop_toTopOf="@+id/location_tag" />
+
+                <TextView
+                    android:id="@+id/location_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toEndOf="@+id/detail_post_location_btn"
-                    app:layout_constraintTop_toTopOf="@+id/detail_post_location_btn">
-
-                    <TextView
-                        android:id="@+id/detail_post_location_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="" />
-
-                    <TextView
-                        android:id="@+id/detail_post_address_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="invisible" />
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/detail_post_delete_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="@+id/select_date_btn"
-                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
-                    app:layout_constraintTop_toTopOf="@+id/select_date_btn"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:srcCompat="@drawable/ic_baseline_delete_24" />
-
-                <ImageButton
-                    android:id="@+id/detail_post_modify_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="@+id/detail_post_delete_btn"
-                    app:layout_constraintEnd_toStartOf="@+id/detail_post_delete_btn"
-                    app:layout_constraintTop_toTopOf="@+id/detail_post_delete_btn"
-                    app:srcCompat="@drawable/ic_baseline_create_24" />
+                    android:layout_marginStart="8dp"
+                    android:text="#"
+                    android:fontFamily="@font/tag_font"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/detail_post_time_text"
+                    app:layout_constraintStart_toEndOf="@+id/detail_post_time_text"
+                    app:layout_constraintTop_toTopOf="@+id/detail_post_time_text" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

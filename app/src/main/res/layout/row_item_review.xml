@@ -40,7 +40,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="TextView"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/blue"
         android:textSize="12dp"
         app:layout_constraintEnd_toStartOf="@+id/review_rv_num_text"
         app:layout_constraintStart_toStartOf="@+id/review_rv_title"
