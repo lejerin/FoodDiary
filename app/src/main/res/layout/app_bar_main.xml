@@ -20,7 +20,7 @@
         android:layout_gravity="bottom|end"
 
         android:layout_margin="@dimen/fab_margin"
-        android:tint="#FFFFFF"
+        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_24" />
@@ -33,9 +33,11 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            app:theme="@style/ToolbarTheme"
+            app:titleTextColor="@color/textColor"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -50,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2020년 7월"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColor"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +65,7 @@
                     android:background="@android:color/transparent"
                     android:clickable="false"
                     android:scaleType="fitCenter"
-                    android:tint="@color/white"
+                    android:tint="@color/textColor"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/bar_month_text"
                     app:layout_constraintTop_toTopOf="parent"
@@ -89,6 +91,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="16dp"
+                android:tint="@color/textColor"
                 android:background="@android:color/transparent"
                 app:srcCompat="@drawable/ic_baseline_sort_24" />
 

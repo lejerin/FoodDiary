@@ -60,6 +60,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
@@ -110,6 +111,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -157,6 +159,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -204,6 +207,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout4"
         android:layout_width="0dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
@@ -227,6 +231,7 @@
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             android:background="@drawable/date_circle_background"
             android:text="11월"
             app:layout_constraintBottom_toBottomOf="parent"

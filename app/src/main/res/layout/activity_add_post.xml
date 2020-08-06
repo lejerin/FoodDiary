@@ -40,6 +40,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:textColor="@color/textColor"
                 android:id="@+id/add_date_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="시간대"
+                    android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/rv_review_rank2"
                     app:layout_constraintTop_toBottomOf="@+id/add_address_text" />
 
@@ -244,6 +246,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="평가*"
+                    android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
@@ -380,10 +383,12 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="내용"
+                    android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/viewpager"
                     app:layout_constraintTop_toBottomOf="@+id/warning_photo_text" />
 
                 <EditText
+                    android:textColor="@color/textColor"
                     android:id="@+id/add_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -405,6 +410,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="위치*"
+                    android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/main_add_text"
                     app:layout_constraintTop_toBottomOf="@+id/add_text" />
 
@@ -417,6 +423,7 @@
                     android:layout_marginEnd="8dp"
                     android:background="@android:color/transparent"
                     android:gravity="top"
+                    android:textColor="@color/textColor"
                     android:hint="위치 직접 입력하기"
                     android:inputType="textPersonName|text"
                     app:layout_constraintEnd_toStartOf="@+id/map_search_btn"

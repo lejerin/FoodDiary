@@ -93,7 +93,7 @@ class ReviewDetailFragment : Fragment(){
 
             var beforeDate = ""
             for(i in 0..data.size-1) {
-                var output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data.get(i).date)
+                var output: String = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA).format(data.get(i).date)
 
                 if(!output.equals(beforeDate)){
                     //중복 되지 않으면 time list에 넣기

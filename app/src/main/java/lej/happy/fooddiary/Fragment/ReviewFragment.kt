@@ -127,7 +127,7 @@ class ReviewFragment : Fragment() {
             }
             //정렬하기
             Collections.sort(rankList, Comparator<ReviewRank> { o1, o2 -> o1.post.date!!.compareTo(o2.post.date) })
-            if(!isDESC){
+            if(isDESC){
                 Collections.reverse(rankList);
             }
 

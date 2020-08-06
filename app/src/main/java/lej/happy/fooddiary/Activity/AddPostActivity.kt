@@ -485,32 +485,41 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
 
 
     private fun checkAllInput(): Boolean {
-        var checkNum = false
+        var checkNum = 0
 
-        //사진 한 장 이상인지
-        if(photoList.size == 0){
-            warning_photo_text.visibility = View.VISIBLE
-            checkNum = true
-        }else{
-            warning_photo_text.visibility = View.INVISIBLE
-        }
-        //위치 입력되어있는지
-        if(location_title_text.text.toString().equals("")){
-            warning_location_text.visibility = View.VISIBLE
-            checkNum = true
-        }else{
-            warning_location_text.visibility = View.INVISIBLE
-        }
 
         //맛 입력되어있는지
         if(selectEmotionText == null){
             warning_taste_text.visibility = View.VISIBLE
-            checkNum = true
+            checkNum = 3
         }else{
             warning_taste_text.visibility = View.INVISIBLE
         }
 
-        if(checkNum){
+        //위치 입력되어있는지
+        if(location_title_text.text.toString().equals("")){
+            warning_location_text.visibility = View.VISIBLE
+            checkNum = 2
+        }else{
+            warning_location_text.visibility = View.INVISIBLE
+        }
+
+        //사진 한 장 이상인지
+        if(photoList.size == 0){
+            warning_photo_text.visibility = View.VISIBLE
+            checkNum = 1
+        }else{
+            warning_photo_text.visibility = View.INVISIBLE
+        }
+
+        if(checkNum > 0){
+
+            when(checkNum){
+                1 -> Toast.makeText(this, "사진 한 장은 필수입니다.", Toast.LENGTH_SHORT).show()
+                2 -> Toast.makeText(this, "위치를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                else -> Toast.makeText(this, "평가를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
+
             return false
         }
         return true

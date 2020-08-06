@@ -10,11 +10,11 @@ xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/nav_review"
         android:icon="@drawable/ic_baseline_add_24"
-        android:title="리뷰" />
+        android:title="장소" />
     <item
         android:id="@+id/nav_map"
         android:icon="@drawable/ic_baseline_add_24"
-        android:title="지도" />
+        android:title="평가" />
 
 </group>
 
@@ -27,7 +27,7 @@ xmlns:tools="http://schemas.android.com/tools">
         <item
             android:id="@+id/nav_send"
             android:icon="@drawable/ic_baseline_add_24"
-            android:title="로그아웃" />
+            android:title="도움말" />
     </menu>
 </item>
 </menu>

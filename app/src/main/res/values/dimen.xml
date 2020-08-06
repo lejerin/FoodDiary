@@ -7,5 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="date_picker_circle_size">60dp</dimen>
-    <dimen name="date_picker_circle_margin">20dp</dimen>
+    <dimen name="date_picker_circle_margin">15dp</dimen>
 </resources>

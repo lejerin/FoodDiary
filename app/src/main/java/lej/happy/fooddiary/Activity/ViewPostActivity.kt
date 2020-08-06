@@ -2,10 +2,10 @@ package lej.happy.fooddiary.Activity
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_detail_post.*
 import kotlinx.android.synthetic.main.activity_detail_post.add_date_text
 import kotlinx.android.synthetic.main.activity_detail_post.circleAnimIndicator
 import kotlinx.android.synthetic.main.activity_detail_post.viewpager
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.DB.AppDatabase
@@ -60,11 +61,10 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         //지도 상세보기
         detail_post_location_text.setOnClickListener(this)
 
-        //삭제하기 버튼
-        detail_post_delete_btn.setOnClickListener(this)
+        //수정, 삭제하기 버튼
+        detail_post_more_btn.setOnClickListener(this)
 
-        //수정하기 버튼
-        detail_post_modify_btn.setOnClickListener(this)
+
     }
 
     override fun onClick(v: View) {
@@ -76,23 +76,50 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
                 supportFinishAfterTransition()
             }
             R.id.detail_post_location_text -> {
-                val mapDetailIntent = Intent(this, MapDetailActivity::class.java)
-                mapDetailIntent.putExtra("x", thisPost.x)
-                mapDetailIntent.putExtra("y", thisPost.y)
-                mapDetailIntent.putExtra("name", thisPost.location)
-                mapDetailIntent.putExtra("address", thisPost.address)
-                startActivity(mapDetailIntent)
+                if(thisPost.address != null){
+                    val mapDetailIntent = Intent(this, MapDetailActivity::class.java)
+                    mapDetailIntent.putExtra("x", thisPost.x)
+                    mapDetailIntent.putExtra("y", thisPost.y)
+                    mapDetailIntent.putExtra("name", thisPost.location)
+                    mapDetailIntent.putExtra("address", thisPost.address)
+                    startActivity(mapDetailIntent)
+                }
+
             }
-            R.id.detail_post_delete_btn -> {
-                showDeletePostDialog()
-            }
-            R.id.detail_post_modify_btn -> {
-                val modifyIntent = Intent(this, AddPostActivity::class.java)
-                modifyIntent.putExtra("post", thisPost)
-                startActivityForResult(modifyIntent, REQUEST_CODE_MODIFY_POST)
+            R.id.detail_post_more_btn -> {
+                showPopupMenuOrder()
             }
         }
     }
+
+
+    private fun showPopupMenuOrder(){
+        val popup = PopupMenu(this@ViewPostActivity, detail_post_more_btn)
+        popup.inflate(R.menu.post_item)
+        //adding click listener
+        popup.setOnMenuItemClickListener { item ->
+
+            when (item.itemId) {
+                R.id.modifyBtn -> {
+
+                    val modifyIntent = Intent(this, AddPostActivity::class.java)
+                    modifyIntent.putExtra("post", thisPost)
+                    startActivityForResult(modifyIntent, REQUEST_CODE_MODIFY_POST)
+
+                    true
+                }
+                R.id.deleteBtn -> {
+                    showDeletePostDialog()
+
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
+    }
+
+
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -192,6 +219,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
                 5 -> detail_post_time_text.text = "간식"
 
             }
+            tag_time_text.visibility = View.VISIBLE
             detail_post_time_text.visibility = View.VISIBLE
         }
 

@@ -69,12 +69,24 @@ class ReviewLocationAdapter(rankCount: List<ReviewRank>) : RecyclerView.Adapter<
             1 -> {
                 holder!!.rank1_img.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
                 holder!!.rank1.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                holder!!.rank2_img.setColorFilter(ContextCompat.getColor(context, R.color.brightGray));
+                holder!!.rank2.setTextColor(ContextCompat.getColor(context, R.color.brightGray))
+                holder!!.rank3_img.setColorFilter(ContextCompat.getColor(context, R.color.brightGray));
+                holder!!.rank3.setTextColor(ContextCompat.getColor(context, R.color.brightGray))
             }
             2 -> {
                 holder!!.rank2_img.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
                 holder!!.rank2.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                holder!!.rank1_img.setColorFilter(ContextCompat.getColor(context, R.color.brightGray));
+                holder!!.rank1.setTextColor(ContextCompat.getColor(context, R.color.brightGray))
+                holder!!.rank3_img.setColorFilter(ContextCompat.getColor(context, R.color.brightGray));
+                holder!!.rank3.setTextColor(ContextCompat.getColor(context, R.color.brightGray))
             }
             3 -> {
+                holder!!.rank1_img.setColorFilter(ContextCompat.getColor(context, R.color.brightGray));
+                holder!!.rank1.setTextColor(ContextCompat.getColor(context, R.color.brightGray))
+                holder!!.rank2_img.setColorFilter(ContextCompat.getColor(context, R.color.brightGray));
+                holder!!.rank2.setTextColor(ContextCompat.getColor(context, R.color.brightGray))
                 holder!!.rank3_img.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
                 holder!!.rank3.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
             }

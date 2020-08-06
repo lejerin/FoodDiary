@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
         drawerToggle!!.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+       //
         nav_view.getMenu().getItem(0).setChecked(true);
         homeFragment = HomeFragment()
         supportFragmentManager
@@ -256,7 +257,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
             }
             R.id.nav_review -> {
-                setActionBarTitle("리뷰")
+                setActionBarTitle("장소")
                 reviewFragment = ReviewFragment()
                 supportFragmentManager
                         .beginTransaction()
