@@ -175,7 +175,9 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             }
             //사진 제거
             R.id.remove_photo_btn -> {
-                photoViewPagerAdapter.removeItem(selectIndicatorPhotoIndex)
+               // photoViewPagerAdapter.removeItem(selectIndicatorPhotoIndex)
+
+                photoList.removeAt(selectIndicatorPhotoIndex)
                 viewpager.setAdapter(photoViewPagerAdapter)
                 selectIndicatorPhotoIndex = 0
                 initIndicator()
@@ -204,6 +206,8 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             }
         }
     }
+
+
 
     private fun showChoicePhotoDialog(){
         val builder = AlertDialog.Builder(this@AddPostActivity)
@@ -334,24 +338,47 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             post.location = location_title_text.text.toString()
 
 
+            System.out.println("포스트 포토" + post.photo3)
+            System.out.println("리스트 사이즈 " + photoList.size)
+
+
             if(checkUriValid(photoList[0])){
                 post.photo = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[0], 100, 100))
 
                 post.photo1 = photoList[0].toString()
                 thumb.photo1_bitmap = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[0], 300, 300))
             }
-            if(photoList.size > 1 && checkUriValid(photoList[1])) {
-                post.photo2 = photoList[1].toString()
-                thumb.photo2_bitmap = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[1], 300, 300))
+
+            if(photoList.size > 1){
+                if(checkUriValid(photoList[1])){
+                    post.photo2 = photoList[1].toString()
+                    thumb.photo2_bitmap = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[1], 300, 300))
+                }
+            }else{
+                post.photo2 = null
+                thumb.photo2_bitmap = null
             }
-            if(photoList.size > 2 && checkUriValid(photoList[2])) {
-                post.photo3 = photoList[2].toString()
-                thumb.photo3_bitmap  = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[2], 300, 300))
+
+            if(photoList.size > 2){
+                if(checkUriValid(photoList[2])){
+                    post.photo3 = photoList[2].toString()
+                    thumb.photo3_bitmap = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[2], 300, 300))
+                }
+            }else{
+                post.photo3 = null
+                thumb.photo3_bitmap = null
             }
-            if(photoList.size > 3 && checkUriValid(photoList[3])) {
-                post.photo4 = photoList[3].toString()
-                thumb.photo4_bitmap  = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[3], 300, 300))
+
+            if(photoList.size > 3){
+                if(checkUriValid(photoList[3])){
+                    post.photo4 = photoList[3].toString()
+                    thumb.photo4_bitmap = ImageUtil.convert(decodeSampledBitmapFromResource(photoList[3], 300, 300))
+                }
+            }else{
+                post.photo4 = null
+                thumb.photo4_bitmap = null
             }
+            
 
 
             if(isModify){

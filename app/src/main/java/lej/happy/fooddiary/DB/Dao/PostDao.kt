@@ -12,6 +12,12 @@ interface PostDao : BaseDao<Post> {
     @Query("SELECT COUNT(date) FROM post WHERE date = :date")
     fun getCount(date: Date): Int
 
+    @Query("SELECT * FROM post WHERE taste = :num ORDER BY date DESC")
+    fun selectByTasteDesc(num: Int): List<Post>
+
+    @Query("SELECT * FROM post WHERE taste = :num ORDER BY date ASC")
+    fun selectByTasteAsc(num: Int): List<Post>
+
     @Query("SELECT * FROM post ORDER BY date DESC Limit :sp, :ep")
     fun selectByPageDesc(sp: Int, ep: Int): List<Post>
 

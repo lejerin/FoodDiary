@@ -12,7 +12,7 @@ xmlns:tools="http://schemas.android.com/tools">
         android:icon="@drawable/ic_baseline_add_24"
         android:title="장소" />
     <item
-        android:id="@+id/nav_map"
+        android:id="@+id/nav_taste"
         android:icon="@drawable/ic_baseline_add_24"
         android:title="평가" />
 

@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import lej.happy.fooddiary.Fragment.HomeFragment
 import lej.happy.fooddiary.Fragment.ReviewFragment
+import lej.happy.fooddiary.Fragment.TasteFragment
 import lej.happy.fooddiary.Helper.DatePickerDialog
 import lej.happy.fooddiary.R
 import java.security.MessageDigest
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     lateinit var homeFragment: HomeFragment
     lateinit var reviewFragment: ReviewFragment
+    lateinit var tasteFragment: TasteFragment
 
     private val REQUEST_CODE_ADD_POST = 11
 
@@ -46,6 +48,8 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
     private var mToolBarNavigationListenerIsRegistered = false
 
     private var doubleBackToExitPressedOnce = false
+
+    private var nowFragment = 0
 
     companion object {
 
@@ -116,7 +120,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
             if (supportFragmentManager.backStackEntryCount == 0) {
                 enableViews(false)
-                setActionBarTitle("리뷰")
+                setActionBarTitle("장소")
             } else {
                 enableViews(true)
             }
@@ -145,7 +149,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
         super.onActivityResult(requestCode, resultCode, data)
 
         System.out.println("초기화 액티비티")
-        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_ADD_POST){
+        if(resultCode == Activity.RESULT_OK ){
             refreshHome(requestCode, resultCode, data)
         }
 
@@ -153,7 +157,13 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
 
     fun refreshHome(requestCode: Int, resultCode: Int, data: Intent?){
-        homeFragment.onActivityResult(requestCode, resultCode, data)
+        when(nowFragment){
+            0 -> homeFragment.onActivityResult(requestCode, resultCode, data)
+            1 -> reviewFragment.onActivityResult(requestCode, resultCode, data)
+            else -> tasteFragment.onActivityResult(requestCode, resultCode, data)
+        }
+
+
     }
 
     private fun showPopupMenuOrder(){
@@ -178,6 +188,9 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                             is ReviewDetailFragment -> {
                                 (it as (ReviewDetailFragment)).setOrder(true)
                             }
+                            is TasteFragment -> {
+                                (it as (TasteFragment)).setOrder(true)
+                            }
                         }
 
                     }
@@ -196,6 +209,9 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                             }
                             is ReviewDetailFragment -> {
                                 (it as (ReviewDetailFragment)).setOrder(false)
+                            }
+                            is TasteFragment -> {
+                                (it as (TasteFragment)).setOrder(false)
                             }
                         }
 
@@ -248,6 +264,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
         when (item.itemId){
             R.id.nav_home -> {
                 bar_month_text.text = "All"
+                nowFragment = 0
                 homeFragment = HomeFragment()
                 supportFragmentManager
                         .beginTransaction()
@@ -257,6 +274,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
             }
             R.id.nav_review -> {
+                nowFragment = 1
                 setActionBarTitle("장소")
                 reviewFragment = ReviewFragment()
                 supportFragmentManager
@@ -265,7 +283,16 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit()
             }
-
+            R.id.nav_taste -> {
+                nowFragment = 2
+                setActionBarTitle("평가")
+                tasteFragment = TasteFragment()
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, tasteFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

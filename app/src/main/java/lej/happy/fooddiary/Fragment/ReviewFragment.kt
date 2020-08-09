@@ -1,10 +1,12 @@
 package lej.happy.fooddiary.Fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +31,10 @@ class ReviewFragment : Fragment() {
 
     lateinit var loadingDialog : LoadingDialog
 
+
+    val reviewDetailFragment = ReviewDetailFragment()
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_review, container, false)
 
@@ -43,7 +49,6 @@ class ReviewFragment : Fragment() {
         reviewAdapter.setReviewItemClickListener(object : ReviewLocationAdapter.OnItemClickListener{
             override fun onClick(position: Int) {
 
-                val reviewDetailFragment = ReviewDetailFragment()
                 val bundle = Bundle()
                 bundle.putString("address", rankList.get(position).post.address)
                 bundle.putString("name", rankList.get(position).post.location)
@@ -147,6 +152,21 @@ class ReviewFragment : Fragment() {
         }
 
         loadingDialog.dismiss()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        //수정되었을 때
+        if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
+
+            System.out.println("초기화")
+            getReviewData()
+            reviewDetailFragment.onActivityResult(requestCode, resultCode, data)
+
+
+        }
+
     }
 
 }

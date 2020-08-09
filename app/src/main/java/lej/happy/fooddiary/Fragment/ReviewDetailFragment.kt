@@ -1,10 +1,12 @@
 package com.example.fooddiary.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_review_detail.*
@@ -124,6 +126,20 @@ class ReviewDetailFragment : Fragment(){
             no_data_in_recyclerview.visibility = View.VISIBLE
         }
 
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        //수정되었을 때
+        if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
+
+            System.out.println("초기화")
+            getReviewDetailData()
+
+
+        }
 
     }
 

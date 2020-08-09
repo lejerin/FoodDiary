@@ -201,7 +201,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
                 postDb.postDao().deleteById(thisPost.id!!)
             }.await()
             withContext(Dispatchers.Main) {
-                MainActivity.getInstancem().refreshHome(44,RESULT_OK,null)
+                MainActivity.getInstancem().refreshHome(77,RESULT_OK,null)
                 finish()
             }
         }

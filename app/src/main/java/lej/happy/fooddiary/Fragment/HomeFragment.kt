@@ -268,18 +268,6 @@ class HomeFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
 
-        if(requestCode == 44 && resultCode == AppCompatActivity.RESULT_OK){
-            Handler().postDelayed(
-                {
-                    System.out.println("초기화")
-                    initPage()
-                    //이전에 저장했던 데이터대로 수정필요
-                    getHomeData()
-                },
-                1000 // value in milliseconds
-            )
-        }
-
         //수정되었을 때
         if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
 
