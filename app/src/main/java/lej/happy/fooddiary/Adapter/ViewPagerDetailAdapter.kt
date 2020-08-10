@@ -97,7 +97,7 @@ class ViewPagerDetailAdapter(private val list: ArrayList<Uri> , private var id: 
             if (thumb.photo2_bitmap != null) bitmapList.add(thumb.photo2_bitmap!!)
             if (thumb.photo3_bitmap != null) bitmapList.add(thumb.photo3_bitmap!!)
             if (thumb.photo4_bitmap != null) bitmapList.add(thumb.photo4_bitmap!!)
-            System.out.println("뷰페이저 갱신함")
+
             notifyDataSetChanged()
         }
 

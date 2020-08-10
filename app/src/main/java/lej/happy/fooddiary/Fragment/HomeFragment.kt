@@ -122,7 +122,7 @@ class HomeFragment : Fragment() {
     fun getHomeData(){
         loadingDialog = LoadingDialog(context!!)
         loadingDialog.show()
-        System.out.println("불러오기 요청")
+
 
         if(isAll){
             isLoading = true
@@ -186,7 +186,7 @@ class HomeFragment : Fragment() {
                 timeList[i].adapters = photoAdapter
             }
 
-            System.out.println("계산 끝")
+
 
             if(data.size < limit){
                 isEnd = true
@@ -200,7 +200,7 @@ class HomeFragment : Fragment() {
 
     private fun resetAdapter(isOk : Boolean){
 
-        System.out.println("적용")
+
 
         if(::homePhotoAdapter.isInitialized){
             homePhotoAdapter.notifyDataSetChanged()
@@ -271,7 +271,7 @@ class HomeFragment : Fragment() {
         //수정되었을 때
         if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
 
-            System.out.println("초기화")
+
             initPage()
             //이전에 저장했던 데이터대로 수정필요
             getHomeData()
@@ -280,7 +280,7 @@ class HomeFragment : Fragment() {
         }
 
         if(requestCode == REQUEST_CODE_ADD_POST && resultCode == AppCompatActivity.RESULT_OK){
-            System.out.println("초기화")
+
             initPage()
             //이전에 저장했던 데이터대로 수정필요
             getHomeData()

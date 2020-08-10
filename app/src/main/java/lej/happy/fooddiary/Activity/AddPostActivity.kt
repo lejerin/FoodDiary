@@ -116,7 +116,6 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             //수정
             isModify = true
             post = (intent.getSerializableExtra("post") as Post)!!
-            System.out.println(post!!.id)
             add_date_text.text =  SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA).format(post.date)
 
             //본문,사진,위치,주소,위치,시간대,평가 표시
@@ -336,10 +335,6 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             //내용, count, locationname, photo uri
             post.texts = add_text.text.toString()
             post.location = location_title_text.text.toString()
-
-
-            System.out.println("포스트 포토" + post.photo3)
-            System.out.println("리스트 사이즈 " + photoList.size)
 
 
             if(checkUriValid(photoList[0])){
@@ -688,7 +683,7 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
     }
 
     fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
-        System.out.println("사진계산")
+
 
 
         // Raw height and width of image

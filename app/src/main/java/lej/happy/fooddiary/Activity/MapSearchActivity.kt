@@ -150,13 +150,13 @@ class MapSearchActivity : AppCompatActivity() , View.OnClickListener{
             "KakaoAK 7114008c849d19203b186846030bd6ad").enqueue(object :
             Callback<LocalMapData> {
             override fun onFailure(call: Call<LocalMapData>, t: Throwable) {
-                System.out.println("서버 오류입니다 "+ t.message)
+          //      System.out.println("서버 오류입니다 "+ t.message)
             }
 
             override fun onResponse(call: Call<LocalMapData>, response: Response<LocalMapData>) {
                 if (response.isSuccessful) {
                     val data = response.body()!!.documents
-                    System.out.println(data)
+
                     //목록 받아오기
                     if (data.size > 0) {
                       //  sliding_bar.isTouchEnabled = true
@@ -168,7 +168,7 @@ class MapSearchActivity : AppCompatActivity() , View.OnClickListener{
 
                     }
                 }else{
-                    System.out.println("서버 오류입니다 카카오 맵")
+                 //   System.out.println("서버 오류입니다 카카오 맵")
                 }
 
            }

@@ -148,7 +148,7 @@ class TasteFragment : Fragment() {
 
     private fun resetAdapter(isOk : Boolean){
 
-        System.out.println("적용")
+
         tasteAdapter.notifyDataSetChanged()
 
         isLoading = false
@@ -204,7 +204,7 @@ class TasteFragment : Fragment() {
         //수정되었을 때
         if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
 
-            System.out.println("초기화")
+
             getReviewData()
 
 

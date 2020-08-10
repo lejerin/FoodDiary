@@ -101,7 +101,7 @@ class ViewPagerAdapter(private val list: ArrayList<Uri>, private var id: Long): 
             if(thumb.photo2_bitmap != null) bitmapList.add(thumb.photo2_bitmap!!)
             if(thumb.photo3_bitmap != null) bitmapList.add(thumb.photo3_bitmap!!)
             if(thumb.photo4_bitmap != null) bitmapList.add(thumb.photo4_bitmap!!)
-            System.out.println("뷰페이저 갱신함")
+
             notifyDataSetChanged()
         }
 
@@ -159,7 +159,7 @@ class ViewPagerAdapter(private val list: ArrayList<Uri>, private var id: Long): 
         // First decode with inJustDecodeBounds=true to check dimensions
         return BitmapFactory.Options().run {
 
-            System.out.println(uri.toString())
+
             inJustDecodeBounds = true
             BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri),null, this)
 

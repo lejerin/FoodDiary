@@ -2,6 +2,8 @@ package lej.happy.fooddiary.Helper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -42,6 +44,7 @@ public class DatePickerDialog  extends Dialog {
 
     public void showDialog(int year, int month) {
         dialog = new Dialog(context);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.item_date_picker_dialog);
      //   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

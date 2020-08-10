@@ -18,16 +18,16 @@ xmlns:tools="http://schemas.android.com/tools">
 
 </group>
 
-<item android:title="Communicate">
+<item android:title="기타">
     <menu>
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_license"
             android:icon="@drawable/ic_baseline_add_24"
-            android:title="설정" />
+            android:title="오픈소스 라이센스" />
         <item
-            android:id="@+id/nav_send"
+            android:id="@+id/nav_mail"
             android:icon="@drawable/ic_baseline_add_24"
-            android:title="도움말" />
+            android:title="피드백" />
     </menu>
 </item>
 </menu>

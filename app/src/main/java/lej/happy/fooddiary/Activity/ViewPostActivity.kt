@@ -37,7 +37,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         setContentView(R.layout.activity_detail_post)
 
         thisPost = (intent.getSerializableExtra("post") as Post)!!
-        System.out.println(thisPost!!.taste)
+
 
         viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
@@ -131,7 +131,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        System.out.println("초기화 액티비티")
+
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_MODIFY_POST && data != null){
             isModified = true
             thisPost = (data.getSerializableExtra("modifyPost") as Post)!!

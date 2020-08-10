@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="400dp">
+    android:layout_width="310dp"
+    android:padding="10dp"
+    android:layout_height="380dp"
+    android:background="@drawable/background_rounding">
 
 
     <LinearLayout
@@ -57,10 +59,10 @@
         app:layout_constraintTop_toTopOf="@+id/picker_center"
         app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
@@ -71,48 +73,45 @@
         app:layout_constraintTop_toBottomOf="@+id/picker_center">
 
         <Button
+            android:layout_marginVertical="5dp"
             android:id="@+id/button"
             android:layout_width="@dimen/date_picker_circle_size"
+            android:layout_marginRight="5dp"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginStart="@dimen/date_picker_circle_margin"
             android:background="@drawable/date_circle_background"
-            android:text="1월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="1월" />
 
         <Button
             android:id="@+id/button2"
+            android:layout_marginRight="5dp"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:background="@drawable/date_circle_background"
-            android:text="2월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="2월" />
 
         <Button
             android:id="@+id/button3"
+            android:layout_marginRight="5dp"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginEnd="@dimen/date_picker_circle_margin"
             android:background="@drawable/date_circle_background"
-            android:text="3월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="3월" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="@dimen/date_picker_circle_size"
+            android:layout_height="@dimen/date_picker_circle_size"
+            android:background="@drawable/date_circle_background"
+            android:text="4월" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
-        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,47 +119,44 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
-            android:id="@+id/button4"
-            android:layout_width="@dimen/date_picker_circle_size"
-            android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginStart="@dimen/date_picker_circle_margin"
-            android:background="@drawable/date_circle_background"
-            android:text="4월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
+            android:layout_marginVertical="5dp"
             android:id="@+id/button5"
+            android:layout_marginRight="5dp"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:background="@drawable/date_circle_background"
-            android:text="5월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button6"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button4"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="5월" />
 
         <Button
             android:id="@+id/button6"
+            android:layout_marginRight="5dp"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginEnd="@dimen/date_picker_circle_margin"
             android:background="@drawable/date_circle_background"
-            android:text="6월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="6월" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        <Button
+            android:id="@+id/button7"
+            android:layout_marginRight="5dp"
+            android:layout_width="@dimen/date_picker_circle_size"
+            android:layout_height="@dimen/date_picker_circle_size"
+            android:background="@drawable/date_circle_background"
+            android:text="7월" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="@dimen/date_picker_circle_size"
+            android:layout_height="@dimen/date_picker_circle_size"
+            android:background="@drawable/date_circle_background"
+            android:text="8월" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
-        android:layout_marginHorizontal="20dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="4dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -168,98 +164,48 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <Button
-            android:id="@+id/button7"
-            android:layout_width="@dimen/date_picker_circle_size"
-            android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginStart="@dimen/date_picker_circle_margin"
-            android:background="@drawable/date_circle_background"
-            android:text="7월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="@dimen/date_picker_circle_size"
-            android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/date_circle_background"
-            android:text="8월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button9"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button7"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
+            android:layout_marginVertical="5dp"
             android:id="@+id/button9"
+            android:layout_marginRight="5dp"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginEnd="@dimen/date_picker_circle_margin"
             android:background="@drawable/date_circle_background"
-            android:text="9월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+            android:text="9월" />
 
         <Button
             android:id="@+id/button10"
+            android:layout_marginRight="5dp"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginStart="@dimen/date_picker_circle_margin"
             android:background="@drawable/date_circle_background"
-            android:text="10월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="10월" />
 
         <Button
             android:id="@+id/button11"
+            android:layout_marginRight="5dp"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:background="@drawable/date_circle_background"
-            android:text="11월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button12"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button10"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="11월" />
 
         <Button
             android:id="@+id/button12"
             android:layout_width="@dimen/date_picker_circle_size"
             android:layout_height="@dimen/date_picker_circle_size"
-            android:layout_marginEnd="@dimen/date_picker_circle_margin"
             android:background="@drawable/date_circle_background"
-            android:text="12월"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:text="12월" />
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/picker_save_btn"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
         android:background="@android:color/transparent"
         android:text="확인"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -270,6 +216,8 @@
         android:layout_marginEnd="4dp"
         android:background="@android:color/transparent"
         android:text="취소"
+        android:textColor="@color/gray1"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/picker_save_btn"
         app:layout_constraintEnd_toStartOf="@+id/picker_save_btn"
         app:layout_constraintTop_toTopOf="@+id/picker_save_btn" />
@@ -278,7 +226,10 @@
         android:id="@+id/picker_all_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:text="All"
+        android:textStyle="bold"
+        android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/picker_cancle_btn"
         app:layout_constraintStart_toStartOf="parent" />

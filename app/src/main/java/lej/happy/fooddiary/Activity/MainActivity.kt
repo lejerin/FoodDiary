@@ -2,38 +2,65 @@ package lej.happy.fooddiary.Activity
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.graphics.Matrix
+import android.media.ExifInterface
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.fooddiary.fragment.ReviewDetailFragment
 import com.google.android.material.navigation.NavigationView
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import lej.happy.fooddiary.Fragment.HomeFragment
 import lej.happy.fooddiary.Fragment.ReviewFragment
 import lej.happy.fooddiary.Fragment.TasteFragment
 import lej.happy.fooddiary.Helper.DatePickerDialog
+import lej.happy.fooddiary.Helper.ImageUtil
+import lej.happy.fooddiary.Helper.OpenSourceDialog
+import lej.happy.fooddiary.Helper.UserNameDialog
+import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
+import java.io.File
+import java.io.FileOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    lateinit var currentPhotoPath : String //문자열 형태의 사진 경로값 (초기값을 null로 시작하고 싶을 때 - lateinti var)
+
 
     lateinit var homeFragment: HomeFragment
     lateinit var reviewFragment: ReviewFragment
@@ -50,6 +77,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
     private var doubleBackToExitPressedOnce = false
 
     private var nowFragment = 0
+
 
     companion object {
 
@@ -91,17 +119,34 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
 
-
         //헤더뷰
         //name, email
         val navHeaderView = nav_view.getHeaderView(0)
-        val tvHeaderName =  navHeaderView.findViewById<TextView>(R.id.user_name_text)
-        val tvHeaderEmail = navHeaderView.findViewById<TextView>(R.id.user_email_text)
+        val tvHeaderImg = navHeaderView.findViewById<ImageView>(R.id.user_img)
+        tvHeaderImg.setClipToOutline(true)
+        val user_bitmap = MyApplication.prefs.getString("user_img", "null")
+        if(!user_bitmap.equals("null")){
 
-//        val userEmail = intent.getStringExtra("email")
-//        MyApplication.prefs.setString("email", userEmail)
-//        tvHeaderName.setText(intent.getStringExtra("name"))
-//        tvHeaderEmail.setText(userEmail)
+            tvHeaderImg.setImageBitmap(ImageUtil.convert(user_bitmap))
+        }
+
+        val tvHeaderName =  navHeaderView.findViewById<TextView>(R.id.user_name_text)
+        tvHeaderName.setText(MyApplication.prefs.getString("user_name", "Name"))
+
+
+        tvHeaderImg.setOnClickListener {
+            setPermission()
+        }
+        tvHeaderName.setOnClickListener {
+            val dlg = UserNameDialog(this)
+            dlg.setDialogListener(object : UserNameDialog.UserNameDialogListener{
+                override fun onPositiveClicked(str: String) {
+                    MyApplication.prefs.setString("user_name", str)
+                    tvHeaderName.setText(str)
+                }
+            })
+            dlg.start(tvHeaderName.text.toString())
+        }
 
         initDateToNow()
         bar_month_text.text = "All"
@@ -142,15 +187,35 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
             }
 
 
+
         }
     }
+
+
+    val REQUEST_IMAGE_PICK = 10
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        System.out.println("초기화 액티비티")
-        if(resultCode == Activity.RESULT_OK ){
-            refreshHome(requestCode, resultCode, data)
+
+        if(resultCode == Activity.RESULT_OK){
+
+            when(requestCode){
+
+                REQUEST_IMAGE_PICK -> {
+                    val bitmap = decodeSampledBitmapFromResource(data!!.data!!,150,150)
+                    MyApplication.prefs.setString("user_img", ImageUtil.convert(bitmap))
+                    user_img.setImageBitmap(bitmap)
+                }
+
+                else -> {
+                    refreshHome(requestCode, resultCode, data)
+                }
+
+            }
+
+
+
         }
 
     }
@@ -172,7 +237,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
         //adding click listener
         popup.setOnMenuItemClickListener { item ->
 
-            System.out.println("클릭")
+
             when (item.itemId) {
                 R.id.newest -> {
                     //handle menu1 click
@@ -249,15 +314,15 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
-            R.id.nav_home -> {
-                getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
-                fab_new_post.visibility = View.VISIBLE
-                select_date_layout.visibility = View.VISIBLE
-            }
-            else -> {
+            R.id.nav_review, R.id.nav_taste -> {
                 getSupportActionBar()!!.setDisplayShowTitleEnabled(true)
                 fab_new_post.visibility = View.INVISIBLE
                 select_date_layout.visibility = View.INVISIBLE
+            }
+            else -> {
+                getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
+                fab_new_post.visibility = View.VISIBLE
+                select_date_layout.visibility = View.VISIBLE
             }
         }
 
@@ -293,12 +358,34 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
+
+            R.id.nav_license -> {
+                val dlg = OpenSourceDialog(this)
+                dlg.start()
+            }
+
+            R.id.nav_mail -> {
+                val emailIntent = Intent(Intent.ACTION_SEND)
+                emailIntent.setType("plain/Text")
+
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("eunjanii@gmail.com"))
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name)
+                        + " " + "피드백 전달" + ">")
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "앱 버전 (AppVersion):" + getVersionInfo() + "\n기기명 (Device):\n안드로이드 OS (Android OS):\n내용 (Content):\n")
+                emailIntent.setType("message/rfc822")
+                startActivity(emailIntent)
+
+
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
-
+    fun getVersionInfo(): String? {
+        val info: PackageInfo = this.packageManager.getPackageInfo(this.packageName, 0)
+        return info.versionName
+    }
 
     fun showDateSelectDialog(){
         val focusDialog = DatePickerDialog(this)
@@ -365,5 +452,108 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
     fun setActionBarTitle(title: String?) {
         getSupportActionBar()!!.setTitle(title)
 
+    }
+
+
+
+
+    //프로필
+
+    //테드 퍼미션 설정 (카메라 사용시 권한 설정 팝업을 쉽게 구현하기 위해 사용)
+    private fun setPermission() {
+        val permission = object : PermissionListener {
+            override fun onPermissionGranted() {//설정해 놓은 위험권한(카메라 접근 등)이 허용된 경우 이곳을 실행
+                openGallery()
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {//설정해 놓은 위험권한이 거부된 경우 이곳을 실행
+                Toast.makeText(this@MainActivity,"요청하신 권한이 거부되었습니다.",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        TedPermission.with(this)
+            .setPermissionListener(permission)
+            .setRationaleMessage("카메라 앱을 사용하시려면 권한을 허용해주세요.")
+            .setDeniedMessage("권한을 거부하셨습니다.앱을 사용하시려면 [앱 설정]-[권한] 항목에서 권한을 허용해주세요.")
+            .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA)
+            .check()
+    }
+
+
+
+    private fun openGallery() {
+        val galleryIntent = Intent(Intent.ACTION_PICK)
+        galleryIntent.type = MediaStore.Images.Media.CONTENT_TYPE
+        //galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        startActivityForResult(galleryIntent, REQUEST_IMAGE_PICK)
+    }
+
+
+    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+
+
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
+    }
+
+    fun decodeSampledBitmapFromResource(
+        uri: Uri,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Bitmap {
+
+        val getBitmap = BitmapFactory.Options().run {
+
+
+            inJustDecodeBounds = true
+            BitmapFactory.decodeStream(contentResolver.openInputStream(uri),null, this)
+
+            // Calculate inSampleSize
+            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+
+            // Decode bitmap with inSampleSize set
+            inJustDecodeBounds = false
+
+            BitmapFactory.decodeStream(contentResolver.openInputStream(uri),null, this)!!
+
+        }
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            imgRotate(uri, getBitmap)
+        } else {
+            return getBitmap
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun imgRotate(uri: Uri, bitmap: Bitmap) : Bitmap {
+        val ins = contentResolver.openInputStream(uri)
+        val exif = ExifInterface(ins)
+        ins?.close()
+
+        val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+        val matrix = Matrix()
+        when(orientation){
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        }
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 }

@@ -38,7 +38,7 @@
         android:background="@drawable/rounded_rect_primary"
         android:text="01"
         android:textColor="@color/white"
-        android:textSize="13dp"
+        android:textSize="13sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rv_time_photo" />
 
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="12dp"
+        android:textSize="@dimen/row_item_time_text_size"
         android:text="2020년 11월"
         android:textColor="@color/white"
         android:background="@drawable/rounded_rect_dark"

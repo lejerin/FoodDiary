@@ -135,7 +135,7 @@ class ReviewDetailFragment : Fragment(){
         //수정되었을 때
         if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
 
-            System.out.println("초기화")
+
             getReviewDetailData()
 
 
