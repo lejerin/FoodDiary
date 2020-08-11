@@ -36,6 +36,7 @@ import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.HomeData
 import lej.happy.fooddiary.Model.ReviewRank
+import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -90,6 +91,8 @@ class TasteFragment : Fragment() {
 
 
         chageEmotionImg(best_taste_btn)
+
+        setAdBottomMargin()
     }
 
     fun setOrder(order: Boolean){
@@ -144,7 +147,13 @@ class TasteFragment : Fragment() {
             return false
 
     }
+    fun setAdBottomMargin(){
 
+        val lp =  ts_review.layoutParams as ConstraintLayout.LayoutParams
+        lp.bottomMargin = MyApplication.prefs.getInt("adview", 200)
+        ts_review.layoutParams = lp
+
+    }
 
     private fun resetAdapter(isOk : Boolean){
 

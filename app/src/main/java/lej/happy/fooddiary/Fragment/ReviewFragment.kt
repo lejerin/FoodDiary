@@ -7,16 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddiary.fragment.ReviewDetailFragment
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_review.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ReviewLocationAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.ReviewRank
+import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
 import java.util.*
 
@@ -67,6 +70,14 @@ class ReviewFragment : Fragment() {
         rv_review.adapter = reviewAdapter
         rv_review.layoutManager = LinearLayoutManager(context)
 
+        setAdBottomMargin()
+    }
+
+    fun setAdBottomMargin(){
+
+        val lp =  rv_review.layoutParams as ConstraintLayout.LayoutParams
+        lp.bottomMargin = MyApplication.prefs.getInt("adview", 200)
+        rv_review.layoutParams = lp
 
     }
 

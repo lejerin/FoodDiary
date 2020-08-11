@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_review.*
 import kotlinx.android.synthetic.main.fragment_review_detail.*
 import kotlinx.android.synthetic.main.fragment_review_detail.no_data_in_recyclerview
 import kotlinx.coroutines.*
@@ -16,6 +19,7 @@ import lej.happy.fooddiary.Activity.MainActivity
 import lej.happy.fooddiary.Adapter.ReviewPhotoAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,8 +52,16 @@ class ReviewDetailFragment : Fragment(){
         rv_review_detail.adapter = musicAdapter
         rv_review_detail.layoutManager = LinearLayoutManager(context)
 
-
+        setAdBottomMargin()
         getReviewDetailData()
+
+    }
+
+    fun setAdBottomMargin(){
+
+        val lp =  rv_review_detail.layoutParams as ConstraintLayout.LayoutParams
+        lp.bottomMargin = MyApplication.prefs.getInt("adview", 200)
+        rv_review_detail.layoutParams = lp
 
     }
 

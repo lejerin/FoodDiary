@@ -17,6 +17,7 @@ import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
@@ -34,6 +35,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.fooddiary.fragment.ReviewDetailFragment
+import com.google.android.gms.ads.*
 import com.google.android.material.navigation.NavigationView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -42,6 +44,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import lej.happy.fooddiary.Fragment.HomeFragment
+import lej.happy.fooddiary.Fragment.InfoFragment
 import lej.happy.fooddiary.Fragment.ReviewFragment
 import lej.happy.fooddiary.Fragment.TasteFragment
 import lej.happy.fooddiary.Helper.DatePickerDialog
@@ -65,6 +68,7 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
     lateinit var homeFragment: HomeFragment
     lateinit var reviewFragment: ReviewFragment
     lateinit var tasteFragment: TasteFragment
+    val infoFragment = InfoFragment()
 
     private val REQUEST_CODE_ADD_POST = 11
 
@@ -78,9 +82,12 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     private var nowFragment = 0
 
+    private lateinit var adView: AdView
+
+    private var initialLayoutComplete = false
 
     companion object {
-
+        private val AD_UNIT_ID = "ca-app-pub-8818306699467551/1675707503"
         lateinit var instance : MainActivity
 
         fun getInstancem() : MainActivity {
@@ -88,6 +95,36 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
             return instance
         }
     }
+
+    private fun loadBanner() {
+        adView.adUnitId = AD_UNIT_ID
+
+        adView.adSize = adSize
+
+        // Create an ad request.
+        val adRequest = AdRequest.Builder().build()
+
+        // Start loading the ad in the background.
+        adView.loadAd(adRequest)
+
+    }
+
+    private val adSize: AdSize
+        get() {
+            val display = windowManager.defaultDisplay
+            val outMetrics = DisplayMetrics()
+            display.getMetrics(outMetrics)
+
+            val density = outMetrics.density
+
+            var adWidthPixels = ad_view_container.width.toFloat()
+            if (adWidthPixels == 0f) {
+                adWidthPixels = outMetrics.widthPixels.toFloat()
+            }
+
+            val adWidth = (adWidthPixels / density).toInt()
+            return AdSize.getCurrentOrientationBannerAdSizeWithWidth(this, adWidth)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,6 +155,52 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                 .replace(R.id.frame_layout, homeFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit()
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this) { }
+
+        // Set your test devices. Check your logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
+        // to get test ads on this device."
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder()
+                .setTestDeviceIds(Arrays.asList("899631576463794D44B2C8918E0E4E88"))
+                .build()
+        )
+
+        adView = AdView(this)
+        adView.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                ad_view_container.addView(adView)
+                Handler().postDelayed(
+                    {
+                        MyApplication.prefs.setInt("adview", ad_view_container.height)
+                        resetFragmentRvMargin()
+
+                    },
+                    1000 // value in milliseconds
+                )
+            }
+
+            override fun onAdFailedToLoad(p0: LoadAdError?) {
+                super.onAdFailedToLoad(p0)
+                MyApplication.prefs.setInt("adview", 0)
+                resetFragmentRvMargin()
+            }
+
+
+        }
+
+        // Since we're loading the banner based on the adContainerView size, we need to wait until this
+        // view is laid out before we can get the width.
+        ad_view_container.viewTreeObserver.addOnGlobalLayoutListener {
+            if (!initialLayoutComplete) {
+                initialLayoutComplete = true
+                loadBanner()
+            }
+        }
 
         //헤더뷰
         //name, email
@@ -220,12 +303,20 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     }
 
+    fun resetFragmentRvMargin(){
+        when(nowFragment){
+            0 -> homeFragment.setAdBottomMargin()
+//            1 -> reviewFragment.onActivityResult(requestCode, resultCode, data)
+//            else -> tasteFragment.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
 
     fun refreshHome(requestCode: Int, resultCode: Int, data: Intent?){
         when(nowFragment){
             0 -> homeFragment.onActivityResult(requestCode, resultCode, data)
             1 -> reviewFragment.onActivityResult(requestCode, resultCode, data)
-            else -> tasteFragment.onActivityResult(requestCode, resultCode, data)
+            2 -> tasteFragment.onActivityResult(requestCode, resultCode, data)
         }
 
 
@@ -313,8 +404,10 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
+
+
         when(item.itemId){
-            R.id.nav_review, R.id.nav_taste -> {
+            R.id.nav_review, R.id.nav_taste, R.id.nav_info -> {
                 getSupportActionBar()!!.setDisplayShowTitleEnabled(true)
                 fab_new_post.visibility = View.INVISIBLE
                 select_date_layout.visibility = View.INVISIBLE
@@ -359,9 +452,15 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                     .commit()
             }
 
-            R.id.nav_license -> {
-                val dlg = OpenSourceDialog(this)
-                dlg.start()
+            R.id.nav_info -> {
+                nowFragment = 3
+                setActionBarTitle("정보")
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.frame_layout, infoFragment)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+
             }
 
             R.id.nav_mail -> {

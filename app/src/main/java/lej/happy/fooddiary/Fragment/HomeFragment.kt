@@ -6,7 +6,10 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +23,7 @@ import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.HomeData
+import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,10 +47,12 @@ class HomeFragment : Fragment() {
 
     var page = 1
     var isLoading = false
-    val limit = 15
+    val limit = 20
     var isEnd = false
 
     lateinit var loadingDialog : LoadingDialog
+
+    lateinit var rv_home: RecyclerView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
@@ -57,10 +63,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        rv_home = view.findViewById(R.id.rv_home)
+
         homeLayoutManager = LinearLayoutManager(context)
         rv_home.layoutManager =  homeLayoutManager
         rv_home.setHasFixedSize(true)
         rv_home.setItemViewCacheSize(20);
+
+        setAdBottomMargin()
 
         //이번달 첫째날, 마지막날
         val nowYM = SimpleDateFormat("yyyy-M", Locale.KOREA).format(Date())
@@ -90,6 +100,14 @@ class HomeFragment : Fragment() {
 
 
         getHomeData()
+
+    }
+
+    fun setAdBottomMargin(){
+
+        val lp =  rv_home.layoutParams as ConstraintLayout.LayoutParams
+        lp.bottomMargin = MyApplication.prefs.getInt("adview", 200)
+        rv_home.layoutParams = lp
 
     }
 
@@ -201,22 +219,25 @@ class HomeFragment : Fragment() {
     private fun resetAdapter(isOk : Boolean){
 
 
+        if(rv_home != null){
+            if(::homePhotoAdapter.isInitialized){
+                homePhotoAdapter.notifyDataSetChanged()
+            }else{
+                homePhotoAdapter = HomePhotoAdapter(timeList,isAll)
+                rv_home.adapter = homePhotoAdapter
+            }
 
-        if(::homePhotoAdapter.isInitialized){
-            homePhotoAdapter.notifyDataSetChanged()
-        }else{
-            homePhotoAdapter = HomePhotoAdapter(timeList,isAll)
-            rv_home.adapter = homePhotoAdapter
+            isLoading = false
+            loadingDialog.dismiss()
+
+            if(timeList.size > 0){
+                no_data_in_recyclerview.visibility = View.GONE
+            }else{
+                no_data_in_recyclerview.visibility = View.VISIBLE
+            }
         }
 
-        isLoading = false
-        loadingDialog.dismiss()
 
-        if(timeList.size > 0){
-            no_data_in_recyclerview.visibility = View.GONE
-        }else{
-            no_data_in_recyclerview.visibility = View.VISIBLE
-        }
     }
 
     fun getQuery() : List<Post>{

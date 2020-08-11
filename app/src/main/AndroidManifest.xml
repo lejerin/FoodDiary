@@ -45,8 +45,11 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/camera_path"></meta-data>
-
         </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8818306699467551~8815830927"/>
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="deef04dc3d0140bc4d37041ce4a13a1e" />
