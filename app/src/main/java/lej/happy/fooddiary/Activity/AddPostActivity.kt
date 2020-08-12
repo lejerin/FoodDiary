@@ -542,6 +542,9 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             post.x = data.getStringExtra("x").toDouble()
             post.y = data.getStringExtra("y").toDouble()
 
+
+
+
         }
 
     }

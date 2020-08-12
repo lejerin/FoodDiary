@@ -41,12 +41,14 @@ class ReviewFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_review, container, false)
 
-        getReviewData()
+
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
 
         var reviewAdapter = ReviewLocationAdapter(rankList)
         reviewAdapter.setReviewItemClickListener(object : ReviewLocationAdapter.OnItemClickListener{
@@ -71,6 +73,8 @@ class ReviewFragment : Fragment() {
         rv_review.layoutManager = LinearLayoutManager(context)
 
         setAdBottomMargin()
+
+        getReviewData()
     }
 
     fun setAdBottomMargin(){
@@ -154,6 +158,7 @@ class ReviewFragment : Fragment() {
     private fun resetAdapter(){
 
         if(rankList.size > 0){
+
             review_no_data_in_recyclerview.visibility = View.INVISIBLE
             rv_review.adapter?.notifyDataSetChanged()
 

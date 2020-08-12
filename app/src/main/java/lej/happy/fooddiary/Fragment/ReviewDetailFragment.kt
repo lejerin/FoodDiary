@@ -39,6 +39,7 @@ class ReviewDetailFragment : Fragment(){
         val view = inflater.inflate(R.layout.fragment_review_detail, container, false)
 
         val a = activity as MainActivity
+
         a.setActionBarTitle(arguments!!.getString("name").toString())
         address = arguments!!.getString("address").toString()
 

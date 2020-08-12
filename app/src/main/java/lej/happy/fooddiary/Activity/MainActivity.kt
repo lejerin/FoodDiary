@@ -412,6 +412,9 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
                 fab_new_post.visibility = View.INVISIBLE
                 select_date_layout.visibility = View.INVISIBLE
             }
+            R.id.nav_mail -> {
+
+            }
             else -> {
                 getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
                 fab_new_post.visibility = View.VISIBLE

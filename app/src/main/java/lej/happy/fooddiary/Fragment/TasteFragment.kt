@@ -1,8 +1,12 @@
 package lej.happy.fooddiary.Fragment
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddiary.fragment.ReviewDetailFragment
+import com.kakao.util.maps.helper.Utility
 import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_review.*
@@ -38,6 +43,8 @@ import lej.happy.fooddiary.Model.HomeData
 import lej.happy.fooddiary.Model.ReviewRank
 import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -63,9 +70,6 @@ class TasteFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_taste, container, false)
 
-        getReviewData()
-
-
 
         return view
     }
@@ -89,6 +93,7 @@ class TasteFragment : Fragment() {
             getReviewData()
         }
 
+        getReviewData()
 
         chageEmotionImg(best_taste_btn)
 
@@ -167,6 +172,7 @@ class TasteFragment : Fragment() {
             taste_no_data_in_recyclerview.visibility = View.GONE
         }else{
             taste_no_data_in_recyclerview.visibility = View.VISIBLE
+
         }
     }
 
@@ -221,4 +227,22 @@ class TasteFragment : Fragment() {
 
     }
 
+    //릴리즈 키 해시 구하기기
+//    fun etKeyHash(context: Context?): String? {
+//        val packageInfo: PackageInfo = Utility.getPackageInfo(
+//            context,
+//            PackageManager.GET_SIGNATURES
+//        )
+//            ?: return null
+//        for (signature in packageInfo.signatures) {
+//            try {
+//                val md = MessageDigest.getInstance("SHA")
+//                md.update(signature.toByteArray())
+//                return Base64.encodeToString(md.digest(), Base64.NO_WRAP)
+//            } catch (e: NoSuchAlgorithmException) {
+//
+//            }
+//        }
+//        return null
+//    }
 }
