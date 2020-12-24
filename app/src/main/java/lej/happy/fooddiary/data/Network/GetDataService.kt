@@ -1,6 +1,6 @@
-package lej.happy.fooddiary.Network
+package lej.happy.fooddiary.data.Network
 
-import lej.happy.fooddiary.Model.LocalMapData
+import lej.happy.fooddiary.data.Model.LocalMapData
 import retrofit2.Call
 import retrofit2.http.*
 

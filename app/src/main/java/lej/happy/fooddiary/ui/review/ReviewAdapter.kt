@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.review
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.Helper.ImageUtil
-import lej.happy.fooddiary.Model.ReviewRank
+import lej.happy.fooddiary.ui.custom.ImageUtil
+import lej.happy.fooddiary.data.Model.ReviewRank
 import lej.happy.fooddiary.R
 
 
-class ReviewLocationAdapter(rankCount: List<ReviewRank>) : RecyclerView.Adapter<ReviewLocationAdapter.PhotoViewHolder>() {
+class ReviewAdapter(rankCount: List<ReviewRank>) : RecyclerView.Adapter<ReviewAdapter.PhotoViewHolder>() {
 
     private val countList :  List<ReviewRank> = rankCount
     private lateinit var context: Context
@@ -34,7 +34,9 @@ class ReviewLocationAdapter(rankCount: List<ReviewRank>) : RecyclerView.Adapter<
         context = parent!!.context
 
         var view = LayoutInflater.from(parent!!.context).inflate(R.layout.row_item_review,parent,false)
-        return PhotoViewHolder(view)
+        return PhotoViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {

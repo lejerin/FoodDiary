@@ -1,19 +1,15 @@
-package lej.happy.fooddiary.Helper
+package lej.happy.fooddiary.ui.custom
 
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_time.*
-import lej.happy.fooddiary.Adapter.LicenseAdapter
-import lej.happy.fooddiary.Model.HomeData
-import lej.happy.fooddiary.Model.LicenseItem
+import lej.happy.fooddiary.ui.info.LicenseAdapter
+import lej.happy.fooddiary.data.Model.LicenseItem
 import lej.happy.fooddiary.R
 
 class OpenSourceDialog(context : Context) {
@@ -53,7 +49,8 @@ class OpenSourceDialog(context : Context) {
         licenseList.add(LicenseItem("PhotoView", "https://github.com/chrisbanes/PhotoView",
             "Copyright 2018 Chris Banes", "Apache License 2.0"))
 
-        rv_open_licence.adapter = LicenseAdapter(licenseList)
+        rv_open_licence.adapter =
+            LicenseAdapter(licenseList)
 
         val btnCancel = dlg.findViewById(R.id.open_source_back_btn) as ImageButton
         btnCancel.setOnClickListener {

@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.info
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.Model.LicenseItem
+import lej.happy.fooddiary.data.Model.LicenseItem
 import lej.happy.fooddiary.R
 
 

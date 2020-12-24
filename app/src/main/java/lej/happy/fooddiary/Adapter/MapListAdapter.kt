@@ -1,16 +1,13 @@
 package lej.happy.fooddiary.Adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.Model.Document
+import lej.happy.fooddiary.data.Model.Document
 import lej.happy.fooddiary.R
-import org.w3c.dom.Text
 
 
 class MapListAdapter (mapList : MutableList<Document>) : RecyclerView.Adapter<MapListAdapter.MapDataViewHolder>() {

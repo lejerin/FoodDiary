@@ -18,7 +18,7 @@ import kotlinx.coroutines.*
 import lej.happy.fooddiary.Activity.DetailViewPagerActivity
 import lej.happy.fooddiary.data.db.AppDatabase
 import lej.happy.fooddiary.data.db.entity.Thumb
-import lej.happy.fooddiary.Helper.ImageUtil
+import lej.happy.fooddiary.ui.custom.ImageUtil
 import lej.happy.fooddiary.R
 import java.io.FileNotFoundException
 import kotlin.collections.ArrayList

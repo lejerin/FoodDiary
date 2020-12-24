@@ -12,11 +12,11 @@ import androidx.lifecycle.MutableLiveData
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import lej.happy.fooddiary.Activity.AddPostActivity
-import lej.happy.fooddiary.Fragment.InfoFragment
-import lej.happy.fooddiary.Fragment.ReviewFragment
-import lej.happy.fooddiary.Helper.DatePickerDialog
+import lej.happy.fooddiary.ui.info.InfoFragment
+import lej.happy.fooddiary.ui.custom.DatePickerDialog
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.ui.base.BaseViewModel
+import lej.happy.fooddiary.ui.review.ReviewFragment
 import lej.happy.fooddiary.ui.taste.TasteFragment
 import lej.happy.fooddiary.ui.time.TimeFragment
 import lej.happy.fooddiary.util.CameraUtil
@@ -81,7 +81,8 @@ class MainViewModel : BaseViewModel(){
                 return tasteFragment
             }
             R.id.nav_info -> {
-                if(!::infoFragment.isInitialized) infoFragment = InfoFragment()
+                if(!::infoFragment.isInitialized) infoFragment =
+                    InfoFragment()
                 return infoFragment
             }
         }
@@ -89,7 +90,7 @@ class MainViewModel : BaseViewModel(){
         return homeFragment
     }
 
-    val REQUEST_REFRESH_POST = 77
+    private val REQUEST_REFRESH_POST = 77
     fun newPost(view: View){
         val activity = view.context.getActivity()
         Intent(activity, AddPostActivity::class.java).also {
@@ -114,7 +115,8 @@ class MainViewModel : BaseViewModel(){
 
 
     fun showDateSelectDialog(view: View){
-        val focusDialog = DatePickerDialog(view.context)
+        val focusDialog =
+            DatePickerDialog(view.context)
         focusDialog.setDialogListener { isMonth, year, month ->
 
             date.year = year

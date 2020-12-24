@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.time
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,14 +8,14 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.Model.HomeData
+import lej.happy.fooddiary.data.Model.HomeData
 import lej.happy.fooddiary.R
 
 
-class HomePhotoAdapter(
+class TimeAdapter(
     timeList: MutableList<HomeData>,
     isAll: Boolean
-) : RecyclerView.Adapter<HomePhotoAdapter.TimePhotoViewHolder>() {
+) : RecyclerView.Adapter<TimeAdapter.TimePhotoViewHolder>() {
 
     var isAll: Boolean = isAll
     private var timeList : MutableList<HomeData> = timeList
@@ -27,7 +27,9 @@ class HomePhotoAdapter(
 
         context = parent!!.context
 
-        return TimePhotoViewHolder(view)
+        return TimePhotoViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(holder: TimePhotoViewHolder, position: Int) {

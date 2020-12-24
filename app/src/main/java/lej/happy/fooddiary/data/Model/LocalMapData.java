@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Model;
+package lej.happy.fooddiary.data.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

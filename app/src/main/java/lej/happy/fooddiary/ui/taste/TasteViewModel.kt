@@ -2,17 +2,12 @@ package lej.happy.fooddiary.ui.taste
 
 import android.content.Context
 import android.view.View
-import android.widget.ImageButton
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import lej.happy.fooddiary.Adapter.HomePhotoAdapter
-import lej.happy.fooddiary.Adapter.PhotoGridAdapter
-import lej.happy.fooddiary.Helper.LoadingDialog
-import lej.happy.fooddiary.Model.HomeData
+import lej.happy.fooddiary.ui.time.PhotoGridAdapter
+import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.data.db.entity.Post
-import lej.happy.fooddiary.ui.MainViewModel
 import lej.happy.fooddiary.ui.base.BaseViewModel
 import lej.happy.fooddiary.ui.custom.CustomImageButton
 import lej.happy.fooddiary.util.Coroutines
@@ -34,7 +29,8 @@ class TasteViewModel(
     val tasteList = MutableLiveData<MutableList<Post>>()
     init {
         tasteList.value = ArrayList()
-        tasteAdapter = PhotoGridAdapter(tasteList.value!!)
+        tasteAdapter =
+            PhotoGridAdapter(tasteList.value!!)
     }
 
     fun selectedBtn(v: View){
@@ -48,6 +44,11 @@ class TasteViewModel(
             R.id.bad_taste_btn -> taste = 3
         }
 
+        getTasteData()
+    }
+
+    fun setOrder(order: Boolean){
+        isDESC = order
         getTasteData()
     }
 

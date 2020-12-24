@@ -17,8 +17,8 @@ import com.example.fooddiary.Network.RetrofitClient
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.activity_map_search.*
 import lej.happy.fooddiary.Adapter.MapListAdapter
-import lej.happy.fooddiary.Model.Document
-import lej.happy.fooddiary.Model.LocalMapData
+import lej.happy.fooddiary.data.Model.Document
+import lej.happy.fooddiary.data.Model.LocalMapData
 import lej.happy.fooddiary.R
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint

@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.time
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import lej.happy.fooddiary.Activity.ViewPostActivity
 import lej.happy.fooddiary.data.db.entity.Post
-import lej.happy.fooddiary.Helper.ImageUtil
+import lej.happy.fooddiary.ui.custom.ImageUtil
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.ui.MainActivity
 

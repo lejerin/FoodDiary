@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Helper;
+package lej.happy.fooddiary.ui.custom;
 
 import android.app.Dialog;
 import android.content.Context;

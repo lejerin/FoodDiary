@@ -20,15 +20,15 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import androidx.lifecycle.Observer
-import com.example.fooddiary.fragment.ReviewDetailFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import lej.happy.fooddiary.Fragment.ReviewFragment
-import lej.happy.fooddiary.Helper.ImageUtil
-import lej.happy.fooddiary.Helper.UserNameDialog
-import lej.happy.fooddiary.MyApplication
+import lej.happy.fooddiary.ui.custom.ImageUtil
+import lej.happy.fooddiary.ui.custom.UserNameDialog
+import lej.happy.fooddiary.util.MyApplication
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.databinding.ActivityMainBinding
 import lej.happy.fooddiary.ui.base.BaseActivity
+import lej.happy.fooddiary.ui.review.ReviewDetailFragment
+import lej.happy.fooddiary.ui.review.ReviewFragment
 import lej.happy.fooddiary.ui.taste.TasteFragment
 import lej.happy.fooddiary.ui.time.TimeFragment
 import lej.happy.fooddiary.util.CameraUtil
@@ -129,7 +129,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
                             (it as (ReviewDetailFragment)).setOrder(v)
                         }
                         is TasteFragment -> {
-                           // (it as (TasteFragment)).setOrder(v)
+                            (it as (TasteFragment)).setOrder(v)
                         }
                     }
 

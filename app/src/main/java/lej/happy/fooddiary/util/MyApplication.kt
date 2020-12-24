@@ -1,4 +1,4 @@
-package lej.happy.fooddiary
+package lej.happy.fooddiary.util
 
 import android.app.Application
 import android.content.Context
@@ -10,7 +10,8 @@ class MyApplication : Application() {
     }
 
     override fun onCreate() {
-        prefs = PreferenceUtil(applicationContext)
+        prefs =
+            PreferenceUtil(applicationContext)
         super.onCreate()
     }
 }

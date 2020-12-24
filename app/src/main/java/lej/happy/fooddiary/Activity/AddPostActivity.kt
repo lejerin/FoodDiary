@@ -36,8 +36,8 @@ import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.data.db.AppDatabase
 import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.data.db.entity.Thumb
-import lej.happy.fooddiary.Helper.ImageUtil
-import lej.happy.fooddiary.Helper.LoadingDialog
+import lej.happy.fooddiary.ui.custom.ImageUtil
+import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.R
 import java.io.File
 import java.io.FileOutputStream

@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.Adapter.HomePhotoAdapter
-import lej.happy.fooddiary.Adapter.PhotoGridAdapter
 import lej.happy.fooddiary.data.db.entity.Post
-import lej.happy.fooddiary.Helper.LoadingDialog
-import lej.happy.fooddiary.Model.HomeData
+import lej.happy.fooddiary.ui.custom.LoadingDialog
+import lej.happy.fooddiary.data.Model.HomeData
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.ui.base.BaseViewModel
 import lej.happy.fooddiary.util.Coroutines
@@ -22,11 +20,12 @@ class TimeViewModel(
 
 
     lateinit var homeLayoutManager: LinearLayoutManager
-    val homePhotoAdapter: HomePhotoAdapter
+    val homePhotoAdapter: TimeAdapter
     val timeList = MutableLiveData<MutableList<HomeData>>()
     init {
         timeList.value = ArrayList()
-        homePhotoAdapter = HomePhotoAdapter(timeList.value!!, true)
+        homePhotoAdapter =
+            TimeAdapter(timeList.value!!, true)
     }
 
     //고유번호, 대표사진, count 순서대로
@@ -132,7 +131,8 @@ class TimeViewModel(
             }
 
             for(i in 0 until timeList.value?.size!!){
-                PhotoGridAdapter(photoList[timeList.value!![i].date]!!).also {
+                PhotoGridAdapter(photoList[timeList.value!![i].date]!!)
+                    .also {
                     timeList.value!![i].adapters = it
                 }
             }

@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.review
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import lej.happy.fooddiary.ui.time.PhotoGridAdapter
 import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.R
 
 
-class ReviewPhotoAdapter(
+class ReviewDetailAdapter(
     timeList: MutableList<String>,
     photoList: HashMap<String, MutableList<Post>>
-) : RecyclerView.Adapter<ReviewPhotoAdapter.TimePhotoViewHolder>() {
+) : RecyclerView.Adapter<ReviewDetailAdapter.TimePhotoViewHolder>() {
 
     private var timeList : MutableList<String> = timeList
     private var photoList : HashMap<String,MutableList<Post>> = photoList
@@ -24,7 +25,9 @@ class ReviewPhotoAdapter(
         var view = LayoutInflater.from(parent!!.context).inflate(R.layout.row_item_review_photo,parent,false)
 
         context = parent!!.context
-        return TimePhotoViewHolder(view)
+        return TimePhotoViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(holder: TimePhotoViewHolder, position: Int) {
@@ -34,7 +37,9 @@ class ReviewPhotoAdapter(
         if(position % 2 == 0){
             holder!!.textTitle.text =  timeData
             if(photoList.get(timeData) != null){
-                var photoAdapter = PhotoGridAdapter( photoList.get(timeData)!!)
+                var photoAdapter = PhotoGridAdapter(
+                    photoList.get(timeData)!!
+                )
                 val gridLayoutManager = GridLayoutManager(context, 3)
 
                 holder!!.rv_photo.adapter = photoAdapter
@@ -45,7 +50,9 @@ class ReviewPhotoAdapter(
         }else{
             holder!!.textTitle2.text =  timeData
             if(photoList.get(timeData) != null){
-                var photoAdapter = PhotoGridAdapter( photoList.get(timeData)!!)
+                var photoAdapter = PhotoGridAdapter(
+                    photoList.get(timeData)!!
+                )
                 val gridLayoutManager = object : GridLayoutManager(context, 3) {
                     override fun isLayoutRTL(): Boolean {
                         return true

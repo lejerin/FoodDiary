@@ -26,4 +26,13 @@ class Repository (val context: Context){
     fun getTasteASC(num: Int) =
         db.postDao().selectByTasteAsc(num)
 
+    fun getLocationDESC() =
+        db.postDao().selectByLocationDesc()
+
+    fun getAddressDESC(adr: String) =
+        db.postDao().selectByAddressDesc(adr)
+
+    fun getAddressASC(adr: String) =
+        db.postDao().selectByAddressAsc(adr)
+
 }

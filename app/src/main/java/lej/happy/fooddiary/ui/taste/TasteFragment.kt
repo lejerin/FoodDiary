@@ -1,20 +1,15 @@
 package lej.happy.fooddiary.ui.taste
 
+import android.content.Intent
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_taste.*
-import lej.happy.fooddiary.Adapter.PhotoGridAdapter
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.databinding.FragmentTasteBinding
-import lej.happy.fooddiary.databinding.FragmentTimeBinding
 import lej.happy.fooddiary.ui.base.BaseFragment
-import lej.happy.fooddiary.ui.custom.CustomImageButton
-import lej.happy.fooddiary.ui.time.TimeViewModel
-import lej.happy.fooddiary.ui.time.TimeViewModelFactory
 
 class TasteFragment :  BaseFragment<FragmentTasteBinding>() {
 
@@ -44,7 +39,6 @@ class TasteFragment :  BaseFragment<FragmentTasteBinding>() {
 
         viewModel.tasteList.observe(this, Observer {
 
-            println("dddd" + it.size)
 
             ts_review.adapter?.notifyDataSetChanged()
             if(it.size > 0){
@@ -55,6 +49,16 @@ class TasteFragment :  BaseFragment<FragmentTasteBinding>() {
         })
 
         viewModel.selectedBtn(best_taste_btn)
+    }
+
+    fun setOrder(boolean: Boolean){
+        viewModel.setOrder(boolean)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        viewModel.setOrder(true)
     }
 
 

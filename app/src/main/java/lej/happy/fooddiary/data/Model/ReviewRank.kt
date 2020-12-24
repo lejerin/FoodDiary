@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Model
+package lej.happy.fooddiary.data.Model
 
 import lej.happy.fooddiary.data.db.entity.Post
 

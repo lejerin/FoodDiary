@@ -1,6 +1,6 @@
 package com.example.fooddiary.Network
 
-import lej.happy.fooddiary.Network.GetDataService
+import lej.happy.fooddiary.data.Network.GetDataService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
