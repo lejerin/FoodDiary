@@ -72,33 +72,16 @@ class HomeFragment : Fragment() {
 
         //이번달 첫째날, 마지막날
         val nowYM = SimpleDateFormat("yyyy-M", Locale.KOREA).format(Date())
-        stringToDate(nowYM)
 
-
-
-
-
-
-        getHomeData()
 
     }
 
 
     fun setOrder(order: Boolean){
         isDESC = order
-        initPage()
-        getHomeData()
+
     }
 
-    fun setHomeDate(isOk: Boolean, year: String, mon : String){
-        isAll = isOk
-        if(isOk){
-            initPage()
-        }
-        homePhotoAdapter.isAll = isAll
-        stringToDate("$year-$mon")
-        getHomeData()
-    }
 
 
 

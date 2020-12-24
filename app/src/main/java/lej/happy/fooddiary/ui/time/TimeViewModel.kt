@@ -2,10 +2,15 @@ package lej.happy.fooddiary.ui.time
 
 import android.content.Context
 import android.os.Handler
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.HomePhotoAdapter
@@ -25,6 +30,8 @@ class TimeViewModel(
     private val repository: Repository
 ) : BaseViewModel() {
 
+
+    lateinit var homeLayoutManager: LinearLayoutManager
     val homePhotoAdapter: HomePhotoAdapter
     val timeList = MutableLiveData<MutableList<HomeData>>()
     init {
@@ -34,8 +41,6 @@ class TimeViewModel(
 
     //고유번호, 대표사진, count 순서대로
     val photoList : HashMap<String,MutableList<Post>> = hashMapOf()
-    lateinit var photoLiveData : LiveData<HashMap<String, MutableList<Post>>>
-
 
     lateinit var startDate : Date
     lateinit var endDate : Date
@@ -47,11 +52,31 @@ class TimeViewModel(
     var isLoading = false
     val limit = 20
     var isEnd = false
+
+    lateinit var context: Context
+
     fun initPage(){
         page = 1
         isEnd = false
         timeList.value?.clear()
         photoList.clear()
+    }
+
+    fun setOrder(order: Boolean){
+        isDESC = order
+        initPage()
+        getTimeData()
+    }
+
+    fun setHomeDate(isMonth: Boolean, year: String, mon : String){
+        isAll = !isMonth
+        if(isMonth){
+            println("init home")
+            initPage()
+        }
+        homePhotoAdapter.isAll = isAll
+        stringToDate("$year-$mon")
+        getTimeData()
     }
 
     private fun getQuery(): List<Post> {
@@ -67,11 +92,8 @@ class TimeViewModel(
 
     lateinit var loadingDialog : LoadingDialog
 
-    fun scrollData(){
 
-    }
-
-    fun getTimeData(context: Context){
+    fun getTimeData(){
 
         loadingDialog = LoadingDialog(context)
         loadingDialog.show()
@@ -99,47 +121,69 @@ class TimeViewModel(
     private fun filterPost(data: List<Post>, context: Context){
 
         if(data.isNotEmpty()){
-            println("dddddddddddddd" + data.size)
 
-        var beforeDate = ""
-        var beforeMonth = ""
-        for(i in data.indices) {
-            val output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data[i].date)
-            val nowMonth: String = SimpleDateFormat("yyyy년 M월", Locale.KOREA).format(data[i].date)
+            var beforeDate = ""
+            var beforeMonth = ""
+            for(i in data.indices) {
+                val output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data[i].date)
+                val nowMonth: String = SimpleDateFormat("yyyy년 M월", Locale.KOREA).format(data[i].date)
 
-            if(output != beforeDate){
-                //중복 되지 않으면 time list에 넣기
-                val grid =  GridLayoutManager(context, 3)
-                if(beforeMonth == nowMonth){
-                    timeList.value?.add(HomeData(output, false, "",null, grid))
-                }else{
-                    timeList.value?.add(HomeData(output, true, nowMonth,null, grid))
+                if(output != beforeDate){
+                    //중복 되지 않으면 time list에 넣기
+                    val grid =  GridLayoutManager(context, 3)
+                    if(beforeMonth == nowMonth){
+                        timeList.value?.add(HomeData(output, false, "",null, grid))
+                    }else{
+                        timeList.value?.add(HomeData(output, true, nowMonth,null, grid))
+                    }
+                    beforeDate = output
+                    beforeMonth = nowMonth
                 }
-                beforeDate = output
-                beforeMonth = nowMonth
+                if(photoList.containsKey(output)){
+                    //이미 존재하면
+                    photoList[output]!!.add(data[i])
+                }else{
+                    photoList[output] = mutableListOf(data[i])
+                }
             }
-            if(photoList.containsKey(output)){
-                //이미 존재하면
-                photoList[output]!!.add(data[i])
-            }else{
-                photoList[output] = mutableListOf(data[i])
-            }
-        }
 
-        for(i in 0 until timeList.value?.size!!){
-            PhotoGridAdapter(photoList[timeList.value!![i].date]!!).also {
-                timeList.value!![i].adapters = it
+            for(i in 0 until timeList.value?.size!!){
+                PhotoGridAdapter(photoList[timeList.value!![i].date]!!).also {
+                    timeList.value!![i].adapters = it
+                }
             }
-        }
 
-        if(data.size < limit){
-            isEnd = true
-        }
+            if(data.size < limit){
+                isEnd = true
+            }
         }else{
             isEnd = true
         }
 
     }
+
+    val clicksListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+
+            if(dy > 0 && !isEnd){
+                val visibleItemCount = homeLayoutManager.childCount
+                val pastVisibleItem = homeLayoutManager.findFirstCompletelyVisibleItemPosition()
+                val total = homePhotoAdapter.itemCount
+
+                if(!isLoading){
+                    if((visibleItemCount + pastVisibleItem) >= total){
+                        page++
+                        getTimeData()
+                    }
+                }
+            }
+
+            super.onScrolled(recyclerView, dx, dy)
+        }
+
+    }
+
+
 
     fun stringToDate(str: String) {
         val dateFormat: String = "yyyy-MM-dd"

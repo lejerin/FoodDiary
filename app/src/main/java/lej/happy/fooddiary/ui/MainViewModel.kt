@@ -123,14 +123,14 @@ class MainViewModel : BaseViewModel(){
 
     fun showDateSelectDialog(view: View){
         val focusDialog = DatePickerDialog(view.context)
-        focusDialog.setDialogListener { isOk, year, month ->
+        focusDialog.setDialogListener { isMonth, year, month ->
 
             date.year = year
             date.month = month
-            date.isAll = isOk
+            date.isAll = isMonth
 
             if(nowFragment == R.id.nav_home){
-//                homeFragment.setHomeDate(isOk, year.toString(), month.toString())
+                homeFragment.setHomeDate(isMonth, year.toString(), month.toString())
             }
             _barDate.value = date
 

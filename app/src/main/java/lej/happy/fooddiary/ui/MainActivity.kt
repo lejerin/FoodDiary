@@ -32,6 +32,7 @@ import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.databinding.ActivityMainBinding
 import lej.happy.fooddiary.ui.base.BaseActivity
+import lej.happy.fooddiary.ui.time.TimeFragment
 import lej.happy.fooddiary.util.CameraUtil
 
 
@@ -108,6 +109,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
 
     }
 
+
+
     private fun showPopupMenuOrder(){
         val popup = PopupMenu(this@MainActivity, app_bar_sort_btn)
         popup.inflate(R.menu.sort_item)
@@ -118,8 +121,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
                 supportFragmentManager.findFragmentById(R.id.frame_layout)?.let {
                     // the fragment exists
                     when(it){
-                        is HomeFragment -> {
-                            (it as (HomeFragment)).setOrder(v)
+                        is TimeFragment -> {
+                            (it as (TimeFragment)).setOrder(v)
                         }
                         is ReviewFragment -> {
                             (it as (ReviewFragment)).setOrder(v)

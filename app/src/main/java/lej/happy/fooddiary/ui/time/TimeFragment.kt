@@ -25,7 +25,6 @@ class TimeFragment :  BaseFragment<FragmentHomeBinding>() {
     private val TAG = "TimeFragment"
 
 
-    private lateinit var homeLayoutManager: LinearLayoutManager
 
     override fun initStartView() {
 
@@ -38,8 +37,9 @@ class TimeFragment :  BaseFragment<FragmentHomeBinding>() {
 
     override fun initDataBinding() {
 
-        homeLayoutManager = LinearLayoutManager(context)
-        rv_home.layoutManager =  homeLayoutManager
+        viewModel.context = context!!
+        viewModel.homeLayoutManager = LinearLayoutManager(context)
+        rv_home.layoutManager =  viewModel.homeLayoutManager
         rv_home.adapter = viewModel.homePhotoAdapter
         rv_home.setHasFixedSize(true)
         rv_home.setItemViewCacheSize(20)
@@ -48,25 +48,7 @@ class TimeFragment :  BaseFragment<FragmentHomeBinding>() {
         val nowYM = SimpleDateFormat("yyyy-M", Locale.KOREA).format(Date())
         viewModel.stringToDate(nowYM)
 
-        rv_home.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                if(dy > 0 && !isEnd){
-                    val visibleItemCount = homeLayoutManager.childCount
-                    val pastVisibleItem = homeLayoutManager.findFirstCompletelyVisibleItemPosition()
-                    val total = homePhotoAdapter.itemCount
-
-                    if(!isLoading){
-                        if((visibleItemCount + pastVisibleItem) >= total){
-                            page++
-                            getHomeData()
-                        }
-                    }
-                }
-
-                super.onScrolled(recyclerView, dx, dy)
-            }
-        })
 
     }
 
@@ -81,16 +63,23 @@ class TimeFragment :  BaseFragment<FragmentHomeBinding>() {
                 no_data_in_recyclerview.visibility = View.VISIBLE
             }
         })
-        viewModel.getTimeData(context!!)
+        viewModel.getTimeData()
 
     }
 
+    fun setOrder(boolean: Boolean){
+        viewModel.setOrder(boolean)
+    }
+
+    fun setHomeDate(isMonth: Boolean, year: String, mon : String) {
+        viewModel.setHomeDate(isMonth, year, mon)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         viewModel.initPage()
-        viewModel.getTimeData(context!!)
+        viewModel.getTimeData()
     }
 
 }
