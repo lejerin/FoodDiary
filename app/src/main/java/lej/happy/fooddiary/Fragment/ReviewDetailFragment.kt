@@ -10,17 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_review.*
 import kotlinx.android.synthetic.main.fragment_review_detail.*
 import kotlinx.android.synthetic.main.fragment_review_detail.no_data_in_recyclerview
 import kotlinx.coroutines.*
-import lej.happy.fooddiary.Activity.MainActivity
 import lej.happy.fooddiary.Adapter.ReviewPhotoAdapter
 import lej.happy.fooddiary.DB.AppDatabase
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
+import lej.happy.fooddiary.ui.MainActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -145,14 +143,7 @@ class ReviewDetailFragment : Fragment(){
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        //수정되었을 때
-        if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
-
-
-            getReviewDetailData()
-
-
-        }
+        getReviewDetailData()
 
     }
 

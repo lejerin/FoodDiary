@@ -70,32 +70,12 @@ class HomeFragment : Fragment() {
         rv_home.setHasFixedSize(true)
         rv_home.setItemViewCacheSize(20);
 
-        setAdBottomMargin()
-
         //이번달 첫째날, 마지막날
         val nowYM = SimpleDateFormat("yyyy-M", Locale.KOREA).format(Date())
         stringToDate(nowYM)
 
 
-        rv_home.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
-                if(dy > 0 && !isEnd){
-                    val visibleItemCount = homeLayoutManager.childCount
-                    val pastVisibleItem = homeLayoutManager.findFirstCompletelyVisibleItemPosition()
-                    val total = homePhotoAdapter.itemCount
-
-                    if(!isLoading){
-                        if((visibleItemCount + pastVisibleItem) >= total){
-                            page++
-                            getHomeData()
-                        }
-                    }
-                }
-
-                super.onScrolled(recyclerView, dx, dy)
-            }
-        })
 
 
 
@@ -103,21 +83,6 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun setAdBottomMargin(){
-
-        val lp =  rv_home.layoutParams as ConstraintLayout.LayoutParams
-        lp.bottomMargin = MyApplication.prefs.getInt("adview", 200)
-        rv_home.layoutParams = lp
-
-    }
-
-
-    fun addNewPost(){
-
-        val addPostIntent = Intent(context, AddPostActivity::class.java)
-        activity?.startActivityForResult(addPostIntent, REQUEST_CODE_ADD_POST)
-
-    }
 
     fun setOrder(order: Boolean){
         isDESC = order
@@ -136,177 +101,6 @@ class HomeFragment : Fragment() {
     }
 
 
-
-    fun getHomeData(){
-        loadingDialog = LoadingDialog(context!!)
-        loadingDialog.show()
-
-
-        if(isAll){
-            isLoading = true
-
-        }else{
-            timeList.clear()
-            photoList.clear()
-        }
-
-        //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
-        CoroutineScope(Job() + Dispatchers.Main).launch(Dispatchers.Default) {
-            val result = async {
-                getDataInDb() // some background work
-            }.await()
-            withContext(Dispatchers.Main) {
-                // some UI thread work for when the background work is done
-                Handler().postDelayed(
-                    {
-                        resetAdapter(result)
-                    },
-                    300 // value in milliseconds
-                )
-            }
-        }
-
-    }
-
-    private fun getDataInDb() : Boolean{
-
-        val data = getQuery()
-        if(data.isNotEmpty()){
-
-            var beforeDate = ""
-            var beforeMonth = ""
-            for(i in 0..data.size-1) {
-                val output: String = SimpleDateFormat("yyyy-M-d", Locale.KOREA).format(data.get(i).date)
-                val nowMonth: String = SimpleDateFormat("yyyy년 M월", Locale.KOREA).format(data.get(i).date)
-
-                if(!output.equals(beforeDate)){
-                    //중복 되지 않으면 time list에 넣기
-                    val grid =  GridLayoutManager(context, 3)
-                    if(beforeMonth.equals(nowMonth)){
-                        timeList.add(HomeData(output, false, "",null,grid))
-                    }else{
-                        timeList.add(HomeData(output, true, nowMonth,null,grid))
-                    }
-                    beforeDate = output
-                    beforeMonth = nowMonth
-                }
-                if(photoList.containsKey(output)){
-                    //이미 존재하면
-                    photoList.get(output)!!.add(data[i])
-                }else{
-                    photoList.put(output,mutableListOf(data[i]))
-                }
-            }
-
-            for (i in 0..timeList.size-1){
-
-                var photoAdapter = PhotoGridAdapter(photoList.get(timeList[i].date)!!)
-                timeList[i].adapters = photoAdapter
-            }
-
-
-
-            if(data.size < limit){
-                isEnd = true
-            }
-            return true
-        }
-        isEnd = true
-        return false
-    }
-
-
-    private fun resetAdapter(isOk : Boolean){
-
-
-        if(rv_home != null){
-            if(::homePhotoAdapter.isInitialized){
-                homePhotoAdapter.notifyDataSetChanged()
-            }else{
-                homePhotoAdapter = HomePhotoAdapter(timeList,isAll)
-                rv_home.adapter = homePhotoAdapter
-            }
-
-            isLoading = false
-            loadingDialog.dismiss()
-
-            if(timeList.size > 0){
-                no_data_in_recyclerview.visibility = View.GONE
-            }else{
-                no_data_in_recyclerview.visibility = View.VISIBLE
-            }
-        }
-
-
-    }
-
-    fun getQuery() : List<Post>{
-        val postDb = AppDatabase.getInstance(context!!)
-
-        if(isAll){
-            if(isDESC) return postDb?.postDao()?.selectByPageDesc((page-1)*limit, (page)*limit)
-            else return postDb?.postDao()?.selectByPageAsc((page-1)*limit, (page)*limit)
-
-        }else{
-            if(isDESC) return postDb?.postDao()?.selectByDateDESC(startDate, endDate)
-            else return postDb?.postDao()?.selectByDateASC(startDate, endDate)
-        }
-
-    }
-
-
-
-    fun stringToDate(str: String) {
-        val dateFormat: String = "yyyy-MM-dd"
-        val timeZone: TimeZone = TimeZone.getDefault()
-        val parser = SimpleDateFormat(dateFormat, Locale.getDefault())
-        parser.timeZone = timeZone
-
-        startDate = parser.parse(str+"-1")
-
-        val calendar = Calendar.getInstance()
-        calendar.time = startDate
-
-        calendar.add(Calendar.MONTH, 1)
-        calendar[Calendar.DAY_OF_MONTH] = 1
-        calendar.add(Calendar.DATE, -1)
-
-        val lastDayOfMonth = calendar.time
-
-        endDate = lastDayOfMonth
-
-    }
-
-    fun initPage(){
-        page = 1
-        isEnd = false
-        timeList.clear()
-        photoList.clear()
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-
-        //수정되었을 때
-        if(requestCode == 77 && resultCode == AppCompatActivity.RESULT_OK){
-
-
-            initPage()
-            //이전에 저장했던 데이터대로 수정필요
-            getHomeData()
-
-
-        }
-
-        if(requestCode == REQUEST_CODE_ADD_POST && resultCode == AppCompatActivity.RESULT_OK){
-
-            initPage()
-            //이전에 저장했던 데이터대로 수정필요
-            getHomeData()
-        }
-    }
 
 
 }

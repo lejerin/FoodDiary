@@ -1,18 +1,11 @@
 package lej.happy.fooddiary.Adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.Activity.MainActivity
-import lej.happy.fooddiary.Activity.ViewPostActivity
-import lej.happy.fooddiary.DB.Entity.Post
-import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.Model.LicenseItem
 import lej.happy.fooddiary.R
 

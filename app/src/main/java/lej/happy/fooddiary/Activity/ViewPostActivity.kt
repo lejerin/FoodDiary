@@ -14,10 +14,10 @@ import kotlinx.android.synthetic.main.activity_detail_post.*
 import kotlinx.android.synthetic.main.activity_detail_post.add_date_text
 import kotlinx.android.synthetic.main.activity_detail_post.circleAnimIndicator
 import kotlinx.android.synthetic.main.activity_detail_post.viewpager
-import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.DB.AppDatabase
+import lej.happy.fooddiary.DB.AppDatabase.Companion.getInstance
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
@@ -71,7 +71,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         when(v.id){
             R.id.view_detail_back_btn -> {
                 if(isModified){
-                    MainActivity.getInstancem().refreshHome(77,RESULT_OK,null)
+                 //   MainActivity2.getInstancem().refreshHome(77,RESULT_OK,null)
                 }
                 supportFinishAfterTransition()
             }
@@ -124,7 +124,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
     override fun onBackPressed() {
         super.onBackPressed()
         if(isModified){
-            MainActivity.getInstancem().refreshHome(77,RESULT_OK,null)
+           // MainActivity2.getInstancem().refreshHome(77,RESULT_OK,null)
         }
     }
 
@@ -201,7 +201,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
                 postDb.postDao().deleteById(thisPost.id!!)
             }.await()
             withContext(Dispatchers.Main) {
-                MainActivity.getInstancem().refreshHome(77,RESULT_OK,null)
+                //MainActivity2.getInstance().refreshHome(77,RESULT_OK,null)
                 finish()
             }
         }

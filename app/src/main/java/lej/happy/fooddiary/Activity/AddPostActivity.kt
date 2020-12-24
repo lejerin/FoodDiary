@@ -319,6 +319,8 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
     }
 
     private fun savePost(){
+        println("저장")
+
         //사진 저장
         if(checkAllInput() && !isSaving){
 

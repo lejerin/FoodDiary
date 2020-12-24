@@ -2,27 +2,17 @@ package lej.happy.fooddiary.Adapter
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.media.ExifInterface
-import android.net.Uri
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityOptionsCompat
-import androidx.core.net.toFile
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_photo_viewpager.view.*
-import lej.happy.fooddiary.Activity.MainActivity
 import lej.happy.fooddiary.Activity.ViewPostActivity
 import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.R
+import lej.happy.fooddiary.ui.MainActivity
 
 
 class PhotoGridAdapter(photoList: MutableList<Post>) : RecyclerView.Adapter<PhotoGridAdapter.PhotoViewHolder>() {
