@@ -1,26 +1,16 @@
 package lej.happy.fooddiary.ui.time
 
 import android.content.Context
-import android.os.Handler
-import android.view.KeyEvent
-import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.HomePhotoAdapter
 import lej.happy.fooddiary.Adapter.PhotoGridAdapter
-import lej.happy.fooddiary.DB.AppDatabase
-import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.Model.HomeData
 import lej.happy.fooddiary.data.Repository
-import lej.happy.fooddiary.ui.MainViewModel
 import lej.happy.fooddiary.ui.base.BaseViewModel
 import lej.happy.fooddiary.util.Coroutines
 import java.text.SimpleDateFormat
@@ -70,10 +60,7 @@ class TimeViewModel(
 
     fun setHomeDate(isMonth: Boolean, year: String, mon : String){
         isAll = !isMonth
-        if(isMonth){
-            println("init home")
-            initPage()
-        }
+        initPage()
         homePhotoAdapter.isAll = isAll
         stringToDate("$year-$mon")
         getTimeData()
@@ -97,12 +84,9 @@ class TimeViewModel(
 
         loadingDialog = LoadingDialog(context)
         loadingDialog.show()
+        isLoading = true
 
-
-        if(isAll){
-            isLoading = true
-
-        }else{
+        if(!isAll){
             timeList.value?.clear()
             photoList.clear()
         }

@@ -1,6 +1,5 @@
 package lej.happy.fooddiary.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Handler
@@ -23,15 +22,14 @@ import kotlinx.android.synthetic.main.nav_header_main.*
 import androidx.lifecycle.Observer
 import com.example.fooddiary.fragment.ReviewDetailFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import lej.happy.fooddiary.Fragment.HomeFragment
 import lej.happy.fooddiary.Fragment.ReviewFragment
-import lej.happy.fooddiary.Fragment.TasteFragment
 import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.Helper.UserNameDialog
 import lej.happy.fooddiary.MyApplication
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.databinding.ActivityMainBinding
 import lej.happy.fooddiary.ui.base.BaseActivity
+import lej.happy.fooddiary.ui.taste.TasteFragment
 import lej.happy.fooddiary.ui.time.TimeFragment
 import lej.happy.fooddiary.util.CameraUtil
 
@@ -131,7 +129,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
                             (it as (ReviewDetailFragment)).setOrder(v)
                         }
                         is TasteFragment -> {
-                            (it as (TasteFragment)).setOrder(v)
+                           // (it as (TasteFragment)).setOrder(v)
                         }
                     }
 

@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import lej.happy.fooddiary.R;
 
 
@@ -215,7 +219,11 @@ public class DatePickerDialog  extends Dialog {
         mAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                customDialogListener.onPositiveClicked(false,0,0);
+
+
+                int year = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.KOREA).format(new Date()));
+                int month = Integer.parseInt(new SimpleDateFormat("M", Locale.KOREA).format(new Date()));
+                customDialogListener.onPositiveClicked(false,year,month);
                 dialog.cancel();
             }
         });

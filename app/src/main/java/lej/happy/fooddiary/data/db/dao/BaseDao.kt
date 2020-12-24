@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.DB.Dao
+package lej.happy.fooddiary.data.db.dao
 
 import androidx.room.Delete
 import androidx.room.Insert

@@ -2,7 +2,6 @@ package lej.happy.fooddiary.Model
 
 import androidx.recyclerview.widget.GridLayoutManager
 import lej.happy.fooddiary.Adapter.PhotoGridAdapter
-import lej.happy.fooddiary.DB.Entity.Post
 
 data class HomeData (
 

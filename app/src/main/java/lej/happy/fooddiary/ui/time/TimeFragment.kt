@@ -4,20 +4,19 @@ import android.content.Intent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_time.*
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.Repository
-import lej.happy.fooddiary.databinding.FragmentHomeBinding
 import lej.happy.fooddiary.ui.base.BaseFragment
 import java.text.SimpleDateFormat
 import java.util.*
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
+import lej.happy.fooddiary.databinding.FragmentTimeBinding
 
-class TimeFragment :  BaseFragment<FragmentHomeBinding>() {
+class TimeFragment :  BaseFragment<FragmentTimeBinding>() {
 
     override val layoutResourceId: Int
-        get() = R.layout.fragment_home
+        get() = R.layout.fragment_time
 
     private lateinit var factory: TimeViewModelFactory
     private lateinit var viewModel: TimeViewModel

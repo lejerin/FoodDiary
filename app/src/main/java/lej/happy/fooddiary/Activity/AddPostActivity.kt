@@ -1,10 +1,8 @@
 package lej.happy.fooddiary.Activity
 
-import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -23,7 +21,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.viewpager.widget.ViewPager
@@ -36,9 +33,9 @@ import kotlinx.android.synthetic.main.activity_add_post.select_date_btn
 import kotlinx.android.synthetic.main.activity_add_post.viewpager
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ViewPagerAdapter
-import lej.happy.fooddiary.DB.AppDatabase
-import lej.happy.fooddiary.DB.Entity.Post
-import lej.happy.fooddiary.DB.Entity.Thumb
+import lej.happy.fooddiary.data.db.AppDatabase
+import lej.happy.fooddiary.data.db.entity.Post
+import lej.happy.fooddiary.data.db.entity.Thumb
 import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.Helper.LoadingDialog
 import lej.happy.fooddiary.R
@@ -285,7 +282,7 @@ class AddPostActivity : AppCompatActivity() , View.OnClickListener{
             .check()
     }
 
-    private fun getDataInDb() : Thumb{
+    private fun getDataInDb() : Thumb {
 
         val getDb = AppDatabase.getInstance(this)
 

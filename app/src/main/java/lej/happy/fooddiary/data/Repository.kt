@@ -1,7 +1,7 @@
 package lej.happy.fooddiary.data
 
 import android.content.Context
-import lej.happy.fooddiary.DB.AppDatabase
+import lej.happy.fooddiary.data.db.AppDatabase
 import java.util.*
 
 class Repository (val context: Context){
@@ -19,5 +19,11 @@ class Repository (val context: Context){
 
     fun getDataMonthASC(startDate : Date, endDate : Date) =
         db.postDao().selectByDateASC(startDate, endDate)
+
+    fun getTasteDESC(num: Int) =
+        db.postDao().selectByTasteDesc(num)
+
+    fun getTasteASC(num: Int) =
+        db.postDao().selectByTasteAsc(num)
 
 }

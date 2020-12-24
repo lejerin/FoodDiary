@@ -1,22 +1,14 @@
 package lej.happy.fooddiary.Adapter
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.media.ExifInterface
-import android.net.Uri
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.DB.Entity.Post
 import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.Model.ReviewRank
 import lej.happy.fooddiary.R

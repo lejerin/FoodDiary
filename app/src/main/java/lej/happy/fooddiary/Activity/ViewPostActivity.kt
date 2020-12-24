@@ -16,9 +16,8 @@ import kotlinx.android.synthetic.main.activity_detail_post.circleAnimIndicator
 import kotlinx.android.synthetic.main.activity_detail_post.viewpager
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.Adapter.ViewPagerAdapter
-import lej.happy.fooddiary.DB.AppDatabase
-import lej.happy.fooddiary.DB.AppDatabase.Companion.getInstance
-import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.data.db.AppDatabase
+import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.R
 import java.text.SimpleDateFormat
 import java.util.*

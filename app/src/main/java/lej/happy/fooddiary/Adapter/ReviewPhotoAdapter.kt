@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.R
 
 

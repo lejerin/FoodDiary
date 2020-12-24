@@ -9,8 +9,8 @@ import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.item_photo_detail_viewpager.view.*
 import kotlinx.android.synthetic.main.item_photo_viewpager.view.ivItem
 import kotlinx.coroutines.*
-import lej.happy.fooddiary.DB.AppDatabase
-import lej.happy.fooddiary.DB.Entity.Thumb
+import lej.happy.fooddiary.data.db.AppDatabase
+import lej.happy.fooddiary.data.db.entity.Thumb
 import lej.happy.fooddiary.Helper.ImageUtil
 import lej.happy.fooddiary.R
 import java.io.InputStream

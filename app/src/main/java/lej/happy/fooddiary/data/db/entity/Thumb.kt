@@ -1,11 +1,9 @@
-package lej.happy.fooddiary.DB.Entity
+package lej.happy.fooddiary.data.db.entity
 
-import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.util.*
 
 @Entity(tableName = "thumb")
 data class Thumb(@PrimaryKey() var id: Long?,

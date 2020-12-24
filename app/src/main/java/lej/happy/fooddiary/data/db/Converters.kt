@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.DB
+package lej.happy.fooddiary.data.db
 
 import androidx.room.TypeConverter
 import java.util.*

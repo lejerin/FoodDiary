@@ -1,12 +1,13 @@
-package lej.happy.fooddiary.DB.Dao
+package lej.happy.fooddiary.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import lej.happy.fooddiary.DB.Entity.Post
+import lej.happy.fooddiary.data.db.entity.Post
 import java.util.*
 
 @Dao
-interface PostDao : BaseDao<Post> {
+interface PostDao :
+    BaseDao<Post> {
 
     //해당 날짜에 저장된 ROW 수를 반환
     @Query("SELECT COUNT(date) FROM post WHERE date = :date")

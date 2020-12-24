@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_time.*
 import lej.happy.fooddiary.Adapter.LicenseAdapter
 import lej.happy.fooddiary.Model.HomeData
 import lej.happy.fooddiary.Model.LicenseItem
