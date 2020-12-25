@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.ui.custom;
+package lej.happy.fooddiary.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

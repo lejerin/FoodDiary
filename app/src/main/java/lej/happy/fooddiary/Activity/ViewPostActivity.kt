@@ -71,6 +71,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         when(v.id){
             R.id.view_detail_back_btn -> {
                 if(isModified){
+                    setResult(Activity.RESULT_OK)
                  //   MainActivity2.getInstancem().refreshHome(77,RESULT_OK,null)
                 }
                 supportFinishAfterTransition()
@@ -124,6 +125,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
     override fun onBackPressed() {
         super.onBackPressed()
         if(isModified){
+            setResult(Activity.RESULT_OK)
            // MainActivity2.getInstancem().refreshHome(77,RESULT_OK,null)
         }
     }
@@ -131,6 +133,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        println("dddd" + (resultCode == Activity.RESULT_OK))
 
         if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_MODIFY_POST && data != null){
             isModified = true

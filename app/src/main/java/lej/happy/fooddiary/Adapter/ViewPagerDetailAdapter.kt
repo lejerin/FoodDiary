@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_photo_viewpager.view.ivItem
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.data.db.AppDatabase
 import lej.happy.fooddiary.data.db.entity.Thumb
-import lej.happy.fooddiary.ui.custom.ImageUtil
+import lej.happy.fooddiary.util.ImageUtil
 import lej.happy.fooddiary.R
 import java.io.InputStream
 import kotlin.collections.ArrayList

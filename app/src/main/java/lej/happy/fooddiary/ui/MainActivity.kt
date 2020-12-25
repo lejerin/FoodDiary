@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
-import lej.happy.fooddiary.ui.custom.ImageUtil
+import lej.happy.fooddiary.util.ImageUtil
 import lej.happy.fooddiary.ui.custom.UserNameDialog
 import lej.happy.fooddiary.util.MyApplication
 import lej.happy.fooddiary.R
@@ -99,6 +99,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
                 }
 
                 else ->{
+                    println("resultok")
                     viewModel.refreshHome(requestCode, resultCode, data)
                 }
 

@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.ui.custom.ImageUtil
+import lej.happy.fooddiary.util.ImageUtil
 import lej.happy.fooddiary.data.Model.ReviewRank
 import lej.happy.fooddiary.R
 

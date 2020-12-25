@@ -40,6 +40,7 @@
             app:srcCompat="@drawable/ic_baseline_clear_24" />
 
         <LinearLayout
+            android:onClick="@{(v) -> viewModel.showSelectDateDialog(v)}"
             android:id="@+id/select_date_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="2020년 7월 11일"
+                android:text="@{viewModel.dateStr}"
                 android:textSize="18dp" />
 
             <ImageView
@@ -318,6 +319,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/rv_review_rank2" />
 
                 <Button
+                    android:onClick="@{(v) -> viewModel.goMapSearchActivity(v)}"
                     android:id="@+id/map_search_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

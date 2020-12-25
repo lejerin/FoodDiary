@@ -6,18 +6,14 @@ import android.view.View
 import androidx.activity.viewModels
 import kotlinx.android.synthetic.main.activity_add_post.*
 import androidx.lifecycle.Observer
-import androidx.viewpager.widget.ViewPager
-import kotlinx.android.synthetic.main.nav_header_main.*
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.databinding.ActivityAddPostBinding
 import lej.happy.fooddiary.ui.base.BaseActivity
 import lej.happy.fooddiary.ui.custom.CustomPhotoViewPager
-import lej.happy.fooddiary.ui.custom.ImageUtil
-import lej.happy.fooddiary.ui.custom.UserNameDialog
+import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.util.CameraUtil
-import lej.happy.fooddiary.util.MyApplication
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +26,7 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
     private val viewModel: PostViewModel by viewModels()
     private var isModify = false
 
+    lateinit var loadingDialog : LoadingDialog
 
     override fun initStartView() {
 
@@ -58,11 +55,28 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
             showToast(it)
         })
 
+        viewModel.dateStr.observe(this, Observer {
+            add_date_text.text = it
+        })
+
+        viewModel.isSaving.observe(this, Observer {
+            //로딩화면 시작
+//            if(it){
+//                loadingDialog = LoadingDialog(this)
+//                loadingDialog.show()
+//            }else{
+//                if(::loadingDialog.isInitialized){
+//                    loadingDialog.dismiss()
+//                }
+//            }
+
+        })
+
         if(intent.getSerializableExtra("post") != null){
             //수정
             isModify = true
             viewModel.post = (intent.getSerializableExtra("post") as Post).also {
-                add_date_text.text =  SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA).format(it.date)
+                viewModel.dateStr.value = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA).format(it.date)
             }
 
             //본문,사진,위치,주소,위치,시간대,평가 표시
@@ -71,8 +85,14 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
         }else{
             //신규 추가
             //오늘 날짜로 초기값 설정
-            add_date_text.text =  SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA).format(Date())
-            viewModel.post.date = StringtoDate(add_date_text.text.toString())
+            viewModel.dateStr.value = SimpleDateFormat("yyyy년 M월 d일", Locale.KOREA).format(Date()).also {
+                viewModel.post.date = StringtoDate(it!!)
+            }
+        }
+
+
+        save_post_btn.setOnClickListener {
+            viewModel.saveData(viewpager.photoList, this)
         }
 
     }

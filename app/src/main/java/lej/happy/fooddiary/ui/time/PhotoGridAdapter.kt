@@ -10,9 +10,10 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import lej.happy.fooddiary.Activity.ViewPostActivity
 import lej.happy.fooddiary.data.db.entity.Post
-import lej.happy.fooddiary.ui.custom.ImageUtil
+import lej.happy.fooddiary.util.ImageUtil
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.ui.MainActivity
+import lej.happy.fooddiary.util.getActivity
 
 
 class PhotoGridAdapter(photoList: MutableList<Post>) : RecyclerView.Adapter<PhotoGridAdapter.PhotoViewHolder>() {
@@ -42,7 +43,7 @@ class PhotoGridAdapter(photoList: MutableList<Post>) : RecyclerView.Adapter<Phot
             val detailPostIntent = Intent(context, ViewPostActivity::class.java)
             detailPostIntent.putExtra("post", photoList!![position])
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as MainActivity, holder!!.imageView, "profile")
-            context.startActivity(detailPostIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), options.toBundle())
+            context.getActivity()?.startActivityForResult(detailPostIntent, 33,  options.toBundle())
 
         }
     }
