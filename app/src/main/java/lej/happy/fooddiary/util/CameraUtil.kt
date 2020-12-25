@@ -48,7 +48,7 @@ class CameraUtil  {
     }
 
 
-    fun makeBitmap(btnAddPhoto: ImageView): Uri {
+    fun makeBitmap(): Uri {
         val bitmap : Bitmap
         val file = File(currentPhotoPath)
         if(Build.VERSION.SDK_INT < 28){//안드로이드 9.0 보다 버전이 낮을 경우

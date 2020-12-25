@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.AddPostActivity"
+            android:name=".ui.post.AddPostActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.DetailViewPagerActivity"

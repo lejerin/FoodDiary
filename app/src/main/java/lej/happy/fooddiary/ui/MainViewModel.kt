@@ -11,11 +11,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import lej.happy.fooddiary.Activity.AddPostActivity
 import lej.happy.fooddiary.ui.info.InfoFragment
 import lej.happy.fooddiary.ui.custom.DatePickerDialog
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.ui.base.BaseViewModel
+import lej.happy.fooddiary.ui.post.AddPostActivity
 import lej.happy.fooddiary.ui.review.ReviewFragment
 import lej.happy.fooddiary.ui.taste.TasteFragment
 import lej.happy.fooddiary.ui.time.TimeFragment

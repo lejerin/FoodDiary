@@ -1,49 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_background"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/emotion_selector"
-        app:layout_constraintBottom_toBottomOf="@+id/good_taste_btn"
-        app:layout_constraintEnd_toStartOf="@+id/good_taste_btn"
-        app:layout_constraintTop_toTopOf="@+id/good_taste_btn">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:tint="@color/brightGray"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26999998"
-            app:srcCompat="@drawable/laughing" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/text"
+        </androidx.viewpager.widget.ViewPager>
+
+        <lej.happy.fooddiary.ui.custom.CircleAnimIndicator
+            android:id="@+id/circleAnimIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:text="최고"
-            android:textColor="@color/brightGray"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/pager"
+            app:layout_constraintEnd_toEndOf="@+id/pager"
+            app:layout_constraintStart_toStartOf="@+id/pager" />
+
+
+        <ImageButton
+            android:id="@+id/add_photo_more_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toStartOf="@+id/remove_photo_btn"
+            app:layout_constraintTop_toTopOf="@+id/remove_photo_btn"
+            app:srcCompat="@drawable/plus" />
+
+        <ImageButton
+             android:id="@+id/remove_photo_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="@+id/pager"
+            app:layout_constraintTop_toTopOf="@+id/pager"
+            app:srcCompat="@drawable/minus" />
+
+        <ImageView
+            android:id="@+id/add_photo_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/pager"
+            app:layout_constraintEnd_toEndOf="@+id/pager"
+            app:layout_constraintStart_toStartOf="@+id/pager"
+            app:layout_constraintTop_toTopOf="@+id/pager"
+            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24">
+
+        </ImageView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 </LinearLayout>

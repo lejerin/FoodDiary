@@ -35,4 +35,6 @@ class Repository (val context: Context){
     fun getAddressASC(adr: String) =
         db.postDao().selectByAddressAsc(adr)
 
+    fun getThumbId(postId : Long) =
+        db.thumbDao().selectById(postId)
 }

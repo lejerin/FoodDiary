@@ -82,7 +82,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
                 REQUEST_IMAGE_CAPTURE ->{
                     //사진찍은거 파일로 저장하고 가져오기
 
-                    val uri = CameraUtil.getInstance(this).makeBitmap(user_img)
+                    val uri = CameraUtil.getInstance(this).makeBitmap()
                     CameraUtil.getInstance(this).setImageView(user_img, uri, 150, 150).also {
                         MyApplication.prefs.setString("user_img", ImageUtil.convert(it))
                     }

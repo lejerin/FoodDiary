@@ -19,6 +19,7 @@ import lej.happy.fooddiary.Adapter.ViewPagerAdapter
 import lej.happy.fooddiary.data.db.AppDatabase
 import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.R
+import lej.happy.fooddiary.ui.post.AddPostActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
