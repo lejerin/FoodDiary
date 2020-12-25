@@ -17,13 +17,13 @@ data class Post(@PrimaryKey(autoGenerate = true) var id: Long?,
                 @ColumnInfo(name = "photo4") var photo4: String?,
                 @ColumnInfo(name = "texts") var texts: String?,
                 @ColumnInfo(name = "time") var time: Int?,
-                @ColumnInfo(name = "taste") var taste: Int,
-                @ColumnInfo(name = "location") var location: String,
+                @ColumnInfo(name = "taste") var taste: Int?,
+                @ColumnInfo(name = "location") var location: String?,
                 @ColumnInfo(name = "address") var address: String?,
                 @ColumnInfo(name = "x") var x: Double?,
                 @ColumnInfo(name = "y") var y: Double?
 ) : Serializable {
     constructor(): this(null,null, 0, "", "",
         null, null, null,
-        null, null, 0, "", null, null, null)
+        null, null, null, null, null, null, null)
 }

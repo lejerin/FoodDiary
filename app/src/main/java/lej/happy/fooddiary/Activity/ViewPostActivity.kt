@@ -229,7 +229,9 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
 
     }
 
-    private fun initTaste(num: Int){
+    private fun initTaste(num: Int?){
+        if(num != null){
+
         when(num){
             1 -> {
                 detail_post_taste_img.setImageResource(R.drawable.laughing)
@@ -246,5 +248,7 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         }
         detail_post_taste_img.visibility = View.VISIBLE
         detail_post_taste_text.visibility = View.VISIBLE
+
+        }
     }
 }

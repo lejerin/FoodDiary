@@ -75,8 +75,10 @@ class ReviewViewModel(
                 //중복 처리
                 for (i in data.indices) {
 
-                    if(!beforeName.equals(data[i].location)){
-                        beforeName = data[i].location
+                    if(data[i].location != null){
+
+                    if(beforeName != data[i].location){
+                        beforeName = data[i].location!!
                         rankList.value?.add(ReviewRank(data[i],1,0,0,0))
                         beforeIndex = rankList.value!!.size - 1
                         when(data[i].taste){
@@ -92,7 +94,7 @@ class ReviewViewModel(
                             3-> rankList.value!![beforeIndex].bad += 1
                         }
                     }
-
+                    }
                 }
                 //정렬하기
                 Collections.sort(rankList.value, Comparator<ReviewRank> { o1, o2 -> o1.post.date!!.compareTo(o2.post.date) })

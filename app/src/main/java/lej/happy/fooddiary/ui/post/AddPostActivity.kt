@@ -104,16 +104,19 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
     }
 
 
-    private fun initTaste(num: Int){
-        when(num){
-            1 -> {
-                viewModel.selectedBtn(best_emotion_layout)
-            }
-            2 -> {
-                viewModel.selectedBtn(good_emotion_layout)
-            }
-            3 -> {
-                viewModel.selectedBtn(bad_emotion_layout)
+    private fun initTaste(num: Int?){
+
+        if(num != null){
+            when(num){
+                1 -> {
+                    viewModel.selectedBtn(best_emotion_layout)
+                }
+                2 -> {
+                    viewModel.selectedBtn(good_emotion_layout)
+                }
+                3 -> {
+                    viewModel.selectedBtn(bad_emotion_layout)
+                }
             }
         }
     }

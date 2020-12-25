@@ -214,7 +214,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="평가*"
+                    android:text="평가"
                     android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
@@ -296,7 +296,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="위치*"
+                    android:text="위치"
                     android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/main_add_text"
                     app:layout_constraintTop_toBottomOf="@+id/add_text" />
