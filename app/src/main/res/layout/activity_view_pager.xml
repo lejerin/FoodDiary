@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.DetailViewPagerActivity">
+    tools:context=".ui.photo.DetailViewPagerActivity">
 
-    <lej.happy.fooddiary.Helper.CustomViewPager
+    <lej.happy.fooddiary.ui.custom.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -15,9 +15,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </lej.happy.fooddiary.Helper.CustomViewPager>
+    </lej.happy.fooddiary.ui.custom.CustomViewPager>
 
-    <lej.happy.fooddiary.Helper.CircleAnimIndicator
+    <lej.happy.fooddiary.ui.custom.CircleAnimIndicator
         android:id="@+id/circleAnimIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

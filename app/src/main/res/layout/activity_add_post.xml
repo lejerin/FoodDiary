@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="lej.happy.fooddiary.ui.post.PostViewModel" />
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -17,6 +28,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
+            android:onClick="@{(v) -> viewModel.activityFinish(v)}"
             android:id="@+id/add_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,6 +40,7 @@
             app:srcCompat="@drawable/ic_baseline_clear_24" />
 
         <LinearLayout
+            android:onClick="@{(v) -> viewModel.showSelectDateDialog(v)}"
             android:id="@+id/select_date_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="2020년 7월 11일"
+                android:text="@{viewModel.dateStr}"
                 android:textSize="18dp" />
 
             <ImageView
@@ -87,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.viewpager.widget.ViewPager
+                <lej.happy.fooddiary.ui.custom.CustomPhotoViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -96,58 +109,8 @@
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-                </androidx.viewpager.widget.ViewPager>
-
-                <lej.happy.fooddiary.Helper.CircleAnimIndicator
-                    android:id="@+id/circleAnimIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/viewpager"
-                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-
-                <ImageButton
-                    android:id="@+id/add_photo_more_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitCenter"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toStartOf="@+id/remove_photo_btn"
-                    app:layout_constraintTop_toTopOf="@+id/remove_photo_btn"
-                    app:srcCompat="@drawable/plus" />
-
-                <ImageButton
-                    android:id="@+id/remove_photo_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitCenter"
-                    android:visibility="invisible"
-                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
-                    app:layout_constraintTop_toTopOf="@+id/viewpager"
-                    app:srcCompat="@drawable/minus" />
-
-                <ImageView
-                    android:id="@+id/add_photo_btn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/viewpager"
-                    app:layout_constraintEnd_toEndOf="@+id/viewpager"
-                    app:layout_constraintStart_toStartOf="@+id/viewpager"
-                    app:layout_constraintTop_toTopOf="@+id/viewpager"
-                    app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24">
-
-                </ImageView>
 
                 <TextView
                     android:id="@+id/textView"
@@ -171,6 +134,7 @@
 
 
                     <RadioGroup
+                        tools:OnCheckedChangeListener="@{viewModel.radioListner}"
                         android:id="@+id/radioGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -178,15 +142,16 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:layout_marginLeft="45dp"
                             android:id="@+id/radioButton1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="45dp"
                             android:layout_marginRight="5dp"
                             android:background="@drawable/radio_background"
                             android:button="@null"
                             android:gravity="center"
                             android:text="#아침"
+                            android:checked="@{viewModel.post.time == 1 ? true : false}"
                             android:textColor="@drawable/radio_text"
                             android:textStyle="bold" />
 
@@ -199,6 +164,7 @@
                             android:button="@null"
                             android:gravity="center"
                             android:text="#점심"
+                            android:checked="@{viewModel.post.time == 2 ? true : false}"
                             android:textColor="@drawable/radio_text"
                             android:textStyle="bold" />
 
@@ -211,6 +177,7 @@
                             android:button="@null"
                             android:gravity="center"
                             android:text="#저녁"
+                            android:checked="@{viewModel.post.time == 3 ? true : false}"
                             android:textColor="@drawable/radio_text"
                             android:textStyle="bold" />
 
@@ -223,6 +190,7 @@
                             android:button="@null"
                             android:gravity="center"
                             android:text="#야식"
+                            android:checked="@{viewModel.post.time == 4 ? true : false}"
                             android:textColor="@drawable/radio_text"
                             android:textStyle="bold" />
 
@@ -235,6 +203,7 @@
                             android:button="@null"
                             android:gravity="center"
                             android:text="#간식"
+                            android:checked="@{viewModel.post.time == 5 ? true : false}"
                             android:textColor="@drawable/radio_text"
                             android:textStyle="bold" />
                     </RadioGroup>
@@ -245,136 +214,53 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="평가*"
+                    android:text="평가"
                     android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/textView"
                     app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <lej.happy.fooddiary.ui.custom.CustomImageButton
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView2"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"
                     android:id="@+id/best_emotion_layout"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/emotion_background"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textView2"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+                    android:onClick="@{(v) -> viewModel.selectedBtn(v)}"
+                    app:layout_background="@drawable/emotion_selector"
+                    app:img="@drawable/laughing"
+                    app:text="최고"/>
 
-                    <ImageView
-                        android:id="@+id/best_emotion"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:tint="@color/brightGray"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.26999998"
-                        app:srcCompat="@drawable/laughing" />
-
-                    <TextView
-                        android:id="@+id/best_emotion_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:text="최고"
-                        android:textColor="@color/brightGray"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <lej.happy.fooddiary.ui.custom.CustomImageButton
+                    app:layout_constraintStart_toEndOf="@+id/best_emotion_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"
                     android:id="@+id/good_emotion_layout"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/emotion_background"
-                    app:layout_constraintStart_toEndOf="@+id/best_emotion_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+                    android:onClick="@{(v) -> viewModel.selectedBtn(v)}"
+                    app:layout_background="@drawable/emotion_selector"
+                    app:img="@drawable/happy"
+                    app:text="만족"/>
 
-                    <ImageView
-                        android:id="@+id/good_emotion"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:tint="@color/brightGray"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.26999998"
-                        app:srcCompat="@drawable/happy" />
 
-                    <TextView
-                        android:id="@+id/good_emotion_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:text="만족"
-                        android:textColor="@color/brightGray"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <lej.happy.fooddiary.ui.custom.CustomImageButton
+                    app:layout_constraintStart_toEndOf="@+id/good_emotion_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2"
                     android:id="@+id/bad_emotion_layout"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/emotion_background"
-                    app:layout_constraintStart_toEndOf="@+id/good_emotion_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+                    android:onClick="@{(v) -> viewModel.selectedBtn(v)}"
+                    app:layout_background="@drawable/emotion_selector"
+                    app:img="@drawable/nervous"
+                    app:text="별로"/>
 
-                    <ImageView
-                        android:id="@+id/bad_emotion"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:textColor="@color/brightGray"
-                        android:tint="@color/brightGray"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.26999998"
-                        app:srcCompat="@drawable/nervous" />
-
-                    <TextView
-                        android:id="@+id/bad_emotion_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:text="별로"
-                        android:textColor="@color/brightGray"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/main_add_text"
@@ -388,6 +274,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/warning_photo_text" />
 
                 <EditText
+                    android:text="@={viewModel.post.texts}"
                     android:textColor="@color/textColor"
                     android:id="@+id/add_text"
                     android:layout_width="0dp"
@@ -409,7 +296,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="위치*"
+                    android:text="위치"
                     android:textColor="@color/textColor"
                     app:layout_constraintStart_toStartOf="@+id/main_add_text"
                     app:layout_constraintTop_toBottomOf="@+id/add_text" />
@@ -424,6 +311,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="top"
                     android:textColor="@color/textColor"
+                    android:text="@={viewModel.post.location}"
                     android:hint="위치 직접 입력하기"
                     android:inputType="textPersonName|text"
                     app:layout_constraintEnd_toStartOf="@+id/map_search_btn"
@@ -431,6 +319,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/rv_review_rank2" />
 
                 <Button
+                    android:onClick="@{(v) -> viewModel.goMapSearchActivity(v)}"
                     android:id="@+id/map_search_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -483,7 +372,8 @@
                     android:id="@+id/add_address_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.post.address == null ? View.GONE : View.VISIBLE}"
+                    android:text="@={viewModel.post.address}"
                     android:textSize="14dp"
                     android:textColor="@color/blue"
                     app:layout_constraintEnd_toEndOf="@+id/location_title_text"
@@ -498,3 +388,4 @@
     </androidx.core.widget.NestedScrollView>
     
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,137 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="lej.happy.fooddiary.ui.taste.TasteViewModel" />
+    </data>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".Activity.MainActivity">
+    android:background="@color/white">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bad_taste_btn"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="16dp"
-        android:background="@drawable/emotion_background"
+    <lej.happy.fooddiary.ui.custom.CustomImageButton
         app:layout_constraintBottom_toBottomOf="@+id/good_taste_btn"
-        app:layout_constraintStart_toEndOf="@+id/good_taste_btn"
-        app:layout_constraintTop_toTopOf="@+id/good_taste_btn">
-
-        <ImageView
-            android:id="@+id/bad_emotion"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:textColor="@color/brightGray"
-            android:tint="@color/brightGray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26999998"
-            app:srcCompat="@drawable/nervous" />
-
-        <TextView
-            android:id="@+id/bad_emotion_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:text="별로"
-            android:textColor="@color/brightGray"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintEnd_toStartOf="@+id/good_taste_btn"
+        app:layout_constraintTop_toTopOf="@+id/good_taste_btn"
         android:id="@+id/best_taste_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/emotion_background"
-        app:layout_constraintBottom_toBottomOf="@+id/good_taste_btn"
-        app:layout_constraintEnd_toStartOf="@+id/good_taste_btn"
-        app:layout_constraintTop_toTopOf="@+id/good_taste_btn">
+        android:onClick="@{(v) -> viewModel.selectedBtn(v)}"
+        app:layout_background="@drawable/emotion_selector"
+        app:img="@drawable/laughing"
+        app:text="최고"/>
 
-        <ImageView
-            android:id="@+id/best_emotion"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:tint="@color/brightGray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26999998"
-            app:srcCompat="@drawable/laughing" />
-
-        <TextView
-            android:id="@+id/best_emotion_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:text="최고"
-            android:textColor="@color/brightGray"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <lej.happy.fooddiary.ui.custom.CustomImageButton
         android:id="@+id/good_taste_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/emotion_background"
+        android:layout_marginEnd="16dp"
+        android:onClick="@{(v) -> viewModel.selectedBtn(v)}"
+        app:img="@drawable/happy"
+        app:layout_background="@drawable/emotion_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="만족" />
 
-        <ImageView
-            android:id="@+id/good_emotion"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:clickable="false"
-            android:focusable="false"
-            android:tint="@color/brightGray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26999998"
-            app:srcCompat="@drawable/happy" />
+    <lej.happy.fooddiary.ui.custom.CustomImageButton
+        android:id="@+id/bad_taste_btn"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        app:img="@drawable/nervous"
+        android:onClick="@{(v) -> viewModel.selectedBtn(v)}"
+        app:layout_background="@drawable/emotion_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/good_taste_btn"
+        app:layout_constraintStart_toEndOf="@+id/good_taste_btn"
+        app:layout_constraintTop_toTopOf="@+id/good_taste_btn"
+        app:text="별로" />
 
-        <TextView
-            android:id="@+id/good_emotion_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false"
-            android:text="만족"
-            android:textColor="@color/brightGray"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ts_review"
@@ -162,3 +87,4 @@
         app:layout_constraintVertical_bias="0.41000003" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

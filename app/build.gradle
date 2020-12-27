@@ -32,6 +32,19 @@ android {
             signingConfig signingConfigs.config
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -46,6 +59,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
+    //ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "androidx.activity:activity-ktx:1.1.0"
 
     //add
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
@@ -68,5 +87,4 @@ dependencies {
     //tedpermission
     implementation 'gun0912.ted:tedpermission:2.2.3'
 
-    implementation 'com.google.android.gms:play-services-ads:19.3.0'
 }

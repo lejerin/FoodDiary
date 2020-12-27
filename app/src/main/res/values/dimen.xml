@@ -15,4 +15,5 @@
     <dimen name="header_text_size">18sp</dimen>
 
     <dimen name="row_item_time_text_size">13sp</dimen>
+
 </resources>

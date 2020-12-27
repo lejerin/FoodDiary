@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomImageButton">
+        <attr name="layout_background" format="integer" />
+        <attr name="img" format="integer"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
+
+</resources>
