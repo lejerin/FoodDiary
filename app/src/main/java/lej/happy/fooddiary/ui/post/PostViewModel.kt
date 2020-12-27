@@ -12,24 +12,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.viewpager.widget.ViewPager
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.coroutines.*
-import lej.happy.fooddiary.Activity.MapSearchActivity
-import lej.happy.fooddiary.Adapter.ViewPagerAdapter
+import lej.happy.fooddiary.ui.map.MapSearchActivity
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.data.db.AppDatabase
 import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.data.db.entity.Thumb
-import lej.happy.fooddiary.ui.MainViewModel
 import lej.happy.fooddiary.ui.base.BaseViewModel
 import lej.happy.fooddiary.ui.custom.CustomImageButton
 import lej.happy.fooddiary.ui.custom.CustomPhotoViewPager
-import lej.happy.fooddiary.ui.custom.LoadingDialog
-import lej.happy.fooddiary.ui.time.PhotoGridAdapter
 import lej.happy.fooddiary.util.CameraUtil
 import lej.happy.fooddiary.util.Coroutines
 import lej.happy.fooddiary.util.ImageUtil
@@ -230,9 +224,9 @@ class PostViewModel(
         selectedBtn?.isSelected = true
 
         when(v.id){
-            R.id.best_taste_btn -> post.taste = 1
-            R.id.good_taste_btn -> post.taste = 2
-            R.id.bad_taste_btn -> post.taste = 3
+            R.id.best_emotion_layout -> post.taste = 1
+            R.id.good_emotion_layout -> post.taste = 2
+            R.id.bad_emotion_layout -> post.taste = 3
         }
     }
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.data.Model.ReviewRank
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.data.db.entity.Post
@@ -39,27 +38,28 @@ class ReviewViewModel(
         getReviewData()
     }
 
-    lateinit var loadingDialog : LoadingDialog
     var isLoading = false
 
     fun getReviewData(){
 
-        loadingDialog = LoadingDialog(context)
-        loadingDialog.show()
-        isLoading = true
+        if(!isLoading){
 
-        rankList.value?.clear()
 
-        //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
-        newJob(
-            Coroutines.ioThenMain(
-                { filterPost(getQuery())},
-                {
-                    isLoading = false
-                    loadingDialog.dismiss()
-                    rankList.value = rankList.value
-                }
-            ))
+            isLoading = true
+
+            rankList.value?.clear()
+
+            //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
+            newJob(
+                Coroutines.ioThenMain(
+                    { filterPost(getQuery())},
+                    {
+                        isLoading = false
+                        rankList.value = rankList.value
+                    }
+                ))
+
+        }
     }
 
     private fun getQuery(): List<Post> = repository.getLocationDESC()
@@ -77,23 +77,23 @@ class ReviewViewModel(
 
                     if(data[i].location != null){
 
-                    if(beforeName != data[i].location){
-                        beforeName = data[i].location!!
-                        rankList.value?.add(ReviewRank(data[i],1,0,0,0))
-                        beforeIndex = rankList.value!!.size - 1
-                        when(data[i].taste){
-                            1-> rankList.value!![beforeIndex].best += 1
-                            2-> rankList.value!![beforeIndex].good += 1
-                            3-> rankList.value!![beforeIndex].bad += 1
+                        if(beforeName != data[i].location){
+                            beforeName = data[i].location!!
+                            rankList.value?.add(ReviewRank(data[i],1,0,0,0))
+                            beforeIndex = rankList.value!!.size - 1
+                            when(data[i].taste){
+                                1-> rankList.value!![beforeIndex].best += 1
+                                2-> rankList.value!![beforeIndex].good += 1
+                                3-> rankList.value!![beforeIndex].bad += 1
+                            }
+                        }else{
+                            rankList.value!![beforeIndex].num += 1
+                            when(data[i].taste){
+                                1-> rankList.value!![beforeIndex].best += 1
+                                2-> rankList.value!![beforeIndex].good += 1
+                                3-> rankList.value!![beforeIndex].bad += 1
+                            }
                         }
-                    }else{
-                        rankList.value!![beforeIndex].num += 1
-                        when(data[i].taste){
-                            1-> rankList.value!![beforeIndex].best += 1
-                            2-> rankList.value!![beforeIndex].good += 1
-                            3-> rankList.value!![beforeIndex].bad += 1
-                        }
-                    }
                     }
                 }
                 //정렬하기

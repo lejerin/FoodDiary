@@ -51,15 +51,15 @@ class CameraUtil  {
     fun makeBitmap(): Uri {
         val bitmap : Bitmap
         val file = File(currentPhotoPath)
-        if(Build.VERSION.SDK_INT < 28){//안드로이드 9.0 보다 버전이 낮을 경우
-            bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver,Uri.fromFile(file))
+        bitmap = if(Build.VERSION.SDK_INT < 28){//안드로이드 9.0 보다 버전이 낮을 경우
+            MediaStore.Images.Media.getBitmap(context.contentResolver,Uri.fromFile(file))
             //  img_photo.setImageBitmap(bitmap)
         }else{//안드로이드 9.0 보다 버전이 높을 경우
             val decode = ImageDecoder.createSource(
                 context.contentResolver,
                 Uri.fromFile(file)
             )
-            bitmap = ImageDecoder.decodeBitmap(decode)
+            ImageDecoder.decodeBitmap(decode)
             //  img_photo.setImageBitmap(bitmap)
         }
         savePhoto(bitmap)
@@ -79,7 +79,7 @@ class CameraUtil  {
     private fun savePhoto(bitmap: Bitmap) {
 
         //사진 폴더에 저장하기 위한 경로 선언
-        val folderPath = Environment.getExternalStorageDirectory().absolutePath + "/Pictures/Map/"
+        val folderPath = Environment.getExternalStorageDirectory().absolutePath + "/Pictures/FoodDiary/"
         val timestamp : String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val fileName = "${timestamp}.jpeg"
         val folder = File(folderPath)

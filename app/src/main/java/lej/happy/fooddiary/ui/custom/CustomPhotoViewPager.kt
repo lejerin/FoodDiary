@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.custom_photo_viewpager.view.*
-import lej.happy.fooddiary.Adapter.ViewPagerAdapter
+import lej.happy.fooddiary.ui.post.ViewPagerAdapter
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.db.entity.Post
 
@@ -23,7 +23,11 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
     }
 
     var photoList = mutableListOf<Uri>()
-    private val photoViewPagerAdapter = ViewPagerAdapter(photoList as ArrayList<Uri>, 0)
+    private val photoViewPagerAdapter =
+        ViewPagerAdapter(
+            photoList as ArrayList<Uri>,
+            0
+        )
     var selectedNum = 0
 
     private var clickListener: PhotoButtonListener? = null

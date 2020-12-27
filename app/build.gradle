@@ -87,5 +87,4 @@ dependencies {
     //tedpermission
     implementation 'gun0912.ted:tedpermission:2.2.3'
 
-    implementation 'com.google.android.gms:play-services-ads:19.3.0'
 }

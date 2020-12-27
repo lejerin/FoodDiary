@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.photo
 
 import android.content.Context
 import android.net.Uri

@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Activity
+package lej.happy.fooddiary.ui.photo
 
 
 import android.net.Uri
@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_view_pager.*
 
-import lej.happy.fooddiary.Adapter.ViewPagerDetailAdapter
 import lej.happy.fooddiary.R
 
 class DetailViewPagerActivity : AppCompatActivity() {
@@ -46,7 +45,11 @@ class DetailViewPagerActivity : AppCompatActivity() {
 
 
         val id = intent.getLongExtra("id", 0)
-        val photoViewPagerAdapter = ViewPagerDetailAdapter(photoList as ArrayList<Uri>, id)
+        val photoViewPagerAdapter =
+            ViewPagerDetailAdapter(
+                photoList as ArrayList<Uri>,
+                id
+            )
         viewpager.adapter = photoViewPagerAdapter
 
 

@@ -12,7 +12,6 @@ import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.databinding.ActivityAddPostBinding
 import lej.happy.fooddiary.ui.base.BaseActivity
 import lej.happy.fooddiary.ui.custom.CustomPhotoViewPager
-import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.util.CameraUtil
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,7 +25,6 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
     private val viewModel: PostViewModel by viewModels()
     private var isModify = false
 
-    lateinit var loadingDialog : LoadingDialog
 
     override fun initStartView() {
 

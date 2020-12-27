@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.post
 
 import android.content.Context
 import android.content.Intent
@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.viewpager.widget.PagerAdapter
 import kotlinx.android.synthetic.main.item_photo_viewpager.view.*
 import kotlinx.coroutines.*
-import lej.happy.fooddiary.Activity.DetailViewPagerActivity
+import lej.happy.fooddiary.ui.photo.DetailViewPagerActivity
 import lej.happy.fooddiary.data.db.AppDatabase
 import lej.happy.fooddiary.data.db.entity.Thumb
 import lej.happy.fooddiary.util.ImageUtil

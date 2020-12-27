@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Activity
+package lej.happy.fooddiary.ui.map
 
 import android.app.Activity
 import android.content.Context
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fooddiary.Network.RetrofitClient
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import kotlinx.android.synthetic.main.activity_map_search.*
-import lej.happy.fooddiary.Adapter.MapListAdapter
 import lej.happy.fooddiary.data.Model.Document
 import lej.happy.fooddiary.data.Model.LocalMapData
 import lej.happy.fooddiary.R

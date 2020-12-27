@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Activity
+package lej.happy.fooddiary.ui.map
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

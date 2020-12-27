@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import lej.happy.fooddiary.data.db.entity.Post
-import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.data.Model.HomeData
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.ui.base.BaseViewModel
@@ -76,29 +75,28 @@ class TimeViewModel(
         }
     }
 
-    lateinit var loadingDialog : LoadingDialog
-
 
     fun getTimeData(){
 
-        loadingDialog = LoadingDialog(context)
-        loadingDialog.show()
-        isLoading = true
+        if(!isLoading){
 
-        if(!isAll){
-            timeList.value?.clear()
-            photoList.clear()
-        }
+            isLoading = true
 
-        //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
-        newJob(Coroutines.ioThenMain(
-            { filterPost(getQuery(), context) },
-            {
-                isLoading = false
-                loadingDialog.dismiss()
-                timeList.value = timeList.value
+            if(!isAll){
+                timeList.value?.clear()
+                photoList.clear()
             }
-        ))
+
+            //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
+            newJob(Coroutines.ioThenMain(
+                { filterPost(getQuery(), context) },
+                {
+                    isLoading = false
+                    timeList.value = timeList.value
+                }
+            ))
+
+        }
     }
 
     private fun filterPost(data: List<Post>, context: Context){
@@ -133,8 +131,8 @@ class TimeViewModel(
             for(i in 0 until timeList.value?.size!!){
                 PhotoGridAdapter(photoList[timeList.value!![i].date]!!)
                     .also {
-                    timeList.value!![i].adapters = it
-                }
+                        timeList.value!![i].adapters = it
+                    }
             }
 
             if(data.size < limit){

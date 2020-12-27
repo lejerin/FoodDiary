@@ -2,7 +2,6 @@ package lej.happy.fooddiary.ui.review
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.ui.base.BaseViewModel
@@ -36,13 +35,14 @@ class ReviewDetailViewModel(
     }
 
 
-    lateinit var loadingDialog : LoadingDialog
+
     var isLoading = false
 
     fun getReviewDetailData(){
 
-        loadingDialog = LoadingDialog(context)
-        loadingDialog.show()
+        if(!isLoading){
+
+
         isLoading = true
 
         timeList.value?.clear()
@@ -54,10 +54,10 @@ class ReviewDetailViewModel(
                 { filterPost(getQuery())},
                 {
                     isLoading = false
-                    loadingDialog.dismiss()
                     timeList.value = timeList.value
                 }
             ))
+        }
     }
 
     private fun getQuery(): List<Post> {

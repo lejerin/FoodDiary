@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Adapter
+package lej.happy.fooddiary.ui.map
 
 import android.content.Context
 import android.view.LayoutInflater

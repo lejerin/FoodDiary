@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.Activity
+package lej.happy.fooddiary.ui.post
 
 import android.app.Activity
 import android.content.Intent
@@ -15,11 +15,10 @@ import kotlinx.android.synthetic.main.activity_detail_post.add_date_text
 import kotlinx.android.synthetic.main.activity_detail_post.circleAnimIndicator
 import kotlinx.android.synthetic.main.activity_detail_post.viewpager
 import kotlinx.coroutines.*
-import lej.happy.fooddiary.Adapter.ViewPagerAdapter
+import lej.happy.fooddiary.ui.map.MapDetailActivity
 import lej.happy.fooddiary.data.db.AppDatabase
 import lej.happy.fooddiary.data.db.entity.Post
 import lej.happy.fooddiary.R
-import lej.happy.fooddiary.ui.post.AddPostActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -152,7 +151,10 @@ class ViewPostActivity : AppCompatActivity(),  View.OnClickListener{
         if(thisPost.photo2 != null)  photoList.add(Uri.parse(thisPost.photo2))
         if(thisPost.photo3 != null)  photoList.add(Uri.parse(thisPost.photo3))
         if(thisPost.photo4 != null)  photoList.add(Uri.parse(thisPost.photo4))
-        viewpager.adapter = ViewPagerAdapter(photoList as ArrayList<Uri>, thisPost.id!!)
+        viewpager.adapter = ViewPagerAdapter(
+            photoList as ArrayList<Uri>,
+            thisPost.id!!
+        )
 
         circleAnimIndicator.removeDotPanel()
         //원사이의 간격

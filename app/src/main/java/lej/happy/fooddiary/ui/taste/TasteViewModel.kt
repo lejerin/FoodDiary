@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import lej.happy.fooddiary.ui.time.PhotoGridAdapter
-import lej.happy.fooddiary.ui.custom.LoadingDialog
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.Repository
 import lej.happy.fooddiary.data.db.entity.Post
@@ -58,28 +57,27 @@ class TasteViewModel(
         else repository.getTasteASC(taste)
     }
 
-    lateinit var loadingDialog : LoadingDialog
 
     private fun getTasteData(){
 
-        loadingDialog = LoadingDialog(context)
-        loadingDialog.show()
-        isLoading = true
+        if(!isLoading){
 
-        tasteList.value?.clear()
+            isLoading = true
 
-        //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
-        newJob(
-            Coroutines.ioThenMain(
-            { getQuery()},
-            {
-                println("taste 개수 " + it?.size + "now taste" + taste)
-                isLoading = false
-                loadingDialog.dismiss()
-                tasteList.value?.addAll(it!!)
-                tasteList.value = tasteList.value
-            }
-        ))
+            tasteList.value?.clear()
+
+            //해당 년도와 월에 대해서만 date, count 순서대로 가져옴
+            newJob(
+                Coroutines.ioThenMain(
+                    { getQuery()},
+                    {
+                        println("taste 개수 " + it?.size + "now taste" + taste)
+                        isLoading = false
+                        tasteList.value?.addAll(it!!)
+                        tasteList.value = tasteList.value
+                    }
+                ))
+        }
     }
 
 }
