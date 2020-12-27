@@ -37,4 +37,7 @@ class Repository (val context: Context){
 
     fun getThumbId(postId : Long) =
         db.thumbDao().selectById(postId)
+
+    fun deleteById(id: Long) =
+        db.postDao().deleteById(id)
 }
