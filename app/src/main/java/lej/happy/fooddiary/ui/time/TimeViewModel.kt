@@ -147,6 +147,7 @@ class TimeViewModel(
     val clicksListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
+            System.out.println("높이 " + dy)
             if(dy > 0 && !isEnd){
                 val visibleItemCount = homeLayoutManager.childCount
                 val pastVisibleItem = homeLayoutManager.findFirstCompletelyVisibleItemPosition()
@@ -154,6 +155,7 @@ class TimeViewModel(
 
                 if(!isLoading){
                     if((visibleItemCount + pastVisibleItem) >= total){
+                        System.out.println("요청")
                         page++
                         getTimeData()
                     }

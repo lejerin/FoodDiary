@@ -22,7 +22,7 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
     override val layoutResourceId: Int
         get() = R.layout.activity_add_post
 
-    private val viewModel: PostViewModel by viewModels()
+    private val viewModel: AddPostViewModel by viewModels()
     private var isModify = false
 
 
@@ -35,7 +35,7 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
         viewDataBinding.viewModel = viewModel
 
         //뷰페이저
-        viewpager.init()
+        viewpager.init(0)
         viewpager.setButtonListener(object : CustomPhotoViewPager.PhotoButtonListener{
             override fun isAdd(isTrue: Boolean) {
                 if(isTrue){
@@ -96,7 +96,7 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
     }
 
     private fun setModifyData(){
-        viewpager.setPhoto(viewModel.post)
+        viewpager.setPhoto(viewModel.post, true)
         viewModel.setModifyData()
         initTaste(viewModel.post.taste)
     }
@@ -130,6 +130,7 @@ class AddPostActivity : BaseActivity<ActivityAddPostBinding>() {
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_PICK && data != null) {
             viewpager.add(data.data!!)
         }
+
         if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK){
 
             val uri = CameraUtil.getInstance(this).makeBitmap()

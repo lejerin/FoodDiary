@@ -32,7 +32,7 @@ import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PostViewModel(
+class AddPostViewModel(
 ) : BaseViewModel() {
 
     lateinit var repository: Repository
