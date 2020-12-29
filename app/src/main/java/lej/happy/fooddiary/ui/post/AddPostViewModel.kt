@@ -174,6 +174,8 @@ class AddPostViewModel(
                 thread.start()
             }
 
+        }else{
+            _message.value = "최소 사진 한장을 추가해주세요"
         }
     }
 
