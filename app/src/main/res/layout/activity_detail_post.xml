@@ -128,7 +128,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:visibility="@{viewModel.post.taste != null ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{viewModel.post.taste != 0 ? View.VISIBLE : View.GONE}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
@@ -189,7 +189,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:visibility="@{viewModel.post.location != null ? View.VISIBLE : View.GONE}"
+                            android:visibility="@{viewModel.post.location.equals(String.valueOf(``)) ? View.GONE : View.VISIBLE}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
