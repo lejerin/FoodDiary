@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="lej.happy.fooddiary.data.remote.model.Document" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_map_data_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/map_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@{data.placeName}"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/map_category_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@{data.categoryName}"
+            android:textSize="12dp"
+            android:textColor="@color/gray2"
+            app:layout_constraintStart_toStartOf="@+id/map_title"
+            app:layout_constraintTop_toBottomOf="@+id/map_title" />
+
+        <TextView
+            android:id="@+id/map_road_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/gray2"
+            android:text="@{data.roadAddressName}"
+            bind:roadAddressVisibility="@{data.roadAddressName}"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="@+id/map_category_text"
+            app:layout_constraintTop_toBottomOf="@+id/map_category_text" />
+
+        <TextView
+            android:id="@+id/map_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="13dp"
+            android:textColor="@color/gray2"
+            android:text="@{data.addressName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/map_road_address"
+            app:layout_constraintTop_toBottomOf="@+id/map_road_address" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,4 +1,4 @@
-package lej.happy.fooddiary.data.Model
+package lej.happy.fooddiary.data.model
 
 data class LicenseItem (
 

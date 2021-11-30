@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "398678208629",
+    "project_id": "fooddiary-fb667",
+    "storage_bucket": "fooddiary-fb667.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398678208629:android:c3761ac63a178be6c4483c",
+        "android_client_info": {
+          "package_name": "lej.happy.fooddiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398678208629-uki5e7k35o2m633165ks3f9vc8ecs7n5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvO8gmSILz9MPSazyrb7_NBWWZRIHoKvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398678208629-uki5e7k35o2m633165ks3f9vc8ecs7n5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

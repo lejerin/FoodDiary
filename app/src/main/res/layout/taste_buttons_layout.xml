@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <lej.happy.fooddiary.ui.custom.CustomImageButton
+            android:id="@+id/best_emotion_layout"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="10dp"
+            app:img="@drawable/laughing"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_background="@drawable/emotion_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/good_emotion_layout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@string/taste_type_1" />
+
+        <lej.happy.fooddiary.ui.custom.CustomImageButton
+            android:id="@+id/good_emotion_layout"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="24dp"
+            app:img="@drawable/happy"
+            app:layout_background="@drawable/emotion_selector"
+            app:layout_constraintEnd_toStartOf="@+id/bad_emotion_layout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/best_emotion_layout"
+            app:layout_constraintTop_toTopOf="@+id/best_emotion_layout"
+            app:text="@string/taste_type_2" />
+
+        <lej.happy.fooddiary.ui.custom.CustomImageButton
+            android:id="@+id/bad_emotion_layout"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="24dp"
+            app:img="@drawable/nervous"
+            app:layout_background="@drawable/emotion_selector"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/good_emotion_layout"
+            app:layout_constraintTop_toTopOf="@+id/good_emotion_layout"
+            app:text="@string/taste_type_3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

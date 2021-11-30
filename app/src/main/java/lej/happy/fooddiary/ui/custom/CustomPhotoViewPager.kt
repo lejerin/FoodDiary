@@ -3,26 +3,24 @@ package lej.happy.fooddiary.ui.custom
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.custom_photo_viewpager.view.*
-import lej.happy.fooddiary.ui.post.ViewPagerAdapter
 import lej.happy.fooddiary.R
-import lej.happy.fooddiary.data.db.entity.Post
+import lej.happy.fooddiary.data.local.db.entity.Post
+import lej.happy.fooddiary.ui.adapter.ViewPagerAdapter
+import lej.happy.fooddiary.utils.UiUtils
 
 open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attrs: AttributeSet?=null, defStyleAttr: Int=0)
     : LinearLayout(context, attrs, defStyleAttr) {
-
-    companion object {
-
-    }
 
     init {
         inflate(context, R.layout.custom_photo_viewpager, this)
     }
 
-    var photoList = mutableListOf<Uri>()
+    var photoList = mutableListOf<String>()
     private lateinit var photoViewPagerAdapter: ViewPagerAdapter
     var selectedNum = 0
 
@@ -38,11 +36,10 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
         this.clickListener = customDialogListener
     }
 
-    fun init(id: Long){
-        photoViewPagerAdapter = ViewPagerAdapter(
-            photoList as ArrayList<Uri>, id)
+    fun init(id: Long, isShowButton: Boolean){
+        photoViewPagerAdapter = ViewPagerAdapter(photoList, id)
         pager.adapter = photoViewPagerAdapter
-        pager.addOnPageChangeListener(viewPagerListner)
+        pager.addOnPageChangeListener(viewPagerListener)
 
         add_photo_btn.setOnClickListener {
             clickListener?.isAdd(true)
@@ -53,6 +50,9 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
         remove_photo_btn.setOnClickListener {
             clickListener?.isAdd(false)
         }
+        if (isShowButton) {
+            changeButton()
+        }
     }
 
     fun clearData(){
@@ -62,10 +62,10 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
     fun setPhoto(post: Post, isShowButton: Boolean){
         photoViewPagerAdapter.setId(post.id!!)
 
-        photoList.add(Uri.parse(post.photo1))
-        if(post.photo2 != null)  photoList.add(Uri.parse(post.photo2))
-        if(post.photo3 != null)  photoList.add(Uri.parse(post.photo3))
-        if(post.photo4 != null)  photoList.add(Uri.parse(post.photo4))
+        photoList.add(post.photo1)
+        if(post.photo2 != null)  photoList.add(post.photo2!!)
+        if(post.photo3 != null)  photoList.add(post.photo3!!)
+        if(post.photo4 != null)  photoList.add(post.photo4!!)
         photoViewPagerAdapter.notifyDataSetChanged()
 
         initIndicator(0)
@@ -74,7 +74,7 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
     }
 
 
-    private val viewPagerListner = object : ViewPager.OnPageChangeListener{
+    private val viewPagerListener = object : ViewPager.OnPageChangeListener{
         override fun onPageScrollStateChanged(state: Int) {
 
         }
@@ -93,14 +93,8 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
         }
     }
 
-    fun hideButton(){
-        add_photo_btn.visibility = View.INVISIBLE
-        add_photo_more_btn.visibility = View.INVISIBLE
-        remove_photo_btn.visibility = View.INVISIBLE
-    }
-
     fun add(uri: Uri){
-        photoList.add(uri)
+        photoList.add(uri.toString())
         photoViewPagerAdapter.notifyDataSetChanged()
 
         selectedNum = photoList.size-1
@@ -110,23 +104,21 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
     }
 
     fun remove(){
-        photoList.removeAt(selectedNum)
-        photoViewPagerAdapter.notifyDataSetChanged()
-        initIndicator(0)
-        changeButton()
-        selectedNum = 0
+        if (photoList.isEmpty()) {
+            UiUtils.showCenterToast(context, "삭제할 사진이 없습니다.")
+        } else {
+            photoList.removeAt(selectedNum)
+            photoViewPagerAdapter.notifyDataSetChanged()
+            initIndicator(0)
+            changeButton()
+            selectedNum = 0
+        }
     }
 
     private fun changeButton(){
-        if(photoList.size > 0){
-            add_photo_more_btn.visibility = View.VISIBLE
-            remove_photo_btn.visibility = View.VISIBLE
-            add_photo_btn.visibility = View.INVISIBLE
-        }else{
-            add_photo_more_btn.visibility = View.INVISIBLE
-            remove_photo_btn.visibility = View.INVISIBLE
-            add_photo_btn.visibility = View.VISIBLE
-        }
+        add_photo_btn.visibility = if (photoList.size <= 0) View.VISIBLE else View.INVISIBLE
+        add_photo_more_btn.visibility = if (photoList.size < 4) View.VISIBLE else View.INVISIBLE
+        remove_photo_btn.visibility = if (photoList.size > 0) View.VISIBLE else View.INVISIBLE
     }
 
     private fun initIndicator(num: Int){
@@ -145,6 +137,5 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
         return if(!photoList.isNullOrEmpty()) photoList.size
         else 0
     }
-
 
 }

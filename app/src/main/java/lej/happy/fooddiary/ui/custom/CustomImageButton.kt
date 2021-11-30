@@ -7,13 +7,8 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.taste_button_layout.view.*
 import lej.happy.fooddiary.R
 
-
 open class CustomImageButton @JvmOverloads constructor(context: Context, attrs: AttributeSet?=null, defStyleAttr: Int=0)
     : LinearLayout(context, attrs, defStyleAttr){
-
-    companion object{
-
-    }
 
     init{
         inflate(context, R.layout.taste_button_layout, this)
@@ -36,10 +31,10 @@ open class CustomImageButton @JvmOverloads constructor(context: Context, attrs: 
    override fun setSelected(isSelected: Boolean){
        layout_background.isSelected = isSelected
 
-       if(isSelected){
+       if(isSelected) {
            img.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary))
            text.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary))
-       }else{
+       } else {
            img.setColorFilter(ContextCompat.getColor(context, R.color.brightGray))
            text.setTextColor(ContextCompat.getColor(context, R.color.brightGray))
        }

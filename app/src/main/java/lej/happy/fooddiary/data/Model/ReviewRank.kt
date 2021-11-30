@@ -1,6 +1,6 @@
-package lej.happy.fooddiary.data.Model
+package lej.happy.fooddiary.data.model
 
-import lej.happy.fooddiary.data.db.entity.Post
+import lej.happy.fooddiary.data.local.db.entity.Post
 
 data class ReviewRank (
     var post: Post,

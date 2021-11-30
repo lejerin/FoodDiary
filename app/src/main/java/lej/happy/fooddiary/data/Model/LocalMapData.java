@@ -1,9 +1,11 @@
-package lej.happy.fooddiary.data.Model;
+package lej.happy.fooddiary.data.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import lej.happy.fooddiary.data.remote.model.Document;
 
 public class LocalMapData {
 

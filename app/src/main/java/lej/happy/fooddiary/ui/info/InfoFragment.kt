@@ -1,35 +1,23 @@
 package lej.happy.fooddiary.ui.info
 
-import android.content.pm.PackageInfo
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_info.*
-import lej.happy.fooddiary.ui.custom.OpenSourceDialog
+import android.annotation.SuppressLint
+import lej.happy.fooddiary.BuildConfig
 import lej.happy.fooddiary.R
+import lej.happy.fooddiary.databinding.FragmentDateBinding
+import lej.happy.fooddiary.databinding.FragmentInfoBinding
+import lej.happy.fooddiary.ui.base.BaseFragment
 
-class InfoFragment : Fragment() {
+class InfoFragment : BaseFragment<FragmentInfoBinding>() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override val layoutResourceId: Int
+        get() = R.layout.fragment_info
 
-        return inflater.inflate(R.layout.fragment_info, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        opensource_btn.setOnClickListener {
-            val dlg = OpenSourceDialog(context!!)
+    @SuppressLint("SetTextI18n")
+    override fun initBinding() {
+        binding.opensourceBtn.setOnClickListener {
+            val dlg = OpenSourceDialog(requireContext())
             dlg.start()
         }
-
-        version_text.text = "Version: " + getVersionInfo()
-
-    }
-
-    private fun getVersionInfo(): String? {
-        val info: PackageInfo = context!!.packageManager.getPackageInfo(context!!.packageName, 0)
-        return info.versionName
+        binding.versionText.text = "Version: ${BuildConfig.VERSION_NAME}"
     }
 }

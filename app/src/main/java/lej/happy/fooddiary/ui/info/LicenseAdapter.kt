@@ -6,28 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import lej.happy.fooddiary.data.Model.LicenseItem
 import lej.happy.fooddiary.R
+import lej.happy.fooddiary.data.model.LicenseItem
 
 
-class LicenseAdapter(licenseList: MutableList<LicenseItem>) : RecyclerView.Adapter<LicenseAdapter.PhotoViewHolder>() {
+class LicenseAdapter(private val licenseList: MutableList<LicenseItem>) : RecyclerView.Adapter<LicenseAdapter.PhotoViewHolder>() {
 
-    private var licenseList :  MutableList<LicenseItem> = licenseList
     private lateinit var context: Context
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
 
-        context = parent!!.context
+        context = parent.context
 
 
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.row_item_license,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_item_license,parent,false)
         return PhotoViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
 
-        var now = licenseList!![position]
+        val now = licenseList[position]
         holder.title.text = now.title
         holder.addr.text = now.addr
         holder.copy.text = now.copy
@@ -37,7 +36,7 @@ class LicenseAdapter(licenseList: MutableList<LicenseItem>) : RecyclerView.Adapt
 
 
     override fun getItemCount(): Int {
-        return licenseList!!.size
+        return licenseList.size
     }
 
 
@@ -46,8 +45,6 @@ class LicenseAdapter(licenseList: MutableList<LicenseItem>) : RecyclerView.Adapt
         val addr = view.findViewById(R.id.license_addr) as TextView
         val copy = view.findViewById(R.id.license_copy) as TextView
         val name = view.findViewById(R.id.license_name) as TextView
-
     }
 
 }
-

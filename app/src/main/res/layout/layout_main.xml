@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activity.MainActivity">
+
+    <data>
+        <variable
+            name="activity"
+            type="lej.happy.fooddiary.ui.main.MainActivity" />
+        <variable
+            name="viewModel"
+            type="lej.happy.fooddiary.ui.main.MainViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/csl_date"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:contentScrim="?attr/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/date_dialog"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <lej.happy.fooddiary.ui.custom.CustomDateChoiceLayout
+                        android:id="@+id/custom_date_choice_layout"
+                        android:layout_marginTop="?attr/actionBarSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <lej.happy.fooddiary.ui.custom.TasteSelectButton
+                        android:id="@+id/custom_rate_choice_layout"
+                        android:visibility="gone"
+                        android:layout_marginTop="?attr/actionBarSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    app:layout_collapseMode="pin"
+                    app:theme="@style/ToolbarTheme"
+                    app:titleTextColor="@color/textColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/select_date_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.dateLiveEvent.toString()}"
+                            android:textColor="@color/dark_text_color"
+                            android:textSize="20dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/app_bar_sort_btn"
+                            app:layout_constraintHorizontal_bias="0.45"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/ib_down_arrow"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@android:color/transparent"
+                            android:clickable="false"
+                            android:scaleType="fitCenter"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tv_title"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
+                            app:tint="@color/dark_text_color" />
+
+                        <ImageButton
+                            android:id="@+id/app_bar_sort_btn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="10dp"
+                            android:onClick="@{(v) -> activity.onClickOfSetOrder()}"
+                            android:background="@android:color/transparent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_baseline_sort_24"
+                            app:tint="@color/dark_text_color" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_new_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:tint="@color/dark_text_color"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            android:onClick="@{(v) -> viewModel.newPost(v)}"
+            tools:ignore="ContentDescription" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
