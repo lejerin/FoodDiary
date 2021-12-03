@@ -54,7 +54,7 @@ class PhotoFileUpload(private val context: Context) {
                 if (photoFile != null) {
                     mCameraPhotoPath = "file:" + photoFile.absolutePath
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){  //누가부터 FileProvider 사용
-                        val photoUri: Uri = FileProvider.getUriForFile(context, "com.etoos.etoosstudyapp.fileprovider", photoFile)
+                        val photoUri: Uri = FileProvider.getUriForFile(context, "lej.happy.fooddiary.fileprovider", photoFile)
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                     }else{
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile))
