@@ -51,13 +51,17 @@ class ViewPagerDetailPhotoAdapter(private val list: MutableList<String>, private
                     .into(view.ivItem)
             }
         } catch (err: FileNotFoundException) {
-            if (bitmapList.isEmpty()) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    setBitmapList(getDataInDb())
-                    CoroutineScope(Dispatchers.Main).launch {
-                        view.ivItem.setImageBitmap(ImageUtil.convert(bitmapList[position]))
+            try {
+                if (bitmapList.isEmpty()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        setBitmapList(getDataInDb())
+                        CoroutineScope(Dispatchers.Main).launch {
+                            view.ivItem.setImageBitmap(ImageUtil.convert(bitmapList[position]))
+                        }
                     }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         container.addView(view)
@@ -65,7 +69,6 @@ class ViewPagerDetailPhotoAdapter(private val list: MutableList<String>, private
     }
 
     private fun getDataInDb() : Thumb {
-
         val getDb = AppDatabase.getInstance(context)
 
         return getDb.thumbDao().selectById(id)
