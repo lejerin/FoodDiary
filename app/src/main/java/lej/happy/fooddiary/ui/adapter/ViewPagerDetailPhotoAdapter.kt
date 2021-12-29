@@ -1,8 +1,6 @@
 package lej.happy.fooddiary.ui.adapter
 
 import android.content.Context
-import android.net.Uri
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,22 +8,19 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.signature.ObjectKey
 import kotlinx.android.synthetic.main.item_photo_viewpager.view.*
 import kotlinx.coroutines.*
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.local.db.AppDatabase
 import lej.happy.fooddiary.data.local.db.entity.Thumb
 import lej.happy.fooddiary.utils.CameraUtils
-import lej.happy.fooddiary.utils.Coroutines
-import lej.happy.fooddiary.utils.ImageUtil
-import org.koin.java.KoinJavaComponent
-import java.io.File
+import lej.happy.fooddiary.utils.ImageUtils
+import org.koin.java.KoinJavaComponent.inject
 import java.io.FileNotFoundException
 
 class ViewPagerDetailPhotoAdapter(private val list: MutableList<String>, private var id: Long): PagerAdapter() {
 
-    private val cameraUtils: CameraUtils by KoinJavaComponent.inject(CameraUtils::class.java)
+    private val cameraUtils: CameraUtils by inject(CameraUtils::class.java)
 
     private lateinit var context: Context
     private val bitmapList  = mutableListOf<String>()
@@ -40,7 +35,7 @@ class ViewPagerDetailPhotoAdapter(private val list: MutableList<String>, private
             if (!cameraUtils.checkUriValid(list[position])) {
                 view.findViewById<TextView>(R.id.warning_viewpager_text).visibility = View.VISIBLE
                 if (bitmapList.size > position) {
-                    view.ivItem.setImageBitmap(ImageUtil.convert(bitmapList[position]))
+                    view.ivItem.setImageBitmap(ImageUtils.convert(bitmapList[position]))
                 } else {
                     throw FileNotFoundException("ERROR")
                 }
@@ -56,7 +51,8 @@ class ViewPagerDetailPhotoAdapter(private val list: MutableList<String>, private
                     CoroutineScope(Dispatchers.IO).launch {
                         setBitmapList(getDataInDb())
                         CoroutineScope(Dispatchers.Main).launch {
-                            view.ivItem.setImageBitmap(ImageUtil.convert(bitmapList[position]))
+                            view.ivItem.setImageBitmap(ImageUtils.convert(bitmapList[position]))
+                            notifyDataSetChanged()
                         }
                     }
                 }

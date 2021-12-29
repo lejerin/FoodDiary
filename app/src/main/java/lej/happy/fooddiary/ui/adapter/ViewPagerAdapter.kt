@@ -2,8 +2,6 @@ package lej.happy.fooddiary.ui.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +15,7 @@ import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.local.db.AppDatabase
 import lej.happy.fooddiary.data.local.db.entity.Thumb
 import lej.happy.fooddiary.ui.view.ViewPhotoActivity
-import lej.happy.fooddiary.utils.CameraUtils
-import lej.happy.fooddiary.utils.Coroutines
-import lej.happy.fooddiary.utils.ImageUtil
-import org.koin.java.KoinJavaComponent
+import lej.happy.fooddiary.utils.ImageUtils
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -55,7 +50,8 @@ class ViewPagerAdapter(private val list: MutableList<String>, private var id: Lo
                 CoroutineScope(Dispatchers.IO).launch {
                     setBitmapList(getDataInDb())
                     CoroutineScope(Dispatchers.Main).launch {
-                        view.ivItem.setImageBitmap(ImageUtil.convert(bitmapList[position]))
+                        view.ivItem.setImageBitmap(ImageUtils.convert(bitmapList[position]))
+                        notifyDataSetChanged()
                     }
                 }
             }

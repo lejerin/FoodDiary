@@ -3,14 +3,12 @@ package lej.happy.fooddiary.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -20,13 +18,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.BaseValue
-import lej.happy.fooddiary.data.model.HomeData
 import lej.happy.fooddiary.data.model.ReviewRank
-import lej.happy.fooddiary.databinding.ItemRowDateBinding
 import lej.happy.fooddiary.databinding.ItemRowLocationBinding
 import lej.happy.fooddiary.ui.location.detail.LocationDetailFragment
 import lej.happy.fooddiary.utils.DiffUtilCallback
-import lej.happy.fooddiary.utils.ImageUtil
 import java.io.File
 
 class LocationAdapter(

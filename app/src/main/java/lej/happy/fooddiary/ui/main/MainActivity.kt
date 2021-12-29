@@ -3,7 +3,6 @@ package lej.happy.fooddiary.ui.main
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -33,15 +32,13 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 import lej.happy.fooddiary.R
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
-import lej.happy.fooddiary.BuildConfig
 import lej.happy.fooddiary.camera.PhotoFileUpload
 import lej.happy.fooddiary.data.local.prefs.UserPrefs
 import lej.happy.fooddiary.ui.custom.UserNameDialog
 import lej.happy.fooddiary.utils.CameraUtils
-import lej.happy.fooddiary.utils.ImageUtil
+import lej.happy.fooddiary.utils.ImageUtils
 import lej.happy.fooddiary.utils.UiUtils
 import org.koin.java.KoinJavaComponent.inject
-import java.lang.StringBuilder
 import kotlin.math.abs
 
 
@@ -132,7 +129,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         mUserPref.userImg?.let {
-            tvHeaderImg.setImageBitmap(ImageUtil.convert(it))
+            tvHeaderImg.setImageBitmap(ImageUtils.convert(it))
         }
 
         navHeaderView.findViewById<TextView>(R.id.user_name_text).apply {
@@ -378,7 +375,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     ) { activityResult ->
         photoFileUpload.fileChooserResult(activityResult.resultCode, activityResult.data)?.let {
             val bitmap = cameraUtils.decodeSampledBitmapFromResource(it.toString(), 300, 300)
-            mUserPref.userImg = ImageUtil.convert(bitmap)
+            mUserPref.userImg = ImageUtils.convert(bitmap)
             binding.nvMain.getHeaderView(0).findViewById<ImageView>(R.id.user_img).setImageBitmap(bitmap)
         }
     }

@@ -113,12 +113,12 @@ class PostViewModel : BaseViewModel() {
         try {
             if (photoList.isNotEmpty() && cameraUtils.checkUriValid(photoList[0])){
                 post.photo1 = photoList[0]
-                thumb.photo1_bitmap = ImageUtil.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[0], 300, 300))
+                thumb.photo1_bitmap = ImageUtils.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[0], 300, 300))
             }
 
             if (photoList.size > 1 && cameraUtils.checkUriValid(photoList[1])) {
                 post.photo2 = photoList[1]
-                thumb.photo2_bitmap = ImageUtil.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[1], 300, 300))
+                thumb.photo2_bitmap = ImageUtils.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[1], 300, 300))
             } else {
                 post.photo2 = null
                 thumb.photo2_bitmap = null
@@ -126,7 +126,7 @@ class PostViewModel : BaseViewModel() {
 
             if (photoList.size > 2 && cameraUtils.checkUriValid(photoList[2])) {
                 post.photo3 = photoList[2]
-                thumb.photo3_bitmap = ImageUtil.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[2], 300, 300))
+                thumb.photo3_bitmap = ImageUtils.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[2], 300, 300))
             } else {
                 post.photo3 = null
                 thumb.photo3_bitmap = null
@@ -134,14 +134,14 @@ class PostViewModel : BaseViewModel() {
 
             if (photoList.size > 3 && cameraUtils.checkUriValid(photoList[3])) {
                 post.photo4 = photoList[3]
-                thumb.photo4_bitmap = ImageUtil.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[3], 300, 300))
+                thumb.photo4_bitmap = ImageUtils.convert(cameraUtils.decodeSampledBitmapFromResource(photoList[3], 300, 300))
             } else {
                 post.photo4 = null
                 thumb.photo4_bitmap = null
             }
         } catch (e: OutOfMemoryError) {
             e.printStackTrace()
-            sendErrorMessageFromBackground("너무 큰 사이즈의 사진은 저할 수 없습니다.\n사이즈가 큰 사진도 저장할 수 있도록 업데이트 예정입니다.")
+            sendErrorMessageFromBackground("너무 큰 사이즈의 사진은 저장할 수 없습니다.\n사이즈가 큰 사진도 저장할 수 있도록 업데이트 예정입니다.")
         }
     }
 
