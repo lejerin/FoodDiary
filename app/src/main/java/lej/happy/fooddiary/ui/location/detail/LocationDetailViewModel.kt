@@ -75,7 +75,8 @@ class LocationDetailViewModel : BaseViewModel() {
                         //중복 되지 않으면 time list에 넣기
                         if (beforeMonth == nowMonth) {
                             hashMapList[output] =
-                                (HomeData(output, false, "", null, null, mutableListOf(data[i])))
+                                (HomeData(output, false, "", null, null, linkedSetOf<Post>().apply { add(data[i]) }
+                                ))
                         } else {
                             hashMapList[output] = (HomeData(
                                 output,
@@ -83,7 +84,7 @@ class LocationDetailViewModel : BaseViewModel() {
                                 nowMonth,
                                 null,
                                 null,
-                                mutableListOf(data[i])
+                                linkedSetOf<Post>().apply { add(data[i]) }
                             ))
                         }
                         beforeDate = output

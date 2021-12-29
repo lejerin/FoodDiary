@@ -16,6 +16,8 @@ import com.bumptech.glide.signature.ObjectKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import lej.happy.fooddiary.R
 import lej.happy.fooddiary.data.BaseValue
 import lej.happy.fooddiary.data.model.ReviewRank
@@ -31,36 +33,43 @@ class LocationAdapter(
 
     var dataList: MutableList<ReviewRank> = mutableListOf()
 
+    private val updateMutex = Mutex()
     // 리스트 갱신
     @SuppressLint("NotifyDataSetChanged")
     suspend fun updateList(pair: Pair<BaseValue.DATA_TYPE, List<ReviewRank>?>) {
-        val job = CoroutineScope(Dispatchers.IO).launch {
-            val newList = pair.second
-            if (newList != null) {
-                val diffResult = when (pair.first) {
-                    BaseValue.DATA_TYPE.ADD -> {
-                        val addList = dataList.toMutableList().apply {
-                            addAll(newList)
+        updateMutex.withLock {
+            try {
+                val job = CoroutineScope(Dispatchers.IO).launch {
+                    val newList = pair.second
+                    if (newList != null) {
+                        val diffResult = when (pair.first) {
+                            BaseValue.DATA_TYPE.ADD -> {
+                                val addList = dataList.toMutableList().apply {
+                                    addAll(newList)
+                                }
+                                calDiffCallback(addList)
+                            }
+                            BaseValue.DATA_TYPE.INIT -> {
+                                calDiffCallback(newList)
+                            }
                         }
-                        calDiffCallback(addList)
-                    }
-                    BaseValue.DATA_TYPE.INIT -> {
-                        calDiffCallback(newList)
-                    }
-                }
-                CoroutineScope(Dispatchers.Main).launch {
-                    diffResult.dispatchUpdatesTo(this@LocationAdapter)
-                }
-            } else { // 모두 지우기
-                dataList.run {
-                    clear()
-                    CoroutineScope(Dispatchers.Main).launch {
-                        notifyDataSetChanged()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            diffResult.dispatchUpdatesTo(this@LocationAdapter)
+                        }
+                    } else { // 모두 지우기
+                        dataList.run {
+                            clear()
+                            CoroutineScope(Dispatchers.Main).launch {
+                                notifyDataSetChanged()
+                            }
+                        }
                     }
                 }
+                job.join()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-        job.join()
     }
 
     private fun calDiffCallback(newData: List<ReviewRank>): DiffUtil.DiffResult {

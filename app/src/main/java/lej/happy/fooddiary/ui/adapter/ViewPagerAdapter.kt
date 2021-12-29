@@ -76,18 +76,18 @@ class ViewPagerAdapter(private val list: MutableList<String>, private var id: Lo
         return view
     }
 
-    private fun getDataInDb() : Thumb {
-
+    private fun getDataInDb() : Thumb? {
         val getDb = AppDatabase.getInstance(context)
-
         return getDb.thumbDao().selectById(id)
     }
 
-    private fun setBitmapList(thumb: Thumb){
-        bitmapList.add(thumb.photo1_bitmap!!)
-        if(thumb.photo2_bitmap != null) bitmapList.add(thumb.photo2_bitmap!!)
-        if(thumb.photo3_bitmap != null) bitmapList.add(thumb.photo3_bitmap!!)
-        if(thumb.photo4_bitmap != null) bitmapList.add(thumb.photo4_bitmap!!)
+    private fun setBitmapList(thumb: Thumb?) {
+        thumb?.let {
+            bitmapList.add(thumb.photo1_bitmap!!)
+            if(thumb.photo2_bitmap != null) bitmapList.add(thumb.photo2_bitmap!!)
+            if(thumb.photo3_bitmap != null) bitmapList.add(thumb.photo3_bitmap!!)
+            if(thumb.photo4_bitmap != null) bitmapList.add(thumb.photo4_bitmap!!)
+        }
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, obj: Any) {

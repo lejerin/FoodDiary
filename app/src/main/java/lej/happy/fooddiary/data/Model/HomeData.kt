@@ -13,5 +13,5 @@ data class HomeData (
     val yearAndMonth : String,
     var adapters: PhotoGridAdapter?,
     var layoutManager: GridLayoutManager?,
-    var postList: MutableList<Post>
+    var postList: LinkedHashSet<Post>
 )

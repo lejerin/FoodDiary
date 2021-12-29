@@ -107,11 +107,15 @@ open class CustomPhotoViewPager @JvmOverloads constructor(context: Context, attr
         if (photoList.isEmpty()) {
             UiUtils.showCenterToast(context, "삭제할 사진이 없습니다.")
         } else {
-            photoList.removeAt(selectedNum)
-            photoViewPagerAdapter.notifyDataSetChanged()
-            initIndicator(0)
-            changeButton()
-            selectedNum = 0
+            try {
+                photoList.removeAt(selectedNum)
+                photoViewPagerAdapter.notifyDataSetChanged()
+                initIndicator(0)
+                changeButton()
+                selectedNum = 0
+            } catch (e: IndexOutOfBoundsException) {
+                UiUtils.showCenterToast(context, "삭제할 ${selectedNum}번째 사진이 없습니다.")
+            }
         }
     }
 
