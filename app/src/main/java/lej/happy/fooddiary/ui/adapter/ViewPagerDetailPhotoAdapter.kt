@@ -1,6 +1,7 @@
 package lej.happy.fooddiary.ui.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import lej.happy.fooddiary.data.local.db.AppDatabase
 import lej.happy.fooddiary.data.local.db.entity.Thumb
 import lej.happy.fooddiary.utils.CameraUtils
 import lej.happy.fooddiary.utils.ImageUtils
+import lej.happy.fooddiary.utils.UiUtils
 import org.koin.java.KoinJavaComponent.inject
 import java.io.FileNotFoundException
 
@@ -46,18 +48,19 @@ class ViewPagerDetailPhotoAdapter(private val list: MutableList<String>, private
                     .into(view.ivItem)
             }
         } catch (err: FileNotFoundException) {
-            try {
-                if (bitmapList.isEmpty()) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        setBitmapList(getDataInDb())
-                        CoroutineScope(Dispatchers.Main).launch {
+            if (bitmapList.isEmpty()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    setBitmapList(getDataInDb())
+                    CoroutineScope(Dispatchers.Main).launch {
+                        try {
                             view.ivItem.setImageBitmap(ImageUtils.convert(bitmapList[position]))
                             notifyDataSetChanged()
+                        } catch (e: Exception) {
+                            UiUtils.showCenterToast(context, "사진을 불러올 수 없습니다. 다시 사진을 저장해주세요.")
+                            view.ivItem.setBackgroundColor(Color.BLACK)
                         }
                     }
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
         container.addView(view)
@@ -71,10 +74,10 @@ class ViewPagerDetailPhotoAdapter(private val list: MutableList<String>, private
 
     private fun setBitmapList(thumb: Thumb?){
         thumb?.let {
-            bitmapList.add(thumb.photo1_bitmap!!)
-            if(thumb.photo2_bitmap != null) bitmapList.add(thumb.photo2_bitmap!!)
-            if(thumb.photo3_bitmap != null) bitmapList.add(thumb.photo3_bitmap!!)
-            if(thumb.photo4_bitmap != null) bitmapList.add(thumb.photo4_bitmap!!)
+            thumb.photo1_bitmap?.let { bitmapList.add(it) }
+            thumb.photo2_bitmap?.let { bitmapList.add(it) }
+            thumb.photo3_bitmap?.let { bitmapList.add(it) }
+            thumb.photo4_bitmap?.let { bitmapList.add(it) }
         }
     }
 

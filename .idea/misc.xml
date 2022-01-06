@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_map_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_photo_detail_viewpager.xml" value="0.1956521739130435" />
+        <entry key="app/src/main/res/layout/item_photo_viewpager.xml" value="0.3265625" />
+        <entry key="app/src/main/res/layout/item_row_grid_photo.xml" value="0.3265625" />
         <entry key="app/src/main/res/layout/layout_main.xml" value="0.1796875" />
       </map>
     </option>
